@@ -1,4 +1,4 @@
-# dnd
+# vue3-vite-express-dungeons-dragons
 
 A repo for Dungeons and Dragons session notes and character sheets.
 
