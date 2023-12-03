@@ -10,7 +10,7 @@ import HelloWorld from "./components/HelloWorld.vue"
 				<RouterLink to="/">Character (home)</RouterLink>
 				<RouterLink to="/notes">Notes</RouterLink>
 				<RouterLink to="/archive">Archive</RouterLink>
-
+				<RouterLink to="/world">World</RouterLink>
 			</nav>
 			<HelloWorld msg="dungeons&dragons" />
 		</header>

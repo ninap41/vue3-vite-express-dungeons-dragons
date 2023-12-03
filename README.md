@@ -1,6 +1,6 @@
 # vue3-vite-express-dungeons-dragons
 
-A repo for Dungeons and Dragons session notes and character sheets. Using v18.10.0, Vue3w/Vite, Express, ElectronDB, and a wysiwig.
+A repo for Dungeons and Dragons session notes and character sheets. Using node v18.10.0, Vue3w/Vite, Express, ElectronDB, and a wysiwig.
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 

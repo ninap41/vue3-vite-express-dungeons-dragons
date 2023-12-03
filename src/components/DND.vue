@@ -362,7 +362,7 @@
 									<div class="remaining"><label for="remaininghd">Hit Dice</label><input name="remaininghd" type="text" /></div>
 								</div>
 							</div>
-							<div class="deathsaves">
+							<div class="">
 								<div>
 									<div class="label">
 										<label>Death Saves</label>
@@ -371,32 +371,17 @@
 										<div class="deathsuccesses">
 											<label>Successes</label>
 											<div class="bubbles">
-												<input
-													name="deathsuccess1"
-													v-model="character.successes[0]"
-													:checked="character.successes[0]"
-													type="checkbox"
-												/>
-												<input
-													name="deathsuccess2"
-													v-model="character.successes[0]"
-													:checked="character.successes[1]"
-													type="checkbox"
-												/>
-												<input
-													name="deathsuccess3"
-													v-model="character.successes[0]"
-													:checked="character.successes[2]"
-													type="checkbox"
-												/>
+												<input name="deathsuccess1" v-model="character.successes[0]" type="checkbox" />
+												<input name="deathsuccess2" v-model="character.successes[1]" type="checkbox" />
+												<input name="deathsuccess3" v-model="character.successes[2]" type="checkbox" />
 											</div>
 										</div>
 										<div class="deathfails">
 											<label>Failures</label>
 											<div class="bubbles">
-												<input name="deathfail1" v-model="character.failures[0]" :checked="character.failures[0]" type="checkbox" />
-												<input name="deathfail2" v-model="character.failures[1]" :checked="character.failures[1]" type="checkbox" />
-												<input name="deathfail3" v-model="character.failures[2]" :checked="character.failures[2]" type="checkbox" />
+												<input name="deathfail1" v-model="character.failures[0]" type="checkbox" />
+												<input name="deathfail2" v-model="character.failures[1]" type="checkbox" />
+												<input name="deathfail3" v-model="character.failures[2]" type="checkbox" />
 											</div>
 										</div>
 									</div>
