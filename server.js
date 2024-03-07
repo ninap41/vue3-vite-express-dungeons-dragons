@@ -31,15 +31,19 @@ async function sort(order, data) {
 	})
 }
 app.get("/api/character", function (req, res) {
-	db.getAll("dnd", location, async (req, data) => {
-		if (req) {
-			console.log(data)
-			res.json({ ...data })
-		} else {
-			res.send({ err: "Could not get character." })
-			console.log("An error has occured. " + data)
-		}
-	})
+	if (db.valid("dnd", location)) {
+		console.log("location", location)
+		db.getAll("dnd", location, async (req, data) => {
+			console.log("data?" + req)
+			if (req) {
+				console.log("DATA!", data)
+				res.json({ data })
+			} else {
+				res.send({ err: "Could not get character." })
+				console.log("An error has occured. " + data)
+			}
+		})
+	}
 })
 
 app.post("/api/character/save", function (req, res) {
