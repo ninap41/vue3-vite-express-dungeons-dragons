@@ -2,7 +2,7 @@
 	"dnd": {
 		"character": {
 			"id": "1",
-			"name": "Vensaasdasd",
+			"name": "Vendethial",
 			"classlevel": "BloodHunter 5 (Order of Mutant)",
 			"background": "Haunted One",
 			"race": "Half-Elf",
@@ -26,7 +26,7 @@
 				"1": { "name": "UnarmedStrike", "bonus": "+5", "damage": "3 bludgeoning" },
 				"2": { "name": "", "bonus": "", "damage": "" }
 			},
-			"failures": { "0": true, "1": true, "2": false },
+			"failures": { "0": false, "1": false, "2": false },
 			"personality": "Just Ven",
 			"ideals": "Gold, Killing munsters",
 			"flaws": "Greed.Selfishness. Impulsivity",

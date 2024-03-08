@@ -499,22 +499,23 @@ import { onMounted, computed, ref } from "vue"
 import axios, { AxiosResponse } from "axios"
 
 var character = ref()
+
 //@ts-ignore
 const getCharacterData = async () => {
-	await axios.get("http://localhost:3000/api/character").then((res: AxiosResponse) => {
+	await axios.get("http://localhost:3000/api/characters").then((res: AxiosResponse) => {
 		if (res) {
-			character.value = res.data.character
+			console.log(res.data)
+			character.value = res.data[0]
 		}
 	})
 }
 //@ts-ignore
 const saveCharacter = async () => {
-	console.log("save", character.value)
-	await axios.post("http://localhost:3000/api/character/save", { data: character.value }).then((res: AxiosResponse) => {
-		if (res) {
-			alert("Saved")
-		}
-	})
+	try {
+		await axios.post(`http://localhost:3000/api/characters/save`, { data: character.value })
+	} catch (err) {
+		alert(JSON.stringify(err))
+	}
 }
 
 //@ts-ignore
