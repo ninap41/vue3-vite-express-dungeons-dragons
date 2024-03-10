@@ -51,11 +51,11 @@ const memoryHandler = {
 			res.send(msg)
 		})
 	},
-	deleteOneById: (req, res, tableName, where) => {
+	deleteOneById: async (req, res, tableName, where) => {
 		try {
-			db.deleteRow(tableName, location, where, (succ, msg) => res.send(success))
+			db.deleteRow(tableName, location, where, (succ, msg) => res.write(succ))
 		} catch (err) {
-			res.err(err)
+			res.end()
 		}
 	},
 }
@@ -80,7 +80,7 @@ app.put(
 	`/api/${tableName[0]}/deleteOne/:id`,
 	(req, res) => memoryHandler.deleteOneById(req, res, tableName[0], (where = { id: Number(req.body.data.id) })) // ✅
 )
-app.put(`/api/${tableName[1]}/deleteOne/:id`, (req, res) => {
+app.delete(`/api/${tableName[1]}/deleteOne/:id`, (req, res) => {
 	memoryHandler.deleteOneById(req, res, tableName[1], (where = { id: Number(req.params.id) })) // ✅
 })
 

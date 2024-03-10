@@ -120,6 +120,8 @@ import { Editor, EditorContent } from "@tiptap/vue-3"
 import { onMounted, ref } from "vue"
 import StarterKit from "@tiptap/starter-kit"
 import axios from "axios"
+//@ts-ignore
+import router from "../router"
 
 function saveDraft() {
 	window.localStorage.setItem("session", editor.value.getHTML())
@@ -140,12 +142,14 @@ function retrieveLocalStorage() {
 }
 
 function archiveSession() {
-	axios.put("http://localhost:3000/api/entries/createOne", {
-		id: Math.floor(Math.random() * 9999),
-		content: editor.value.getHTML(),
-		date: new Date().toLocaleDateString(),
-		tags: [],
-	})
+	axios
+		.put("http://localhost:3000/api/entries/createOne", {
+			id: Math.floor(Math.random() * 9999),
+			content: editor.value.getHTML(),
+			date: new Date().toLocaleDateString(),
+			tags: [],
+		})
+		.then(() => router.push("archive"))
 
 	window.localStorage.removeItem("session")
 	editor.value.chain().clearContent()

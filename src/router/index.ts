@@ -4,7 +4,7 @@ import Notes from "../views/Notes.vue"
 import Archive from "../views/Archive.vue"
 import World from "../views/World.vue"
 
-const router = createRouter({
+export const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
 		{
