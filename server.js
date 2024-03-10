@@ -7,23 +7,11 @@ const db = require("electron-db")
 var cors = require("cors")
 
 var bodyParser = require("body-parser")
-
+var { sort } = require("./utils")
 var app = express()
 app.use(bodyParser.json()) // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-
-async function sort(order, data) {
-	return await data.sort(function (a, b) {
-		return new Date(a.date).getTime() > new Date(b.date).getTime()
-			? order === "asc"
-				? -1
-				: 1
-			: order === "desc"
-			? 1
-			: -1
-	})
-}
 
 const memoryHandler = {
 	createTable: (req, res, tableName) => {
@@ -59,7 +47,7 @@ const memoryHandler = {
 	},
 	createOne: (req, res, tableName) => {
 		console.log("REQ!" + req)
-		db.insertTableContent(tableName, location, req.body.data, (succ, msg) => {
+		db.insertTableContent(tableName, location, req.body, (succ, msg) => {
 			res.send(msg)
 		})
 	},
@@ -85,7 +73,7 @@ app.post(`/api/${tableName[0]}/updateOne`, (req, res) => {
 // ),
 // app.post(`/api/${tableName[1]}/updateOne`, (req, res) => memoryHandler.updateById(req, res, tableName[1])),
 
-app.put(`/api/${tableName[0]}/createOne/:id`, (req, res) => res.send(memoryHandler.createOne(req, res, tableName[0]))) // ✅
+app.put(`/api/${tableName[0]}/createOne`, (req, res) => res.send(memoryHandler.createOne(req, res, tableName[0]))) // ✅
 app.put(`/api/${tableName[1]}/createOne`, (req, res) => res.send(memoryHandler.createOne(req, res, tableName[1]))) // ✅
 
 app.put(
@@ -113,45 +101,19 @@ app.get("/api/filereader/:filename", function (req, res) {
 		}
 	})
 })
-// app.post("/api/entries/add/", function (req, res) {
-//   console.log(req.body);
-//   if (db.valid("entries", location)) {
-//     db.insertTableContent("entries", location, req.body, (succ, msg) => {
-//       // succ - boolean, tells if the call is successful
-//       console.log("Success: " + succ);
-//       console.log("Message: " + msg);
-//     });
-//   }
-// });
 
-// app.get("/api/entries/sort/:order", function (req, res) {
-//   console.log(req.params);
-//   let order = req.params.order;
-//   if (db.valid("entries", location)) {
-//     db.getAll("entries", location, async (succ, data) => {
-//       if (succ) {
-//         res.json({
-//           entries: await sort(order, data),
-//         });
-//       } else {
-//         console.log("An error has occured. " + data);
-//       }
-//     });
-//   }
-// });
-
-// app.delete("/api/entries/delete/:id", async function (req, res) {
-// 	let id_ = Number(req.params.id)
-// 	const where = { id: id_ }
-
-// 	return await db.deleteRow("entries", location, where, async (succ, msg) => {
-// 		try {
-// 			console.log(JSON.stringify(succ))
-// 		} catch (err) {
-// 			console.log(JSON.stringify(msg))
-// 		}
-// 	})
-// })
+app.get("/api/entries/sort/:order", function (req, res) {
+	let order = req.params.order
+	db.getAll("entries", location, async (succ, data) => {
+		if (succ) {
+			res.json({
+				entries: await sort(order, data),
+			})
+		} else {
+			console.log("An error has occured. " + data)
+		}
+	})
+})
 
 // app.delete("/api/entries/deleteAll", function (req, res) {
 //   db.clearTable("entries", location, (succ, msg) => {
