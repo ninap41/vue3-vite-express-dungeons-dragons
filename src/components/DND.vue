@@ -502,17 +502,19 @@ var character = ref()
 
 //@ts-ignore
 const getCharacterData = async () => {
-	await axios.get("http://localhost:3000/api/characters").then((res: AxiosResponse) => {
+	await axios.get("http://localhost:3000/api/characters/readAll").then((res: AxiosResponse) => {
 		if (res) {
-			console.log(res.data)
 			character.value = res.data[0]
 		}
 	})
 }
 //@ts-ignore
 const saveCharacter = async () => {
+	console.log({ ...character.value })
 	try {
-		await axios.post(`http://localhost:3000/api/characters/save`, { data: character.value })
+		await axios
+			.post(`http://localhost:3000/api/characters/updateOne`, { data: character.value })
+			.then((data) => console.log(data))
 	} catch (err) {
 		alert(JSON.stringify(err))
 	}

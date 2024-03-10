@@ -25,44 +25,76 @@ async function sort(order, data) {
 	})
 }
 
-const requestsHandler = {
-	getAll: ({ req, res }, tableName) => {
-		if (!db.valid(tableName, location)) res.send("Table does not exist")
-		db.getAll(tableName, location, async (req, data) => {
-			if (req) {
-				return res.json(data)
+const memoryHandler = {
+	createTable: (req, res, tableName) => {
+		db.createTable(tableName, location, (succ, msg) => {
+			res.send(msg)
+		})
+	},
+	clearTable: (req, res, tableName) => {
+		console.log("deletasdadsadseOne")
+
+		db.clearTable(tableName, location, (succ, msg) => {
+			res.send(msg)
+		})
+	},
+	readAll: (req, res, tableName) => {
+		db.getAll(tableName, location, (succ, data) => {
+			if (data && succ) {
+				console.log(succ + data)
+				res.json(data)
 			} else {
-				return res.send({ err: `Could not get ${tableName}` })
+				res.send({ err: `Could not get ${tableName}` })
 			}
 		})
 	}, //post
-	updateById: ({ req, res }, tableName) => {
-		if (!db.valid(tableName, location)) res.send("Table does not exist")
-		try {
-			db.updateRow(tableName, location, (where = { id: req.body.data.id }), (set = req.body.data), (succ, msg) =>
-				res.send(msg)
-			)
-		} catch (err) {
-			res.send(err)
-		}
+	updateById: (req, res, tableName, where, set) => {
+		// gere
+		// try {
+		console.log(req.body.data.id, "ID!")
+		db.updateRow(tableName, location, where, set, (succ, msg) => res.json(req.body.data))
+		// } catch (err) {
+		// 	res.send(err)
+		// }
 	},
-	create: ({ req, res }, tableName) => {
-		if (db.valid(tableName, location)) res.send("Table does not exist")
-		db.insertTableContent(tableName, location, req.body, (succ, msg) => console.log("inserted entries"))
+	createOne: (req, res, tableName) => {
+		console.log("REQ!" + req)
+		db.insertTableContent(tableName, location, req.body.data, (succ, msg) => {
+			res.send(msg)
+		})
 	},
-	deleteOne: ({ req, res }, tableName) => {
+	deleteOneById: (req, res, tableName, where) => {
 		try {
-			db.deleteRow(tableName, location, (where = { id: Number(req.params.id) }))
+			db.deleteRow(tableName, location, where, (succ, msg) => res.send(success))
 		} catch (err) {
-			res.send(error)
+			res.err(err)
 		}
 	},
 }
 
-app.post(`/api/characters/save`, (args) => requestsHandler.updateById(args, "characters"))
-app.get("/api/characters", (args) => requestsHandler.getAll(args, "characters"))
-app.put("/api/characters/add", (args) => requestsHandler.create(args, "characters"))
-app.delete("/api/characters/delete/:id", (args) => requestsHandler.create(args, "characters"))
+const tableName = ["characters", "entries"]
+
+app.get(`/api/${tableName[1]}/readAll`, (req, res) => memoryHandler.readAll(req, res, tableName[1])) // ✅
+app.get(`/api/${tableName[0]}/readAll`, (req, res) => memoryHandler.readAll(req, res, tableName[0])) // ✅
+
+app.post(`/api/${tableName[0]}/updateOne`, (req, res) => {
+	memoryHandler.updateById(req, res, tableName[0], { id: String(req.body.data.id) }, req.body.data)
+})
+// app.put(`/api/${tableName[1]}/updateOne/:id`, (req, res) =>
+// 	memoryHandler.updateById(req, res, tableName[1], { id: Number(req.params.id) }, req.body)
+// ),
+// app.post(`/api/${tableName[1]}/updateOne`, (req, res) => memoryHandler.updateById(req, res, tableName[1])),
+
+app.put(`/api/${tableName[0]}/createOne/:id`, (req, res) => res.send(memoryHandler.createOne(req, res, tableName[0]))) // ✅
+app.put(`/api/${tableName[1]}/createOne`, (req, res) => res.send(memoryHandler.createOne(req, res, tableName[1]))) // ✅
+
+app.put(
+	`/api/${tableName[0]}/deleteOne/:id`,
+	(req, res) => memoryHandler.deleteOneById(req, res, tableName[0], (where = { id: Number(req.body.data.id) })) // ✅
+)
+app.put(`/api/${tableName[1]}/deleteOne/:id`, (req, res) => {
+	memoryHandler.deleteOneById(req, res, tableName[1], (where = { id: Number(req.params.id) })) // ✅
+})
 
 app.get("/api/filereader/:filename", function (req, res) {
 	var filename = path.join(__dirname, `server/db/${req.params.filename}`)

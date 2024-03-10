@@ -5,8 +5,7 @@ import { onMounted, ref } from "vue"
 const displayArchive: any = ref([])
 const getArchive = () => {
 	try {
-		axios.get("http://localhost:3000/api/entries/all").then((res) => {
-			console.log(res.data)
+		axios.get("http://localhost:3000/api/entries/readAll").then((res) => {
 			Object.keys(res.data).forEach((key) => displayArchive.value.push(res.data[key]))
 		})
 	} catch (err) {
@@ -17,17 +16,13 @@ const getArchive = () => {
 const deleteFromArchive = async (id: string) => {
 	displayArchive.value = []
 	try {
-		await axios.delete(`http://localhost:3000/api/entries/delete/${id}`).then((res) => {
-			displayArchive.value = null
-			Object.keys(res.data).forEach((key) => displayArchive.push(res.data[key]))
-		})
+		await axios.put(`http://localhost:3000/api/entries/deleteOne/${id}`).then((data) => console.log(data))
 	} catch (err) {
 		console.log(err)
 	}
-	window.location.reload()
 }
 function setNoteContent(note: any) {
-	window.localStorage.setItem("session", note.content)
+	// window.localStorage.setItem("session", note.content)
 }
 
 onMounted(() => {

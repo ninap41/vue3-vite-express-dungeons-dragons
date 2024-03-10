@@ -141,7 +141,7 @@ function retrieveLocalStorage() {
 
 function archiveSession() {
 	axios
-		.put("http://localhost:3000/api/entries/add", {
+		.put("http://localhost:3000/api/entries/createOne", {
 			id: Math.floor(Math.random() * 9999),
 			content: editor.value.getHTML(),
 			date: new Date().toLocaleDateString(),

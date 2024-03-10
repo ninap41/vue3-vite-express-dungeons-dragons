@@ -1,21 +1,27 @@
 {
   "entries": [
     {
-      "id": 555979059,
-      "content": "Yesterday I worked on end to End testing and tried to get the iframe tests working. I got the transported code working with some changes to the iframe logic and opened A PR this morning. Ryan reached out to me in regards to some comments that were added to the ticket by matt, which&nbsp; he explained he's gonna go ahead and add those changes to ,my PR. today I'll be addressing comments, running a manual build of the branch on bamboo, all bamboo builds had passing tests, for some reason the last one hung probably just need to pull in master.&nbsp; I'll Be doing some PR review .wand picking up something from the back log.&nbsp;",
-      "date": "2020-12-16T17:39:12.913Z",
+      "id": 1709951237714,
+      "content": "<p>default set session</p>",
+      "date": "3/8/2024",
       "tags": []
     },
     {
-      "id": 500482930,
-      "content": "<div style=\"color: rgb(212, 212, 212); background-color: rgb(30, 30, 30); font-family: Menlo, Monaco, \"Courier New\", monospace; font-size: 12px; line-height: 18px; white-space: pre;\"><div>    <span style=\"color: #6a9955;\">/** Friday (paired with ryan)</span></div><div><span style=\"color: #6a9955;\">   </span></div><div><span style=\"color: #6a9955;\">     * 1. figured out how to set debug gateway variable in the python script to an absolute path to the privacy scripts testScripts directory to run the gateway file</span></div><div><span style=\"color: #6a9955;\">which privacy-gateway-test.js at the moment</span></div><div><span style=\"color: #6a9955;\">     * 2. and we used spawn instead of execute from the </span><span style=\"color: rgb(206, 145, 120);\">child_process package </span><span style=\"color: rgb(106, 153, 85);\">to get mitmproxy to run</span><span style=\"color: rgb(106, 153, 85);\"> mitmProxy</span><span style=\"color: rgb(106, 153, 85);\"> with all the appropriate flags, </span></div><div><span style=\"color: #6a9955;\">     * 3. added a utilities file for chalk and spawning commands</span></div><div><span style=\"color: #6a9955;\">     * this morning began creating the command for downloadGatway, and figuring out how were going to get the gateway script from a clients website </span></div><div><span style=\"color: #6a9955;\">(scaping or s3?). if anyone has a suggestion for the best way to do this please do tell </span></div><div><span style=\"color: #6a9955;\">     * So what's left to do: </span></div><div><span style=\"color: #6a9955;\">     * 1. finish up the download command for getting the script file repo  https://nexus.ensighten.com/ensighten/Bootstrap.js</span></div><div><span style=\"color: #6a9955;\">     * https://nexus.toyota.com/toyotanational/Bootstrap.js</span></div><div><span style=\"color: #6a9955;\">     * </span></div><div><span style=\"color: #6a9955;\">     * 2. extra, having settings for debug paths and port ids, and possibly creating a customized help command telling the user how to use the tool</span></div><div><span style=\"color: #6a9955;\"> (mirror the readme, suggest deleting old gateway.)</span></div><div><span style=\"color: #6a9955;\">     * </span></div><div><span style=\"color: #6a9955;\">     */</span></div><div><span style=\"color: #6a9955;\">doing this today before sprint planning. </span></div></div>",
-      "date": "2020-11-30T20:22:09.283Z",
+      "id": 1709952253150,
+      "content": "<p>default set session</p>",
+      "date": "3/8/2024",
       "tags": []
     },
     {
-      "id": 455016695,
-      "content": "this morning worked through my open PRs comments and&nbsp; yesterday I prepped for demo with Ryan, this morning we installed child process package and currently in the process of getting mitmproxy to run on the cli tool before adding the first command for pulling in the client bootstrap. Moving along, running mitmproxy with node from the cli is causing some errors but were working through them. Looking to get my Prs merged today before the weekend and at least get mitmProxy to run with the cli.&nbsp;",
-      "date": "2020-11-25T17:24:59.241Z",
+      "id": 1709952383848,
+      "content": "<p>default set sessionasdaasd</p>",
+      "date": "3/8/2024",
+      "tags": []
+    },
+    {
+      "id": 1710001063076,
+      "content": "<p>asdasd</p>",
+      "date": "3/9/2024",
       "tags": []
     }
   ]
