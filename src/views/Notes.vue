@@ -129,34 +129,32 @@ function saveDraft() {
 }
 var editor = ref(
 	new Editor({
-		content: "motherfucker",
+		content: "Some Content",
 		extensions: [StarterKit],
 	})
 )
-function retrieveLocalStorage() {
-	const cache = window.localStorage.getItem("session")
+async function retrieveLocalStorage(key: string, callback: any) {
+	const cache = window.localStorage.getItem(key)
 	if (!cache) {
-		window.localStorage.setItem("session", "default set session")
+		window.localStorage.setItem(key, "default set session")
 	}
-	editor.value.chain().clearContent().insertContent(cache).run()
+	if (callback) callback({ cache })
 }
 
-function archiveSession() {
-	axios
-		.put("http://localhost:3000/api/entries/createOne", {
-			id: Math.floor(Math.random() * 9999),
-			content: editor.value.getHTML(),
-			date: new Date().toLocaleDateString(),
-			tags: [],
-		})
-		.then(() => router.push("archive"))
-
+async function archiveSession() {
+	await axios.put("http://localhost:3000/api/entries/createOne", {
+		id: Math.floor(Math.random() * 9999),
+		content: editor.value.getHTML(),
+		date: new Date().toLocaleDateString(),
+		tags: [],
+	})
+	router.push("archive")
 	window.localStorage.removeItem("session")
 	editor.value.chain().clearContent()
 }
 
 onMounted(async () => {
-	retrieveLocalStorage()
+	retrieveLocalStorage("session", (args: any) => editor.value.chain().clearContent().insertContent(args.cache).run())
 })
 </script>
 <style>
