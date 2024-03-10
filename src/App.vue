@@ -24,8 +24,9 @@ nav > a {
 	margin-right: 1rem;
 	text-decoration: none;
 	color: hsla(160, 100%, 80%, 1);
-	transition: 0.4s;
 	background-color: darkslategray;
+	transition: 0.4s;
+
 	border-radius: 15px;
 	padding: 1rem;
 }

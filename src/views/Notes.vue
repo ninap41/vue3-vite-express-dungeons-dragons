@@ -1,12 +1,13 @@
 <template>
 	<main>
-		<div>
-			<button @click="saveDraft()">
-				<b>Save Draft (Local Storage)</b>
+		<div class="session-buttons">
+			<button  @click="saveDraft()">
+				<b>Draft</b>
 			</button>
-			<button @click="archiveSession()">
+			<button  @click="archiveSession()">
 				<b>Archive Session</b>
 			</button>
+			<br><br>
 		</div>
 		<div v-if="editor">
 			<button
@@ -14,31 +15,31 @@
 				:disabled="!editor.can().chain().focus().toggleBold().run()"
 				:class="{ 'is-active': editor.isActive('bold') }"
 			>
-				<b>bold</b>
+				<b>B</b>
 			</button>
 			<button
 				@click="editor.chain().focus().toggleItalic().run()"
 				:disabled="!editor.can().chain().focus().toggleItalic().run()"
 				:class="{ 'is-active': editor.isActive('italic') }"
 			>
-				italic
+				I
 			</button>
 			<button
 				@click="editor.chain().focus().toggleStrike().run()"
 				:disabled="!editor.can().chain().focus().toggleStrike().run()"
 				:class="{ 'is-active': editor.isActive('strike') }"
 			>
-				strike
+				s
 			</button>
 			<button
 				@click="editor.chain().focus().toggleCode().run()"
 				:disabled="!editor.can().chain().focus().toggleCode().run()"
 				:class="{ 'is-active': editor.isActive('code') }"
 			>
-				code
+				{{String(`</>`) }}
 			</button>
-			<button @click="editor.chain().focus().unsetAllMarks().run()">clear marks</button>
-			<button @click="editor.chain().focus().clearNodes().run()">clear nodes</button>
+			<button @click="editor.chain().focus().unsetAllMarks().run()">clear STYLE</button>
+			<button @click="editor.chain().focus().clearNodes().run()">clear ALL</button>
 			<button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
 				paragraph
 			</button>
@@ -46,19 +47,19 @@
 				@click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
 				:class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
 			>
-				h1
+				H1
 			</button>
 			<button
 				@click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
 				:class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
 			>
-				h2
+				H2
 			</button>
 			<button
 				@click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
 				:class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
 			>
-				h3
+				H3
 			</button>
 			<button
 				@click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
@@ -82,33 +83,33 @@
 				@click="editor.chain().focus().toggleBulletList().run()"
 				:class="{ 'is-active': editor.isActive('bulletList') }"
 			>
-				bullet list
+			[*,*,*]
 			</button>
 			<button
 				@click="editor.chain().focus().toggleOrderedList().run()"
 				:class="{ 'is-active': editor.isActive('orderedList') }"
 			>
-				ordered list
+				[1,2,3]
 			</button>
 			<button
 				@click="editor.chain().focus().toggleCodeBlock().run()"
 				:class="{ 'is-active': editor.isActive('codeBlock') }"
 			>
-				code block
+			{{String(`</>`) }}
 			</button>
 			<button
 				@click="editor.chain().focus().toggleBlockquote().run()"
 				:class="{ 'is-active': editor.isActive('blockquote') }"
 			>
-				blockquote
+				"..."
 			</button>
 			<button @click="editor.chain().focus().setHorizontalRule().run()">horizontal rule</button>
 			<button @click="editor.chain().focus().setHardBreak().run()">hard break</button>
 			<button @click="editor.chain().focus().undo().run()" :disabled="!editor.can().chain().focus().undo().run()">
-				undo
+			{{ String("<-") }}
 			</button>
 			<button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().chain().focus().redo().run()">
-				redo
+				>
 			</button>
 			<editor-content class="editor" v-model="editor.options.content" :editor="editor" />
 		</div>
@@ -122,6 +123,13 @@ import StarterKit from "@tiptap/starter-kit"
 import axios from "axios"
 //@ts-ignore
 import router from "../router"
+import {useToast} from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+const $toast = useToast();
+
+
+$toast.clear();
 
 function saveDraft() {
 	window.localStorage.setItem("session", editor.value.getHTML())
@@ -142,12 +150,18 @@ async function retrieveLocalStorage(key: string, callback: any) {
 }
 
 async function archiveSession() {
+	try{
 	await axios.put("http://localhost:3000/api/entries/createOne", {
 		id: Math.floor(Math.random() * 9999),
 		content: editor.value.getHTML(),
 		date: new Date().toLocaleDateString(),
 		tags: [],
 	})
+	$toast.success(`Note has been saved!`);
+	
+} catch(err) {
+	$toast.error('Something went wrong. email the dumb dev (500 error)');
+}
 	router.push("archive")
 	window.localStorage.removeItem("session")
 	editor.value.chain().clearContent()
@@ -171,10 +185,18 @@ onMounted(async () => {
 }
 button {
 	background-color: black;
-
 	color: gray;
 	padding: 0.5rem;
 	font-size: large;
-	color: rgba(235, 235, 235, 0.64);
+   
 }
+
+.session-buttons button  {
+		border-radius: 10px;
+		background-color:"green";
+		color: rgb(255, 245, 153);
+		border: hsla(160, 100%, 80%, 1);
+
+	background-color: rgb(76, 79, 47);
+	}
 </style>
