@@ -13,8 +13,11 @@ const tableNames = ["characters", "entries"]
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-
+function errorHandling(error, req, res, next) {}
+app.use(errorHandling)
 app.get(`/api/:table/readAll`, (req, res) => {
+	console.log(Object.keys(req))
+
 	db.getAll(req.params.table, location, (succ, data) => res.json(data))
 })
 app.get(`api/:table/createTable`, (req, res) => {
@@ -31,9 +34,7 @@ app.get(`api/:table/clearTable`, (req, res) => {
 })
 app.post(`/api/:table/updateOne`, (req, res) => {
 	try {
-		db.updateRow(req.params.table, location, { id: String(req.body.data.id) }, req.body.data, (succ, msg) =>
-			res.json(req.body.data)
-		)
+		db.updateRow(req.params.table, location, { id: String(req.body.id) }, req.body, (succ, msg) => res.json(req.body))
 	} catch (err) {
 		res.send(err)
 	}
