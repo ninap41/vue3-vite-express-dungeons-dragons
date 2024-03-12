@@ -510,7 +510,6 @@ const getCharacterData = async () => {
 }
 //@ts-ignore
 const saveCharacter = async () => {
-	console.log({ ...character.value })
 	try {
 		await axios.post(`http://localhost:3000/api/characters/updateOne`, character.value).then((data) => console.log(data))
 	} catch (err) {
