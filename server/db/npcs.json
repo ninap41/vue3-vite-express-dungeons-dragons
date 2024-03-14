@@ -1,0 +1,11 @@
+{
+	"npcs": {
+		"id": "yhshhs",
+		"name": "THingy",
+		"world": "",
+		"appearance": "",
+		"items": "",
+		"inParty": false,
+		"abilities": [""]
+	}
+}

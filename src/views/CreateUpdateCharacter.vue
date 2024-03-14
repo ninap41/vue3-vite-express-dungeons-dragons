@@ -1,5 +1,8 @@
 <template>
 	<h1><button @click="saveCharacter">Save Character</button></h1>
+	<h3 v-if="character">
+		Current Character: <b class="bright-green">{{ character.name }}</b>
+	</h3>
 	<div class="flex">
 		<div>
 			<div v-if="character" class="charsheet">
@@ -489,10 +492,6 @@
 		</div>
 	</div>
 </template>
-<style>
-@import "@/assets/dnd.css";
-@import "@/assets/wysiwig.css";
-</style>
 
 <script lang="ts" setup>
 import { onMounted, computed, ref } from "vue"
@@ -523,7 +522,9 @@ onMounted(async () => {
 })
 </script>
 
-<style>
+<style scoped>
+@import "@/assets/dnd.css";
+@import "@/assets/wysiwig.css";
 .flex {
 	padding: 1rem;
 	display: flex;

@@ -26,8 +26,36 @@ a,
     place-items: center;
   }
 
-  #app {
-    display: grid;
-    padding: 0 2rem;
-  }
 }
+
+.glow-large {
+  font-size: 80px;
+}
+.glow-medium{
+  
+  font-size: 40px;
+}
+
+.glow-small{
+  font-size: 20px;
+}
+.glow {
+	color: #fff;
+	text-align: center;
+	animation: glow 1s ease-in-out infinite alternate;
+  }
+  
+  @-webkit-keyframes glow {
+	from {
+	  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00e61f, 0 0 40px #32e600, 0 0 50px #0fe600, 0 0 60px #0fe600, 0 0 70px #00e61b;
+	}
+	
+	to {
+	  text-shadow: 0 0 20px #fff, 0 0 30px #68ff4d, 0 0 40px #50ff4d, 0 0 50px #4dff5f, 0 0 60px #4dff74, 0 0 70px #4dff56, 0 0 80px #4dff53;
+	}
+  }
+
+
+  .bright-green {
+    color: greenyellow 
+  }

@@ -1,18 +1,22 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router"
-import HelloWorld from "./components/HelloWorld.vue"
+import "vue-toast-notification/dist/theme-sugar.css"
+import Title from "./components/Title.vue"
+import { onMounted, ref } from "vue"
+import axios from "axios"
 </script>
-
+<!-- https://vue-final-modal.org/get-started/guide/setup -->
 <template>
 	<div>
 		<header>
 			<nav>
-				<RouterLink to="/">Character (home)</RouterLink>
-				<RouterLink to="/notes">Notes</RouterLink>
+				<RouterLink to="/">Character Sheet</RouterLink>
+				<RouterLink to="/create-update">Make/Edit Character</RouterLink>
+				<RouterLink to="/session-notes">Notes</RouterLink>
 				<RouterLink to="/archive">Archive</RouterLink>
 				<RouterLink to="/world">World</RouterLink>
 			</nav>
-			<HelloWorld msg="dungeons&dragons" />
+			<Title msg="dungeons&dragons" />
 		</header>
 
 		<RouterView />

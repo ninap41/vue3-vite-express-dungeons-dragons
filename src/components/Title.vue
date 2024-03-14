@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
 	<div class="greetings">
-		<h1 class="green glow">{{ msg }}</h1>
+		<h1 class="green glow glow-large">{{ msg }}</h1>
 		<h3>
 			Dungeons And Dragons notes app and character app.
 			<a href="https://www.dndbeyond.com/" target="_blank" rel="noopener">D&d Beyond</a> +

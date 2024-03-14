@@ -1,11 +1,11 @@
 <template>
 	<main>
 		<div class="session-buttons">
-			<button  @click="saveDraft()">
-				<b>Draft</b>
+			<button  @click="saveDraft_()">
+				<b>Save Draft</b>
 			</button>
-			<button  @click="archiveSession()">
-				<b>Archive Session</b>
+			<button  @click="saveNote()">
+				<b>Archive Session Note</b>
 			</button>
 			<br><br>
 		</div>
@@ -118,58 +118,44 @@
 
 <script setup lang="ts">
 import { Editor, EditorContent } from "@tiptap/vue-3"
-import { onMounted, ref } from "vue"
+import { onBeforeMount, onMounted, ref } from "vue"
 import StarterKit from "@tiptap/starter-kit"
 import axios from "axios"
 //@ts-ignore
 import router from "../router"
 import {useToast} from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
+import {useFileStorage }from "../composition/useFileStorage"
+import { session_keys } from "../types/types"
 
 const $toast = useToast();
-
-
-$toast.clear();
-
-function saveDraft() {
-	window.localStorage.setItem("session", editor.value.getHTML())
-	alert("saved")
-}
-var editor = ref(
+const { archiveSession, saveDraft, retrieveEntryFromLocalStorage }  = useFileStorage()
+var editor: any;
+onBeforeMount(() => {
+editor = ref(
 	new Editor({
-		content: "Some Content",
+		content: "",
 		extensions: [StarterKit],
-	})
-)
-async function retrieveLocalStorage(key: string, callback: any) {
-	const cache = window.localStorage.getItem(key)
-	if (!cache) {
-		window.localStorage.setItem(key, "default set session")
-	}
-	if (callback) callback({ cache })
-}
+	}))
+retrieveEntryFromLocalStorage(session_keys.entries, (args: any) => editor.value.chain().clearContent().insertContent(args.cache).run())
 
-async function archiveSession() {
-	try{
-	await axios.put("http://localhost:3000/api/entries/createOne", {
-		id: Math.floor(Math.random() * 9999),
-		content: editor.value.getHTML(),
-		date: new Date().toLocaleDateString(),
-		tags: [],
-	})
-	$toast.success(`Note has been saved!`);
-	
-} catch(err) {
-	$toast.error('Something went wrong. email the dumb dev (500 error)');
-}
-	router.push("archive")
-	window.localStorage.removeItem("session")
-	editor.value.chain().clearContent()
-}
+})
 
 onMounted(async () => {
-	retrieveLocalStorage("session", (args: any) => editor.value.chain().clearContent().insertContent(args.cache).run())
 })
+
+
+
+async function saveDraft_() {
+	saveDraft(editor.value.getHTML())
+}
+async function saveNote() {
+	archiveSession("entries",
+		editor.value.getHTML(),
+		() => editor.value.chain().clearContent())
+}
+
+
 </script>
 <style>
 .editor,

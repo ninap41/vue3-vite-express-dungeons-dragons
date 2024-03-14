@@ -33,11 +33,11 @@ app.get("/api/:table/readAll", (req, res) => {
 	)
 })
 
-app.get(`/api/:table/createTable`, (req, res) => {
+app.get(`/api/:table/check`, (req, res) => {
 	requestHandler(db.createTable(req.params.table, location, (succ, msg) => res.send(msg)))
 })
 
-app.get(`/clearTable`, (req, res) => {
+app.get(`/api/clearTable`, (req, res) => {
 	requestHandler(
 		db.deleteAll(req.params.table, location, (succ, msg) => {
 			res.send(msg)
