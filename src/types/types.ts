@@ -34,13 +34,20 @@ export class Character {
 	totalhitdice: string = ""
 	hitdice: string = ""
 	successes: { [key: number]: boolean } = { 0: false, 1: false, 2: false }
-	attacks: any = {
-		0: {
+	attacks: any = [
+		{
 			name: "",
 			bonus: "",
 			damage: "",
-		},
-	}
+		}
+	]
+	spells: any = [
+		{
+			name: "",
+			description: "",
+			level: "",
+		}
+	]
 	failures: { [key: number]: boolean } = { 0: false, 1: false, 2: false }
 	personality: string = ""
 	ideals: string = ""

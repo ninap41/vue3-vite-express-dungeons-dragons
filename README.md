@@ -21,7 +21,7 @@ run in two tabs
 running client:
 
 ```sh
-npm run serve
+npm run client
 ```
 
 running db:
@@ -29,3 +29,12 @@ running db:
 ```sh
 npm run server
 ```
+
+run them both if you're not debugging with concurrently (package.json: "dev": " concurrently \"npm run server\" \"npm run client\"")
+
+
+```sh
+npm run dev
+```
+
+

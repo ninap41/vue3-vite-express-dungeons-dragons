@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router"
-import Home from "../views/Home.vue"
 import Notes from "../views/SessionNotes.vue"
 import Archive from "../views/Archive.vue"
 import World from "../views/World.vue"
@@ -16,8 +15,8 @@ export const router = createRouter({
 			component: CharacterSheet,
 		},
 		{
-			path: "/create-update",
-			name: "makenew",
+			path: "/update",
+			name: "update",
 			component: CreateUpdateCharacter,
 		},
 		{

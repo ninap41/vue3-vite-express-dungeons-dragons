@@ -9,7 +9,7 @@ const $toast = useToast()
 /* Includes localStorage setup and api references */
 export function useFileStorage() {
 	const api = "http://localhost:3000/api/"
-
+	const scaffold = ref(false)
 	const tables_ = ["characters", "entries"]
 
 	// entries
@@ -35,6 +35,7 @@ export function useFileStorage() {
 		const res = await axios.put(`${api}${tableName}/createOne`, body)
 		if (!res.data) $toast.success("Successfully created new character")
 		else $toast.error("Could not find that character")
+	return
 	}
 
 	async function getOne(tableName: string, id: any) {
@@ -77,7 +78,7 @@ export function useFileStorage() {
 
 	async function createNewCharacter(characterName: string) {
 		var char: Character = new Character(characterName)
-		await createOne("characters", Character)
+		await createOne("characters", char)
 		setSessionCharacterToLocalStorage(session_keys.character, characterName)
 	}
 
@@ -94,23 +95,26 @@ export function useFileStorage() {
 
 	//db
 	async function scaffoldTables(customTables?: any) {
-		$toast.default("scaffolding tables")
-		const responses = []
-		const t = tables_ || customTables
-		for (var i = 0; i < t.length; i++) {
-			const res = await axios.get(`${api}${t[i]}/check`)
-			responses.push(`for  <b style="color:yellow">"${t[i]}"</b>  ` + res.data)
+		if(!scaffold.value){
+			$toast.default("scaffolding tables")
+			const responses = []
+			const t = tables_ || customTables
+			for (var i = 0; i < t.length; i++) {
+				const res = await axios.get(`${api}${t[i]}/check`)
+				responses.push(`for  <b style="color:yellow">"${t[i]}"</b>  ` + res.data)
+			}
+			const data = await Promise.all(responses)
+			data.forEach((res) => $toast.default(res))
+			scaffold.value = true
 		}
-		const data = await Promise.all(responses)
-		data.forEach((res) => $toast.default(res))
+	
 	}
 
-	onBeforeMount(async () => {
-		scaffoldTables()
-	})
+	
 
 	return {
 		saveDraft,
+		scaffoldTables,
 		retrieveEntryFromLocalStorage,
 		setSessionCharacterToLocalStorage,
 		getSessionCharacterToLocalStorage,

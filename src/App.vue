@@ -11,7 +11,7 @@ import axios from "axios"
 		<header>
 			<nav>
 				<RouterLink to="/">Character Sheet</RouterLink>
-				<RouterLink to="/create-update">Make/Edit Character</RouterLink>
+				<RouterLink to="/update">Make/Edit Character</RouterLink>
 				<RouterLink to="/session-notes">Notes</RouterLink>
 				<RouterLink to="/archive">Archive</RouterLink>
 				<RouterLink to="/world">World</RouterLink>

@@ -17,8 +17,7 @@
 							<li><label for="playername">Player Name</label><input name="playername" v-model="character.name" /></li>
 							<li><label for="race">Race</label><input name="race" v-model="character.race" /></li>
 							<li><label for="alignment">Alignment</label><input name="alignment" v-model="character.alignment" /></li>
-							<li>
-								<label for="experiencepoints">Experience Points</label><input name="experiencepoints" v-model="character.xp" />
+							<li><label for="experiencepoints">Experience Points</label><input name="experiencepoints" v-model="character.xp" />
 							</li>
 						</ul>
 					</section>
@@ -403,39 +402,19 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+
+										<tr v-for="attack of character.attacks">
 											<td>
-												<input name="atkname1" v-model="character.attacks[0].name" type="text" />
+												<input name="atkname1" v-model="attack.name" type="text" />
 											</td>
 											<td>
-												<input name="atkbonus1" v-model="character.attacks[0].bonus" type="text" />
+												<input name="atkbonus1" v-model="attack.bonus" type="text" />
 											</td>
 											<td>
-												<input name="atkdamage1" v-model="character.attacks[0].damage" type="text" />
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<input name="atkname2" v-model="character.attacks[1].name" type="text" />
-											</td>
-											<td>
-												<input name="atkbonus2" v-model="character.attacks[1].bonus" type="text" />
-											</td>
-											<td>
-												<input name="atkdamage2" v-model="character.attacks[1].name" type="text" />
+												<input name="atkdamage1" v-model="attack.damage" type="text" />
 											</td>
 										</tr>
-										<tr>
-											<td>
-												<input name="atkname3" v-model="character.attacks[2].name" type="text" />
-											</td>
-											<td>
-												<input name="atkbonus3" v-model="character.attacks[2].bonus" type="text" />
-											</td>
-											<td>
-												<input name="atkdamage3" v-model="character.attacks[2].damage" type="text" />
-											</td>
-										</tr>
+									
 									</tbody>
 								</table>
 								<textarea name="attacksandspellcasting" v-model="character.attacksandspellingcasting"></textarea>
@@ -498,7 +477,7 @@ import { onMounted, computed, ref } from "vue"
 import axios, { AxiosResponse } from "axios"
 
 var character = ref()
-
+//here
 //@ts-ignore
 const getCharacterData = async () => {
 	await axios.get("http://localhost:3000/api/characters/readAll").then((res: AxiosResponse) => {

@@ -9,16 +9,16 @@
 				<div class="flex-col stat-block stat-block-center stat-title">
 					<div class="tooltip">
 						{{ stat.replace(stat.charAt(0), stat.charAt(0).toLocaleUpperCase()) }}
-						<div class="tooltiptext">
-							<!-- <div class="skills">
-								<div for="Acrobatics">Acrobatics (Dex)<br /></div>
-								<input name="Acrobatics" v-model="character.acrobatics.val" type="text" /><input
-									name="Acrobatics-prof"
-									:checked="character.acrobatics.proficiency"
+						<!-- <div class="tooltiptext">
+							<div v-for="skill of skills[stat]"class="skills">
+								<div :for="character[ skill as keyof Character ]">{{skill}}<br /></div>
+								<input :name="skill.val" v-model="stat" type="text" /><input
+									name="prof"
+									:checked="skill.proficiency"
 									type="checkbox"
-								/>{{ character.acrobatics.proficiency ? "Proficient" : "Not Proficient" }}
-							</div> -->
-						</div>
+								/>{{ character[ skill as keyof Character ].proficiency ? "Proficient" : "Not Proficient" }}
+							</div>
+						</div> -->
 					</div>
 					<div>
 						<span><input class="score" v-model="character[stat as keyof Character].score" /></span>
@@ -37,54 +37,76 @@
 		</div>
 		<div class="flex flex-1 space-even">
 			<div class="flex-col">Party Members<br /></div>
-			<div v-for="member of members">{{ member }} // check if character exists</div>
+
+			<div v-for="member of members">
+				
+				<div class="flex flex-col">
+					<div>{{ member.name }}</div> 
+					<div><button > + </button></div>
+				</div>
+			
+			</div>
+		
+
 		</div>
+		
 	</div>
-
-	<!-- Choose character-->
 	<div v-else class="choose-character">
-		<p class="green glow glow-medium">Choose Character</p>
-		<div v-if="characters">
-			<div class="dropdown-container flex-row">
-				<div class="choose-character-child">
-					<span>this will start a campaign session for editing an existing character in the database</span>
-					<select v-model="characterName" id="character-select">
-						<option value="">Choose Your Character</option>
 
-						<option v-for="char_ of characters" v-bind:value="char_.name">{{ char_.name }}</option>
-					</select>
-					<button class="choose-character-button" @click="chooseCharacter()">Set Session</button>
-				</div>
-				<div class="choose-character-child glow glow-small">OR</div>
-				<div class="choose-character-child">
-					<span>this will start a campaign session for a NEW character that will be added to the characters database</span>
 
-					<input type="text" id="character-input" v-model="newCharacterName" />
-					<button class="choose-character-button" @click="newCharacter()">Create New One</button>
-					<br />
-				</div>
+<!-- Choose character-->
+	<p class="green glow glow-medium">Choose Character</p>
+	<div v-if="characters">
+		<div class="dropdown-container flex-row">
+			<!-- Choose Character -->
+			<div class="choose-character-child">
+				<span>This will start a campaign session for editing an existing character in the database</span>
+				<select v-model="characterName" id="character-select">
+					<option value="">Choose Your Character</option>
+					<option v-for="char_ of characters" v-bind:value="char_.name">{{ char_.name }}</option>
+				</select>
+				<button class="choose-character-button" @click="chooseCharacter">Set Session </button>
+			</div>
+			<!-- OR-->
+			<div class="new-character-child glow glow-small the-or">OR</div>			
+			<!-- Create New Character -->
+			<div class="new-character-child">
+				<span>this will start a campaign session for a NEW character that will be added to the characters database</span>
+				<input type="text" id="character-name-input" v-model="newCharacterName" />
+				<button class="new-character-button" @click="newCharacter">Create New One </button>
+				<br />
 			</div>
 		</div>
 	</div>
+</div>
+
+
 </template>
 
 <script lang="ts" setup>
 import { onMounted, onBeforeMount, computed, ref, Ref } from "vue"
-
-var characters = ref() // all characters from DB
-var character: Ref<Character> | undefined = ref() //Session
-var characterSession = ref()
-var characterName = ref("") //existing
-//new char
-var newCharacterName = ref("")
-const stats = ["intelligence", "strength", "constitution", "wisdom", "dexterity", "charisma"]
 import { useFileStorage } from "../composition/useFileStorage"
 import { Character, session_keys } from "../types/types"
 import { useToast } from "vue-toast-notification"
 import router from "../router"
-const { getAll, updateOne, getSessionCharacterToLocalStorage, setSessionCharacterToLocalStorage, createNewCharacter } =
+
+/* REFS */
+var characters: Ref<Array<Character>> = ref() /* all characters from DB -  ex: [ { "id" : "1234", name: "VEN"}, { "id" : "1234", "name": "Frodo"}, ...] */
+var character: Ref<Character> | undefined = ref() /* For Session On Each Page - ex: { "id": "1234", "name": "VEN" ...} */
+var characterSessionLocalStorageKey: Ref<string>= ref()
+
+var characterName: Ref<string> = ref("")  /*  Existing Character Selectfield Ref - Ex: "VEN" " */
+var newCharacterName = ref("") /*  New Character Input Ref - Ex: "VEN2"  */
+
+/* COMPOSITION  */
+const { getAll, updateOne, getSessionCharacterToLocalStorage, setSessionCharacterToLocalStorage, createNewCharacter, scaffoldTables } =
 	useFileStorage()
-const $toast = useToast()
+	const $toast = useToast()
+
+
+/* DICTIONARY <KEYS> for CHARACTER class - for clean template rendering / loops */
+const stats = ["intelligence", "strength", "constitution", "wisdom", "dexterity", "charisma"]
+const members: any = [{name: "bubbles", description: "they have an ex who is a lobster", databaseRef: null}, {name: "tibbub", description: "they are stretchy and an ameoba dude", databaseRef: null},   {name: "The Wrestler", description: "They  have a secret identity that only comes forth in battle (soundtrack provided)", databaseRef: null}]
 
 const skills: any = {
 	intelligence: ["Arcana", "History", "Investigation", "Nature", "Religion"],
@@ -94,57 +116,68 @@ const skills: any = {
 	dexterity: ["Acrobatics", "Sleight Of Hand", "Stealth", "Stealth"],
 	charisma: ["Deception", "Intimidation", "Performance", "Persuasion"],
 }
-const members = ["bubbles", "tibbub", "wrestler"]
 
+/* FUNCTIONS */
 const getCharacterData = async () => {
 	return await getAll("characters")
 }
+
 const clear = () => {
 	window.localStorage.clear()
+	router.push("/")
+	window.location.reload()
 }
 
 const saveCharacter = async () => {
 	await updateOne("characters", character.value)
 }
-onBeforeMount(async () => {
-	characters.value = await getCharacterData()
-	characterSession.value = await getSessionCharacterToLocalStorage("session_keys.character", null)
-	if (characterSession.value) {
-		alert(characterSession.value)
-		character.value = characters.value[characters.value.findIndex((c: Character) => c.name === characterSession.value)]
-	}
-})
+
 
 const newCharacter = () => {
 	if (!newCharacterName.value || newCharacterName.value === "") {
 		$toast.error("please fill out a character name before hitting subimit")
 	} else {
-		var temp = new Character(newCharacterName.value)
-		createNewCharacter(temp.name)
+		createNewCharacter(newCharacterName.value)
 		setSessionCharacterToLocalStorage(session_keys.character, newCharacterName.value)
-		window.location.reload()
+		$toast.open(`You created a new character named ${newCharacterName.value}. You have now started a <b>session</b> with this character and can edit attributes`)
+		router.push("update")
 	}
 }
+
 const chooseCharacter = async () => {
 	if (characterName.value === "" || characterName.value === "--SELECT--") {
 		$toast.error("Please select a character from the dropdown dingus")
 	} else {
 		setSessionCharacterToLocalStorage(session_keys.character, characterName.value)
-		characterSession.value = await getSessionCharacterToLocalStorage(session_keys.character, null)
-		if (characterSession.value) {
-			console.log(characters.value)
+		characterSessionLocalStorageKey.value = await getSessionCharacterToLocalStorage(session_keys.character, null)
+		if (characterSessionLocalStorageKey.value) {
+			console.log(characters)
 			character.value =
-				characters.value[characters.value.findIndex((c: Character) => c.name === characterSession.value.name)]
+				characters.value[characters.value.findIndex((c: Character) => c.name === characterSessionLocalStorageKey.value)]
 			window.location.reload()
 		}
 	}
 }
+
+async function init () {
+	characters.value = await getCharacterData()
+	characterSessionLocalStorageKey.value = await getSessionCharacterToLocalStorage(session_keys.character, null)
+	if (characterSessionLocalStorageKey.value) {
+		character.value = characters.value[characters.value.findIndex((c: Character) => c.name === characterSessionLocalStorageKey.value)]
+	}
+}
+onBeforeMount(async () => {
+	init()
+})
+
+
 </script>
 
 <style scoped>
 @import "@/assets/wysiwig.css";
 @import "@/assets/tooltip.css";
 @import "@/assets/dropdown.css";
+/* universal */
 
 .flex-row {
 	display: flex;
@@ -158,6 +191,14 @@ const chooseCharacter = async () => {
 	display: flex;
 	flex-direction: column;
 }
+
+input {
+	color: white;
+	border: none;
+	background-color: black;
+}
+/*  */
+
 .stat-block {
 	background-color: black;
 	padding: 0.5rem;
@@ -187,33 +228,36 @@ const chooseCharacter = async () => {
 .skills {
 	width: 100%;
 }
-input {
-	color: white;
-	border: none;
-	background-color: black;
-}
 
 #character-select,
-#character-input {
+#character-input ,#character-name-input {
 	min-width: 300px;
 	border-radius: 12px;
 	background-color: rgb(52, 118, 54);
 	height: 30px;
-	margin: 12px;
+
+	margin: 23px auto;
 	color: white;
 	font-weight: bold;
 	font-size: 16px;
 	text-align: center;
 }
+#character-name-input{
+	display: block;
+	
+}
+.the-or {
+	min-width:200px
+}
 
-.choose-character-child {
+.choose-character-child, .new-character-button  {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 }
 
-.choose-character-button {
+.choose-character-button, .new-character-button {
 	border-radius: 12px;
 	background-color: rgb(47, 79, 79);
 	color: yellowgreen;
@@ -230,4 +274,5 @@ input {
 	justify-content: space-evenly;
 	flex-direction: row;
 }
+
 </style>
