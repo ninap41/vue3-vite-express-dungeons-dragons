@@ -45,9 +45,13 @@ app.get(`/api/clearTable`, (req, res) => {
 		})
 	)
 })
-app.post(`/api/:table/updateOne`, (req, res) => requestHandler(
-		db.updateRow(req.params.table, location, { id: String(req.body.id) }, req.body, () => res.json(req.body))
+app.post(`/api/:table/updateOne`, (req, res) => {
+	console.log(req.body)
+	console.log(req.params.table)
+	requestHandler(
+		db.updateRow(req.params.table, location, { id: req.body.id }, req.body, () => res.json(req.body))
 	)
+ }
 )
 
 app.put(`/api/:table/createOne`, (req, res) => {

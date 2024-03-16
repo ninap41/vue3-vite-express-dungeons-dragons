@@ -21,7 +21,7 @@ export function useData() {
 	}
 
 	async function updateOne(tableName: string, body: any,type?: String) {
-		const res = await axios.post(`${api}${tableName}/updateOne`, {...body})
+		const res = await axios.post(`${api}${tableName}/updateOne`, body)
 		if (res.data) $toast.success(`Successfully updated "${type}"`)
 		else $toast.error(`could not update "${type}"`)
 		
@@ -29,17 +29,17 @@ export function useData() {
 
 	async function createOne(tableName: String, body: any, type?: String) {
 		const res = await axios.put(`${api}${tableName}/createOne`, body)
-		if (res.data) $toast.success(`Created ${type}!`)
+		if (res.status === 200) $toast.success(`Created ${type}!`)
 		else $toast.error(`Could not create/archive ${type}`)
 	}
 
 	async function getOne(tableName: string, id: any, type?: String) {
 		const res = await axios.get(`${api}${tableName}/readAll`)
 		if (res.data) res.data.filter((item: any) => item.id === String(id))
-		else $toast.error(`Could not find ${type}`)
+	else $toast.error(`Could not find ${type}`)
 	}
 	async function deleteOne(tableName: string, id: any, type?: String) {
-		await axios.get(`${api}${tableName}/deleteOne/${id}`)
+		await axios.delete(`${api}${tableName}/deleteOne/${id}`)
 	}
 
 	async function scaffoldTables(customTables?: Array<String>) {

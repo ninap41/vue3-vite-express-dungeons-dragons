@@ -96,14 +96,14 @@ export class Character {
 }
 
 export enum CRUD {
-	"readAll",
-	"createTable",
-	"updateOne",
-	"createOne",
-	"deleteOne",
-	"filereader",
+	readAll = "readAll",
+	createTable = "createTable",
+	updateOne = "updateOne",
+	createOne = "createOne",
+	deleteOne = "deleteOne",
+	filereader = "filereader",
 }
 export enum session_keys {
-	"characterName", // single character
-	"draft", //draft
+	characterName = "characterName", // single character
+	draft = "draft", //draft
 }

@@ -10,10 +10,10 @@ import axios from "axios"
 	<div>
 		<header>
 			<nav>
-				<RouterLink to="/">Character Sheet</RouterLink>
+				<RouterLink to="/character-sheet">Campaign view</RouterLink>
 				<RouterLink to="/update">Make/Edit Character</RouterLink>
 				<RouterLink to="/session-notes">Notes</RouterLink>
-				<RouterLink to="/archive">Archive</RouterLink>
+				<RouterLink to="/session-archive">Session Archive</RouterLink>
 				<RouterLink to="/world">World</RouterLink>
 			</nav>
 			<Title msg="dungeons&dragons" />

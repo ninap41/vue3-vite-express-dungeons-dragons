@@ -429,32 +429,46 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed, ref, Ref } from "vue"
+import { onMounted, computed, ref, Ref, onBeforeMount } from "vue"
 import { useLocalStorage } from "../composition/useLocalStorage";
 import { Character, session_keys } from "../types/types";
 import { useData } from "../composition/useData";
+import router from "../router";
 const stats = ["intelligence", "strength", "constitution", "wisdom", "dexterity", "charisma"]
 
 var characters: Ref<Array<Character>> = ref() /* all characters from DB -  ex: [ { "id" : "1234", name: "VEN"}, { "id" : "1234", "name": "Frodo"}, ...] */
 var character: Ref<Character> = ref()
+
 const { getAll, updateOne } = useData()
-const { getStorage } = useLocalStorage()
+const { getStorage, sessionGuard, setStorage} = useLocalStorage()
+
 /* FUNCTIONS */
 const getCharacterData = async () => {
 	characters.value = await getAll("characters")
 	const characterName_session = await getStorage(session_keys.characterName) 
+	console.log(characterName_session, "character name session")
+	console.log(characters.value.findIndex((c: Character) =>{
+		
+		return  c.name === characterName_session 
+	}))
 	character.value =  characters.value[characters.value.findIndex((c: Character) => c.name === characterName_session )]
 }
 
 const saveCharacter = async () => {
-	 updateOne("characters", character.value, character.value.name)
+	 await updateOne("characters", character.value, character.value.name)
+	 setStorage(session_keys.characterName, character.value.name)
+
+
+
 }
 
-
-//@ts-ignore
 onMounted(async () => {
 	await getCharacterData()
+
+	// await sessionGuard()
 })
+
+
 </script>
 
 <style scoped>

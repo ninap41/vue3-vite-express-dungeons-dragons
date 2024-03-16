@@ -1,34 +1,34 @@
 <script setup lang="ts">
 import axios from "axios"
 import { onMounted, ref, nextTick } from "vue"
+import { session_keys } from "../types/types";
+import { useLocalStorage } from "../composition/useLocalStorage";
+import { useData } from "../composition/useData";
+
+const { getAll, deleteOne } = useData()
+const { sessionGuard } = useLocalStorage()
 
 const displayArchive: any = ref([])
-const getArchive = () => {
-	try {
-		return axios.get("http://localhost:3000/api/entries/readAll").then((res) => {
-			Object.keys(res.data).forEach((key) => {
-				displayArchive.value.push(res.data[key])
-			})
+const getArchive = async  () => {
+		const data = await  getAll("entries", "entries")
+		Object.keys(data).forEach((key) => {
+			displayArchive.value.push(data[key])
 		})
-	} catch (err) {
-		alert(err)
-	}
 }
 
 const deleteFromArchive = async ($event: Event, id: string) => {
-	try {
-		await axios.delete(`http://localhost:3000/api/entries/deleteOne/${id}`)
-		displayArchive.value = displayArchive.value.filter((obj: any) => obj.id !== id)
-	} catch (err) {
-		console.log(err)
-	}
-}
-function setNoteContent(note: any) {
-	// window.localStorage.setItem("session", note.content)
+	await deleteOne("entries", id, "Entry")
+	displayArchive.value = displayArchive.value.filter((obj: any) => obj.id !== id)	
 }
 
-onMounted(() => {
+function setNoteContent(note: any) {
+	window.localStorage.setItem(String(session_keys.draft), note.content)
+}
+
+onMounted(async () => {
+	await sessionGuard()
 	getArchive()
+
 })
 </script>
 

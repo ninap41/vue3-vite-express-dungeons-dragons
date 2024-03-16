@@ -29,25 +29,37 @@ export function useLocalStorage() {
 	}
 
 	async function setStorage(key_: session_keys, characterName: string) {
-        console.log(4)
 		window.localStorage.setItem(key_ as unknown as string, characterName)
-        console.log(5)
-
 	}
 
-	const clearStorage= () => {
+	const clearStorage = () => {
         window.localStorage.clear()
     }
 
+	const clear = async (): Promise<void> => {
+		await clearStorage()
+		router.push("/")
+		window.location.reload()
+	}
+
     const removeItem=(key:session_keys)=> {
         window.localStorage.removeItem(String(key))
-
     }
+	// put in the router -- this is stupid
+	const sessionGuard = async () => {
+		const auth = await getStorage(session_keys.characterName)
+		if(!auth) {
+			router.push('/')
+			$toast.warning("Please Choose Or Recreate A Character")
+		}
+	}
 	return {
 		retrieveDraftFromLocalStorage,
         getStorage,
         setStorage,
         clearStorage,
-        removeItem
+		clear,
+        removeItem, 
+		sessionGuard
 	}
 }

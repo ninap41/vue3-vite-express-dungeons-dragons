@@ -104,7 +104,7 @@ import { useData } from "../composition/useData"
 import { session_keys } from "../types/types"
 
 const $toast = useToast();
-const {   retrieveDraftFromLocalStorage, setStorage, clearStorage, removeItem } = useLocalStorage()
+const {   retrieveDraftFromLocalStorage, setStorage, clearStorage, removeItem, sessionGuard } = useLocalStorage()
 const { createOne} = useData()
 
 var editor: any;
@@ -123,17 +123,20 @@ async function saveDraft_() {
 	$toast.warning("Keep in mind you can only have one draft saved at a time... ")
 }
 async function saveNote() {
-	createOne("entries", {
+		await createOne("entries", {
 		id: Math.floor(Math.random() * 9999),
 		content: editor.value.getHTML(),
 		date: new Date().toLocaleDateString(),
 		tags: [],
 	}, "entry")
 	editor.value.chain().clearContent()
-	router.push("archive")
 	removeItem(session_keys.draft)
-
+	router.push("session-archive")
 }
+//@ts-ignore
+onMounted(async () => {
+	await sessionGuard()
+})
 
 
 </script>

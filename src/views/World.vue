@@ -80,6 +80,8 @@
 		</ul>
 
 		<img src="@/assets/img/Space_Map_Numbered.png" />
+
+		 <!-- make it interactive https://stackoverflow.com/questions/34867066/javascript-mouse-click-coordinates-for-image -->
 	</div>
 </template>
 
