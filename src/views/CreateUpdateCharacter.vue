@@ -26,61 +26,17 @@
 					<section>
 						<section class="attributes">
 							<div class="scores">
-								<ul>
-									<li>
+								<ul >
+									<li  v-for="stat of stats">
 										<div class="score">
-											<label for="Strengthscore">Strength</label
-											><input name="Strengthscore" v-model="character.strength.score" class="stat" />
+											<label for="'Strengthscore'">	{{ stat.replace(stat.charAt(0), stat.charAt(0).toLocaleUpperCase()) }}</label
+											><input name="'Strengthscore'" v-model="character[`${stat}` as keyof Character].score" class="stat" />
 										</div>
 										<div class="modifier">
-											<input name="Strengthmod" v-model="character.strength.modifier" class="statmod" />
+											<input name="Strengthmod" v-model="character[stat as keyof Character].modifier" class="statmod" />
 										</div>
 									</li>
-									<li>
-										<div class="score">
-											<label for="Dexterityscore">Dexterity</label
-											><input name="Dexterityscore" v-model="character.dexterity.score" class="stat" />
-										</div>
-										<div class="modifier">
-											<input name="Dexteritymod" v-model="character.dexterity.modifier" class="statmod" />
-										</div>
-									</li>
-									<li>
-										<div class="score">
-											<label for="Constitutionscore">Constitution</label
-											><input name="Constitutionscore" v-model="character.constitution.score" class="stat" />
-										</div>
-										<div class="modifier">
-											<input name="Constitutionmod" v-model="character.constitution.modifier" class="statmod" />
-										</div>
-									</li>
-									<li>
-										<div class="score">
-											<label for="Wisdomscore">Wisdom</label
-											><input name="Wisdomscore" v-model="character.wisdom.score" class="stat" />
-										</div>
-										<div class="modifier">
-											<input name="Wisdommod" v-model="character.wisdom.modifier" />
-										</div>
-									</li>
-									<li>
-										<div class="score">
-											<label for="Intelligencescore">Intelligence</label
-											><input name="Intelligencescore" v-model="character.intelligence.score" class="stat" />
-										</div>
-										<div class="modifier">
-											<input name="Intelligencemod" v-model="character.intelligence.modifier" class="statmod" />
-										</div>
-									</li>
-									<li>
-										<div class="score">
-											<label for="Charismascore">Charisma</label
-											><input name="Charismascore" v-model="character.charisma.score" class="stat" />
-										</div>
-										<div class="modifier">
-											<input name="Charismamod" v-model="character.charisma.modifier" class="statmod" />
-										</div>
-									</li>
+							
 								</ul>
 							</div>
 							<div class="attr-applications">
@@ -102,7 +58,7 @@
 									</div>
 									<input name="proficiencybonus" v-model="character.abilitysaveDC" />
 								</div>
-								<div class="saves list-section box">
+							  <div class="saves list-section box">
 									<ul>
 										<li>
 											<label for="Strength-save">Strength</label
@@ -302,7 +258,7 @@
 										</li>
 									</ul>
 									<div class="label">Skills</div>
-								</div>
+								</div> 
 							</div>
 						</section>
 						<div class="passive-perception box">
@@ -473,27 +429,27 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed, ref } from "vue"
-import axios, { AxiosResponse } from "axios"
+import { onMounted, computed, ref, Ref } from "vue"
+import { useLocalStorage } from "../composition/useLocalStorage";
+import { Character, session_keys } from "../types/types";
+import { useData } from "../composition/useData";
+const stats = ["intelligence", "strength", "constitution", "wisdom", "dexterity", "charisma"]
 
-var character = ref()
-//here
-//@ts-ignore
+var characters: Ref<Array<Character>> = ref() /* all characters from DB -  ex: [ { "id" : "1234", name: "VEN"}, { "id" : "1234", "name": "Frodo"}, ...] */
+var character: Ref<Character> = ref()
+const { getAll, updateOne } = useData()
+const { getStorage } = useLocalStorage()
+/* FUNCTIONS */
 const getCharacterData = async () => {
-	await axios.get("http://localhost:3000/api/characters/readAll").then((res: AxiosResponse) => {
-		if (res) {
-			character.value = res.data[0]
-		}
-	})
+	characters.value = await getAll("characters")
+	const characterName_session = await getStorage(session_keys.characterName) 
+	character.value =  characters.value[characters.value.findIndex((c: Character) => c.name === characterName_session )]
 }
-//@ts-ignore
+
 const saveCharacter = async () => {
-	try {
-		await axios.post(`http://localhost:3000/api/characters/updateOne`, character.value).then((data) => console.log(data))
-	} catch (err) {
-		alert(JSON.stringify(err))
-	}
+	 updateOne("characters", character.value, character.value.name)
 }
+
 
 //@ts-ignore
 onMounted(async () => {

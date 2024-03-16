@@ -11,8 +11,9 @@ app.use(require("body-parser").json())
 app.use(require("cors")())
 
 async function requestHandler(func) {
+
 	return (req, res, next) => {
-		if (db.valid(table)) {
+		if (db.valid(String(table))) {
 			try {
 				return func.call(this, req, res, next)
 			} catch (e) {
@@ -44,11 +45,10 @@ app.get(`/api/clearTable`, (req, res) => {
 		})
 	)
 })
-app.post(`/api/:table/updateOne`, (req, res) => {
-	requestHandler(
+app.post(`/api/:table/updateOne`, (req, res) => requestHandler(
 		db.updateRow(req.params.table, location, { id: String(req.body.id) }, req.body, () => res.json(req.body))
 	)
-})
+)
 
 app.put(`/api/:table/createOne`, (req, res) => {
 	requestHandler(db.insertTableContent(req.params.table, location, req.body, (succ, msg) => res.json(req.body.data)))

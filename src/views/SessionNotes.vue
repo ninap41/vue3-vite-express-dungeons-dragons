@@ -1,117 +1,90 @@
 <template>
 	<main>
 		<div class="session-buttons">
-			<button  @click="saveDraft_()">
+			<button @click="saveDraft_()">
 				<b>Save Draft</b>
 			</button>
-			<button  @click="saveNote()">
+			<button @click="saveNote()">
 				<b>Archive Session Note</b>
 			</button>
 			<br><br>
 		</div>
 		<div v-if="editor">
-			<button
-				@click="editor.chain().focus().toggleBold().run()"
+			<button @click="editor.chain().focus().toggleBold().run()"
 				:disabled="!editor.can().chain().focus().toggleBold().run()"
-				:class="{ 'is-active': editor.isActive('bold') }"
-			>
+				:class="{ 'is-active': editor.isActive('bold') }">
 				<b>B</b>
 			</button>
-			<button
-				@click="editor.chain().focus().toggleItalic().run()"
+			<button @click="editor.chain().focus().toggleItalic().run()"
 				:disabled="!editor.can().chain().focus().toggleItalic().run()"
-				:class="{ 'is-active': editor.isActive('italic') }"
-			>
+				:class="{ 'is-active': editor.isActive('italic') }">
 				I
 			</button>
-			<button
-				@click="editor.chain().focus().toggleStrike().run()"
+			<button @click="editor.chain().focus().toggleStrike().run()"
 				:disabled="!editor.can().chain().focus().toggleStrike().run()"
-				:class="{ 'is-active': editor.isActive('strike') }"
-			>
+				:class="{ 'is-active': editor.isActive('strike') }">
 				s
 			</button>
-			<button
-				@click="editor.chain().focus().toggleCode().run()"
+			<button @click="editor.chain().focus().toggleCode().run()"
 				:disabled="!editor.can().chain().focus().toggleCode().run()"
-				:class="{ 'is-active': editor.isActive('code') }"
-			>
-				{{String(`</>`) }}
+				:class="{ 'is-active': editor.isActive('code') }">
+				{{ String(`</>`) }}
 			</button>
 			<button @click="editor.chain().focus().unsetAllMarks().run()">clear STYLE</button>
 			<button @click="editor.chain().focus().clearNodes().run()">clear ALL</button>
-			<button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
+			<button @click="editor.chain().focus().setParagraph().run()"
+				:class="{ 'is-active': editor.isActive('paragraph') }">
 				paragraph
 			</button>
-			<button
-				@click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-				:class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-			>
+			<button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+				:class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
 				H1
 			</button>
-			<button
-				@click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-				:class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-			>
+			<button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+				:class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
 				H2
 			</button>
-			<button
-				@click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-				:class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-			>
+			<button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+				:class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
 				H3
 			</button>
-			<button
-				@click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-				:class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-			>
+			<button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+				:class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
 				h4
 			</button>
-			<button
-				@click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-				:class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
-			>
+			<button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+				:class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
 				h5
 			</button>
-			<button
-				@click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-				:class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
-			>
+			<button @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+				:class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
 				h6
 			</button>
-			<button
-				@click="editor.chain().focus().toggleBulletList().run()"
-				:class="{ 'is-active': editor.isActive('bulletList') }"
-			>
-			[*,*,*]
+			<button @click="editor.chain().focus().toggleBulletList().run()"
+				:class="{ 'is-active': editor.isActive('bulletList') }">
+				[*,*,*]
 			</button>
-			<button
-				@click="editor.chain().focus().toggleOrderedList().run()"
-				:class="{ 'is-active': editor.isActive('orderedList') }"
-			>
+			<button @click="editor.chain().focus().toggleOrderedList().run()"
+				:class="{ 'is-active': editor.isActive('orderedList') }">
 				[1,2,3]
 			</button>
-			<button
-				@click="editor.chain().focus().toggleCodeBlock().run()"
-				:class="{ 'is-active': editor.isActive('codeBlock') }"
-			>
-			{{String(`</>`) }}
+			<button @click="editor.chain().focus().toggleCodeBlock().run()"
+				:class="{ 'is-active': editor.isActive('codeBlock') }">
+				{{ String(`</>`) }}
 			</button>
-			<button
-				@click="editor.chain().focus().toggleBlockquote().run()"
-				:class="{ 'is-active': editor.isActive('blockquote') }"
-			>
+			<button @click="editor.chain().focus().toggleBlockquote().run()"
+				:class="{ 'is-active': editor.isActive('blockquote') }">
 				"..."
 			</button>
 			<button @click="editor.chain().focus().setHorizontalRule().run()">horizontal rule</button>
 			<button @click="editor.chain().focus().setHardBreak().run()">hard break</button>
 			<button @click="editor.chain().focus().undo().run()" :disabled="!editor.can().chain().focus().undo().run()">
-			{{ String("<-") }}
-			</button>
-			<button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().chain().focus().redo().run()">
-				>
-			</button>
-			<editor-content class="editor" v-model="editor.options.content" :editor="editor" />
+				{{ String("<-") }} </button>
+					<button @click="editor.chain().focus().redo().run()"
+						:disabled="!editor.can().chain().focus().redo().run()">
+						>
+					</button>
+					<editor-content class="editor" v-model="editor.options.content" :editor="editor" />
 		</div>
 	</main>
 </template>
@@ -123,36 +96,43 @@ import StarterKit from "@tiptap/starter-kit"
 import axios from "axios"
 //@ts-ignore
 import router from "../router"
-import {useToast} from 'vue-toast-notification';
+import { useToast } from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
-import {useFileStorage }from "../composition/useFileStorage"
+import { useLocalStorage } from "../composition/useLocalStorage"
+import { useData } from "../composition/useData"
+
 import { session_keys } from "../types/types"
 
 const $toast = useToast();
-const { archiveSession, saveDraft, retrieveEntryFromLocalStorage }  = useFileStorage()
+const {   retrieveDraftFromLocalStorage, setStorage, clearStorage, removeItem } = useLocalStorage()
+const { createOne} = useData()
+
 var editor: any;
 onBeforeMount(() => {
-editor = ref(
-	new Editor({
-		content: "",
-		extensions: [StarterKit],
-	}))
-retrieveEntryFromLocalStorage(session_keys.entries, (args: any) => editor.value.chain().clearContent().insertContent(args.cache).run())
-
+	editor = ref(
+		new Editor({
+			content: "",
+			extensions: [StarterKit],
+		}))
+	retrieveDraftFromLocalStorage(session_keys.draft, (args: any) => editor.value.chain().clearContent().insertContent(args.cache).run())
 })
-
-onMounted(async () => {
-})
-
-
 
 async function saveDraft_() {
-	saveDraft(editor.value.getHTML())
+	setStorage(session_keys.draft, editor.value.getHTML())
+	$toast.success(`Saved Draft To localStorage Key: <b>${session_keys.draft}</b> `)
+	$toast.warning("Keep in mind you can only have one draft saved at a time... ")
 }
 async function saveNote() {
-	archiveSession("entries",
-		editor.value.getHTML(),
-		() => editor.value.chain().clearContent())
+	createOne("entries", {
+		id: Math.floor(Math.random() * 9999),
+		content: editor.value.getHTML(),
+		date: new Date().toLocaleDateString(),
+		tags: [],
+	}, "entry")
+	editor.value.chain().clearContent()
+	router.push("archive")
+	removeItem(session_keys.draft)
+
 }
 
 
@@ -169,20 +149,21 @@ async function saveNote() {
 	font-feature-settings: "liga" 0;
 	overflow: auto;
 }
+
 button {
 	background-color: black;
 	color: gray;
 	padding: 0.5rem;
 	font-size: large;
-   
+
 }
 
-.session-buttons button  {
-		border-radius: 10px;
-		background-color:"green";
-		color: rgb(255, 245, 153);
-		border: hsla(160, 100%, 80%, 1);
+.session-buttons button {
+	border-radius: 10px;
+	background-color: "green";
+	color: rgb(255, 245, 153);
+	border: hsla(160, 100%, 80%, 1);
 
 	background-color: rgb(76, 79, 47);
-	}
-</style>
+}
+</style>../composition/useData

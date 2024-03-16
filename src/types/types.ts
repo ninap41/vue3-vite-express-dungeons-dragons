@@ -104,6 +104,6 @@ export enum CRUD {
 	"filereader",
 }
 export enum session_keys {
-	"character", // single character
-	"entries", //drafts
+	"characterName", // single character
+	"draft", //draft
 }
