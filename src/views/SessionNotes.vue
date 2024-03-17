@@ -5,7 +5,8 @@
 				<b>Save Draft</b>
 			</button>
 			<button @click="saveNote()">
-				<b>Archive Session Note</b>
+				<b class="tooltip">Archive Session Note <span class=""></span></b>
+				
 			</button>
 			<br><br>
 		</div>
@@ -136,6 +137,7 @@ async function saveNote() {
 //@ts-ignore
 onMounted(async () => {
 	await sessionGuard()
+	setInterval(() =>{}, 3000)
 })
 
 

@@ -1,6 +1,6 @@
 export class AbilityScore {
 	score: string = ""
-	modifier: string = ""
+	modifier: string = "+?"
 	proficiency: string = ""
 	savingthrow: boolean = false
 	constructor() {}

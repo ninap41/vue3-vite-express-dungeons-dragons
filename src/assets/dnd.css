@@ -144,7 +144,7 @@ div.charsheet main div.label-container > label {
 	top: 1px;
 	background-color: black;
 
-	transdiv: translate(0%, 50%);
+	translate: translate(0%, 50%);
 	width: 100%;
 	font-size: 8px;
 }
@@ -161,7 +161,7 @@ div.charsheet main > section section.attributes {
 }
 div.charsheet main > section section.attributes div.scores {
 	width: 100px;
-
+margin-right:50px;
 	color: white;
 	border-radius: 5px;
 	padding-bottom: 5px;
@@ -180,14 +180,16 @@ div.charsheet main > section section.attributes div.scores ul {
 	height: 100%;
 }
 div.charsheet main > section section.attributes div.scores ul li {
-	height: 80px;
+	/* height: 70px; */
 	width: 70px;
+	margin:0;
 	color: white;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
 	border-radius: 10px;
 }
+
 
 div.charsheet main > section section.attributes div.scores ul li input {
 	width: 100%;
@@ -196,14 +198,10 @@ div.charsheet main > section section.attributes div.scores ul li input {
 }
 div.charsheet main > section section.attributes div.scores ul li div.score input {
 	text-align: center;
-	font-size: 40px;
-	padding: 2px 0px 0px 0px;
 	background-color: black;
 	color: white;
 }
-div.charsheet main > section section.attributes div.scores ul li div.modifier {
-	margin-top: 3px;
-}
+
 div.charsheet main > section section.attributes div.scores ul li div.modifier input {
 	background: black;
 	width: 30px;
@@ -213,6 +211,16 @@ div.charsheet main > section section.attributes div.scores ul li div.modifier in
 	margin: -1px;
 	text-align: center;
 }
+div.charsheet main > section section.attributes div.scores ul li div.score input ,div.charsheet main > section section.attributes div.scores ul li div.score input,div.charsheet main > section section.attributes div.scores ul li div.score input {
+	margin-top: -3px;
+	font-size: 50px;
+	width: 70px;
+}
+div.charsheet main > section section.attributes div.scores label {
+	margin-bottom: -12px;
+
+}
+
 div.charsheet main > section section.attributes div.attr-applications div.inspiration {
 	display: flex;
 	flex-direction: row-reverse;

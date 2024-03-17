@@ -494,4 +494,8 @@ onMounted(async () => {
 		align-items: center;
 	}
 }
+div.charsheet main > section section.attributes div.scores label {
+	padding-top:20px;
+	
+}
 </style>

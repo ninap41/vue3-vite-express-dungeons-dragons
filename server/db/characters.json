@@ -177,7 +177,7 @@
     {
       "id": 1710633090119,
       "avatar": "",
-      "name": "Helga The brqveadsad",
+      "name": "Helga The Dumby",
       "classlevel": "BloodHunter 5 (Order of Mutant)",
       "background": "Haunted One",
       "race": "Half-Elf",
@@ -282,7 +282,7 @@
       },
       "arcana": {
         "val": "",
-        "proficiency": false
+        "proficiency": true
       },
       "athletics": {
         "val": "",
@@ -294,7 +294,7 @@
       },
       "history": {
         "val": "",
-        "proficiency": false
+        "proficiency": true
       },
       "insight": {
         "val": "",
