@@ -114,7 +114,7 @@ var editor: any;
 onBeforeMount(() => {
 	editor = ref(
 		new Editor({
-			content: "Yada",
+			content: '',
 			extensions: [StarterKit],
 		}))
 	retrieveDraftFromLocalStorage(session_keys.draft, (args: any) => editor.value.chain().clearContent().insertContent(args.cache).run())
@@ -143,8 +143,9 @@ onMounted(async () => {
 	setInterval(() => {
 	saveCountdown.value -= 1;
 	if(saveCountdown.value === 0) {
+		
 		setStorage(session_keys.draft, editor.value.getHTML())
-		$toast.warning("Updated Session Draft")
+		$toast.warning(`${saveCountdown.value} Updated Session Draft`)
 		saveCountdown.value = 30
 	}
 }, 1000)

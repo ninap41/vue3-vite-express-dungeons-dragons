@@ -16,7 +16,8 @@ export function useLocalStorage() {
 			if (callback) callback({ cache })
 		} else {
 			const data = window.localStorage.getItem(String(key))
-			if (callback) callback({ data })
+			console.log(data)
+			if (callback) callback({ cache: data} )
 		}
 	}
 

@@ -6,23 +6,25 @@
     <br />
 	<ul>Dev notes
 		<li>- Add modal for adding spells, attacks, and items</li>
-		<li>- Convert Character into store</li>
+		<li>- Convert Character into store or computed property </li>
+		<li>- Add interactive map</li>
 		<li>- Convert toast into comp function</li>
 		<li>- clean up horrific css</li>
 		<li>- add party member creation and custimization. </li>
-		<li>- add vuex store or pinia </li>
 		<li>- add route guard </li>
-		<li>- stop with the localstorage crap </li>
+		<li>- convert money to tooltip that shows a bag of dubloons </li>
+		<li>- add to create update page new spell and items, and such </li>
+
 
 
 	</ul>
 	<div class="flex-row flex-1 space-even">
 		<div> Inspiration</div>
-		<div>Armor Class (AC): {{ character.armorclass }}</div>
-		<div>Ability Save (DC): {{ character.abilitysaveDC}}</div>
-		<div>Proficiency Bonus:{{ character.proficiencybonus}} </div>
-		<div>Passive Wisdom: {{ character.passivewisdom}}</div>
-		<div>Passive Perception: {{ character.passiveintelligence}}</div>
+		<div>Armor Class (AC): <input class="ability-saves" type="text" v-model="character.armorclass" /></div>
+		<div>Ability Save (DC): <input class="ability-saves" type="text" v-model="character.abilitysaveDC" /></div>
+		<div>Proficiency Bonus:<input class="ability-saves" type="text" v-model="character.proficiencybonus" /></div>
+		<div>Passive Wisdom: <input class="ability-saves" type="text" v-model="character.passivewisdom" /></div>
+		<div>Passive Perception: <input class="ability-saves" type="text" v-model="character.passiveintelligence" /></div>
 
 
 	</div>
@@ -36,7 +38,7 @@
             }}
             <div class="tooltiptext skill-text">
               <span v-for="skill of skills[stat]" class="skills">
-                <span>{{
+                <span class="skill-name">{{
                   skill.replace(
                     skill.charAt(0),
                     skill.charAt(0).toLocaleUpperCase()
@@ -56,7 +58,7 @@
                     type="checkbox"
                   />{{
                     character[skill as keyof Character].proficiency
-                      ? "(Proficient)"
+                      ? "(P)"
                       : ""
                   }}</span
                 ><br /><br />
@@ -352,7 +354,7 @@ input {
 
 #character-select,
 #character-input,
-#character-name-input {
+#character-name-input,  {
   min-width: 300px;
   border-radius: 12px;
   background-color: rgb(52, 118, 54);
@@ -448,18 +450,29 @@ ul {
 }
 
 .add, .minus {
-	border-radius: 50%;
-	border: 1px solid yellowgreen;
-	font-size: 10px;
-	color: yellowgreen;
-	background-color: none;
 	width: 20px;
 	height: 20px;
+	font-size: 10px;
+}
+
+.ability-saves {
+	width: 60px;
+	height: 60px;
+	text-decoration: dotted;
+	font-size: 24px;
+
+}
+.ability-saves,.add, .minus {
+	border-radius: 50%;
+	border: 1px solid yellowgreen;
+	color: yellowgreen;
+	background-color: none;
 	display: flex;
 	justify-content: center !important;
 	cursor: pointer;
 	align-items: center !important;
 	align-self: end;
+	text-align: center;
 }
 
 .money ul > li input {
@@ -468,5 +481,8 @@ ul {
 
 .stat-block-title {
 	font-size: 18px;
+}
+.skill-name {
+	font-size:18px !important;
 }
 </style>
