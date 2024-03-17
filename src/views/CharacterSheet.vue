@@ -4,6 +4,18 @@
       <button @click="saveCharacter()">Save Character</button>
     </div>
     <br />
+	<ul>Dev notes
+		<li>- Add modal for adding spells, attacks, and items</li>
+		<li>- Convert Character into store</li>
+		<li>- Convert toast into comp function</li>
+		<li>- clean up horrific css</li>
+		<li>- add party member creation and custimization. </li>
+		<li>- add vuex store or pinia </li>
+		<li>- add route guard </li>
+		<li>- stop with the localstorage crap </li>
+
+
+	</ul>
 	<div class="flex-row flex-1 space-even">
 		<div> Inspiration</div>
 		<div>Armor Class (AC): {{ character.armorclass }}</div>
@@ -79,7 +91,7 @@
 
     <div class="flex flex-row space-even">
       <div class="stat-block flex-col text-green" style="flex: 2">
-        <p>Spells </p> <br>
+        <p class="stat-block-title">Spells </p> <br>
 		<div class="flex-row">
 			<div>- Name - </div>
 			<div>- Level -</div>
@@ -98,7 +110,7 @@
 
       </div>
       <div class="stat-block flex-col text-green" style="flex: 2">
-		<p>Items </p> <br>
+		<p class="stat-block-title">Items & Equipment </p> <br>
 		<div class="flex-row">
 			<div>- Name - </div>
 			<div>- Description -</div>
@@ -452,5 +464,9 @@ ul {
 
 .money ul > li input {
 	font-size: 20px
+}
+
+.stat-block-title {
+	font-size: 18px;
 }
 </style>

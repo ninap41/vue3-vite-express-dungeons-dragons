@@ -72,9 +72,11 @@ const chooseCharacter = async () => {
 		characterSessionLocalStorageKey.value = await getStorage(session_keys.characterName, null)
 		if (characterSessionLocalStorageKey.value) {
 			var chosen = characters.value[characters.value.findIndex((c: Character) => c.name === characterSessionLocalStorageKey.value)]
-			character.value = chosen			
-            router.push('character-sheet')
-
+			character.value = chosen
+			await setStorage(session_keys.characterName, character.value.name )
+            await router.push('character-sheet')
+			// crappy what is wrong with you remove this! use pinia, dammit
+			window.location.reload()
 		}
 	}
 }

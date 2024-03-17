@@ -114,7 +114,7 @@ var editor: any;
 onBeforeMount(() => {
 	editor = ref(
 		new Editor({
-			content: "",
+			content: "Yada",
 			extensions: [StarterKit],
 		}))
 	retrieveDraftFromLocalStorage(session_keys.draft, (args: any) => editor.value.chain().clearContent().insertContent(args.cache).run())
@@ -140,10 +140,7 @@ async function saveNote() {
 //@ts-ignore
 onMounted(async () => {
 	await sessionGuard()
-	$toast.info("New Session Started!")
-})
-
-setInterval(() => {
+	setInterval(() => {
 	saveCountdown.value -= 1;
 	if(saveCountdown.value === 0) {
 		setStorage(session_keys.draft, editor.value.getHTML())
@@ -151,12 +148,19 @@ setInterval(() => {
 		saveCountdown.value = 30
 	}
 }, 1000)
+})
+
+
+
 
 
 
 
 </script>
 <style>
+@import "@/assets/wysiwig.css";
+@import "@/assets/tooltip.css";
+@import "@/assets/dropdown.css";
 .editor,
 .contenteditable,
 .ProseMirror,

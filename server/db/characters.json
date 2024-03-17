@@ -43,7 +43,7 @@
           "damage": ""
         }
       ],
-      "spells" : [
+      "spells": [
         {
           "name": "",
           "description": "",
@@ -61,11 +61,13 @@
       "bonds": "I am haunted by my past and do not speak of it",
       "featuresandtraits": "Immune to Magical Sleep",
       "equipment": "Scale Mail",
-      "items" : [{
-        "name": "an item",
-        "description": "description",
-        "qty": 2
-      }],
+      "items": [
+        {
+          "name": "Scale Mail",
+          "description": "This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. The suit includes gauntlets.",
+          "qty": "1"
+        }
+      ],
       "attacksandspellingcasting": "Here are spells",
       "otherprofienienciesandlanguages": "Dark Vision 60ft,Light Armor, Medium, Shields, Martial Weopons, Simple, Celestial, Common, Elvish, Minotaur, Orc",
       "money": {
@@ -186,6 +188,5 @@
         "proficiency": false
       }
     }
-    
   ]
 }

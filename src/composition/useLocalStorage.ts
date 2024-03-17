@@ -53,9 +53,7 @@ export function useLocalStorage() {
 		}
 	}
 
-	const authenticated = computed(() => {
-		return window.localStorage.getItem( session_keys.characterName)
-	})
+	const authenticated = () =>  window.localStorage.getItem( session_keys.characterName)
 	return {
 		retrieveDraftFromLocalStorage,
         getStorage,
