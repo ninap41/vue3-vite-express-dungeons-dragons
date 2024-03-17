@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ref, onBeforeMount } from "vue"
+import { ref, onBeforeMount, computed } from "vue"
 import router from "../router"
 import { useToast } from "vue-toast-notification"
 import { CRUD as _CRUD, session_keys, CRUD, Character } from "../types/types"
@@ -8,7 +8,6 @@ const $toast = useToast()
 
 /* Includes localStorage setup and api references */
 export function useLocalStorage() {
-
 	async function retrieveDraftFromLocalStorage(key: session_keys, callback: any) {
 		var cache = window.localStorage.getItem(String(key))
 		if (!cache) {
@@ -53,6 +52,10 @@ export function useLocalStorage() {
 			$toast.warning("Please Choose Or Recreate A Character")
 		}
 	}
+
+	const authenticated = computed(() => {
+		return window.localStorage.getItem( session_keys.characterName)
+	})
 	return {
 		retrieveDraftFromLocalStorage,
         getStorage,
@@ -60,6 +63,7 @@ export function useLocalStorage() {
         clearStorage,
 		clear,
         removeItem, 
-		sessionGuard
+		sessionGuard,
+		authenticated
 	}
 }

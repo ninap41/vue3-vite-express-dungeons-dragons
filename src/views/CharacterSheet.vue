@@ -3,7 +3,6 @@
  <h1><button @click="saveCharacter()">Save Character</button></h1>
 		<button>toggle color</button>
 
-		<button @click="clear()">End Session</button>
 		<div class="flex-row flex-1 space-even">
 			<div v-for="stat of stats">
 				<div class="flex-col stat-block stat-block-center stat-title">
@@ -47,6 +46,7 @@
 		</div> 
 	</div>
 	<div v-else class="choose-character">
+		Character not loaded... Er. Contact Me 
 	</div>
 </template>
 
@@ -56,7 +56,7 @@ import { useData } from "../composition/useData"
 
 import { useLocalStorage } from "../composition/useLocalStorage"
 
-import { Character, session_keys } from "../types/types"
+import { Character, session_keys, members, skills, stats } from "../types/types"
 import { useToast } from "vue-toast-notification"
 import router from "../router"
 
@@ -71,17 +71,7 @@ const { getStorage, clearStorage, clear} = useLocalStorage()
 const $toast = useToast()
 
 /* DICTIONARY <KEYS> for CHARACTER class - for clean template rendering / loops */
-const stats = ["intelligence", "strength", "constitution", "wisdom", "dexterity", "charisma"]
-const members: any = [{ name: "bubbles", description: "they have an ex who is a lobster", databaseRef: null }, { name: "tibbub", description: "they are stretchy and an ameoba dude", databaseRef: null }, { name: "The Wrestler", description: "They  have a secret identity that only comes forth in battle (soundtrack provided)", databaseRef: null }]
 
-const skills: any = {
-	intelligence: ["arcana", "history", "investigation", "nature", "religion"],
-	strength: ["athletics"],
-	constitution: [],
-	wisdom: ["animalhandling", "medicine", "perception", "survival", "insight"],
-	dexterity: ["acrobatics", "sleightofhand", "stealth", "stealth"],
-	charisma: ["deception", "intimidation", "performance", "persuasion"],
-}
 
 /* FUNCTIONS */
 const getCharacterData = async (): Promise<Array<Character>> => {

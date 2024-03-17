@@ -107,3 +107,15 @@ export enum session_keys {
 	characterName = "characterName", // single character
 	draft = "draft", //draft
 }
+
+export const stats = ["intelligence", "strength", "constitution", "wisdom", "dexterity", "charisma"]
+export const members: any = [{ name: "bubbles", description: "they have an ex who is a lobster", databaseRef: null }, { name: "tibbub", description: "they are stretchy and an ameoba dude", databaseRef: null }, { name: "The Wrestler", description: "They  have a secret identity that only comes forth in battle (soundtrack provided)", databaseRef: null }]
+
+export const skills: any = {
+	intelligence: ["arcana", "history", "investigation", "nature", "religion"],
+	strength: ["athletics"],
+	constitution: [],
+	wisdom: ["animalhandling", "medicine", "perception", "survival", "insight"],
+	dexterity: ["acrobatics", "sleightofhand", "stealth", "stealth"],
+	charisma: ["deception", "intimidation", "performance", "persuasion"],
+}

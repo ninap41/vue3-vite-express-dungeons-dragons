@@ -1,37 +1,61 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router"
-import "vue-toast-notification/dist/theme-sugar.css"
-import Title from "./components/Title.vue"
-import { onMounted, ref } from "vue"
-import axios from "axios"
+import { RouterLink, RouterView } from "vue-router";
+import "vue-toast-notification/dist/theme-sugar.css";
+import Title from "./components/Title.vue";
+import { onMounted, computed, ref } from "vue";
+import axios from "axios";
+import router from "./router";
+import { useLocalStorage } from "./composition/useLocalStorage";
+import { session_keys } from "./types/types";
+const { clear, getStorage, authenticated } = useLocalStorage();
+
+const endSession = async () => {
+  await router.push("/").then(() => clear())
+};
+
+
+
 </script>
 <!-- https://vue-final-modal.org/get-started/guide/setup -->
 <template>
-	<div>
-		<header>
-			<nav>
-				<RouterLink to="/character-sheet">Campaign view</RouterLink>
-				<RouterLink to="/update">Make/Edit Character</RouterLink>
-				<RouterLink to="/session-notes">Notes</RouterLink>
-				<RouterLink to="/session-archive">Session Archive</RouterLink>
-				<RouterLink to="/world">World</RouterLink>
-			</nav>
-			<Title msg="dungeons&dragons" />
-		</header>
+  <div>
+    <header>
+      <nav v-if="authenticated">
+		
+        <RouterLink to="/character-sheet">Campaign view</RouterLink>
+        <RouterLink to="/update">Make/Edit Character</RouterLink>
+        <RouterLink to="/session-notes">Notes</RouterLink>
+        <RouterLink to="/session-archive">Session Archive</RouterLink>
+        <RouterLink to="/world">World</RouterLink>
+        <a @click="endSession()"
+          ><span class="tooltip"
+            >End Session
+            <div class="tooltiptext">
+              This will redirect you back to the Choose Character page
+            </div>
+          </span></a
+        >
+      </nav>
+      <Title msg="dungeons&dragons" />
+    </header>
 
-		<RouterView />
-	</div>
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
 nav > a {
-	margin-right: 1rem;
-	text-decoration: none;
-	color: hsla(160, 100%, 80%, 1);
-	background-color: darkslategray;
-	transition: 0.4s;
+  margin-right: 1rem;
+  text-decoration: none;
+  color: hsla(160, 100%, 80%, 1);
+  background-color: darkslategray;
+  transition: 0.4s;
+  cursor: pointer;
+  border-radius: 15px;
+  padding: 1rem;
+}
 
-	border-radius: 15px;
-	padding: 1rem;
+.tooltiptext {
+	font-size: 10px;
 }
 </style>
