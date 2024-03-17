@@ -43,6 +43,13 @@
           "damage": ""
         }
       ],
+      "spells" : [
+        {
+          "name": "",
+          "description": "",
+          "level": ""
+        }
+      ],
       "failures": {
         "0": false,
         "1": false,
@@ -54,6 +61,11 @@
       "bonds": "I am haunted by my past and do not speak of it",
       "featuresandtraits": "Immune to Magical Sleep",
       "equipment": "Scale Mail",
+      "items" : [{
+        "name": "an item",
+        "description": "description",
+        "qty": 2
+      }],
       "attacksandspellingcasting": "Here are spells",
       "otherprofienienciesandlanguages": "Dark Vision 60ft,Light Armor, Medium, Shields, Martial Weopons, Simple, Celestial, Common, Elvish, Minotaur, Orc",
       "money": {
@@ -173,177 +185,7 @@
         "val": "+3",
         "proficiency": false
       }
-    },
-    {
-      "id": 1710633090119,
-      "avatar": "",
-      "name": "Helga The Dumby",
-      "classlevel": "BloodHunter 5 (Order of Mutant)",
-      "background": "Haunted One",
-      "race": "Half-Elf",
-      "alignment": "Nuetral",
-      "inspiration": "",
-      "playername": "",
-      "xp": "",
-      "armorclass": "",
-      "initiative": "",
-      "speed": "",
-      "hitpoints": "",
-      "currenthitpoints": "",
-      "proficiencybonus": "",
-      "abilitysaveDC": "",
-      "temporaryhitpoints": "",
-      "totalhitdice": "",
-      "hitdice": "",
-      "successes": {
-        "0": false,
-        "1": false,
-        "2": false
-      },
-      "attacks": [
-        {
-          "name": "",
-          "bonus": "",
-          "damage": ""
-        }
-      ],
-      "spells": [
-        {
-          "name": "",
-          "description": "",
-          "level": ""
-        }
-      ],
-      "failures": {
-        "0": false,
-        "1": false,
-        "2": false
-      },
-      "personality": "",
-      "ideals": "",
-      "flaws": "",
-      "bonds": "",
-      "featuresandtraits": "",
-      "equipment": "",
-      "attacksandspellingcasting": "",
-      "otherprofienienciesandlanguages": "",
-      "money": {
-        "copper": "0",
-        "silver": "0",
-        "electrum": "0",
-        "gold": "0",
-        "platinum": "0"
-      },
-      "intelligence": {
-        "score": "10",
-        "modifier": "",
-        "proficiency": "",
-        "savingthrow": false
-      },
-      "strength": {
-        "score": "22",
-        "modifier": "",
-        "proficiency": "",
-        "savingthrow": false
-      },
-      "constitution": {
-        "score": "15",
-        "modifier": "",
-        "proficiency": "",
-        "savingthrow": false
-      },
-      "wisdom": {
-        "score": "10",
-        "modifier": "",
-        "proficiency": "",
-        "savingthrow": false
-      },
-      "dexterity": {
-        "score": "3",
-        "modifier": "",
-        "proficiency": "",
-        "savingthrow": false
-      },
-      "charisma": {
-        "score": "3",
-        "modifier": "",
-        "proficiency": "",
-        "savingthrow": false
-      },
-      "passivewisdom": "",
-      "passiveintelligence": "",
-      "acrobatics": {
-        "val": "",
-        "proficiency": false
-      },
-      "animalhandling": {
-        "val": "",
-        "proficiency": false
-      },
-      "arcana": {
-        "val": "",
-        "proficiency": true
-      },
-      "athletics": {
-        "val": "",
-        "proficiency": false
-      },
-      "deception": {
-        "val": "",
-        "proficiency": false
-      },
-      "history": {
-        "val": "",
-        "proficiency": true
-      },
-      "insight": {
-        "val": "",
-        "proficiency": false
-      },
-      "intimidation": {
-        "val": "",
-        "proficiency": false
-      },
-      "investigation": {
-        "val": "",
-        "proficiency": false
-      },
-      "medicine": {
-        "val": "",
-        "proficiency": false
-      },
-      "nature": {
-        "val": "",
-        "proficiency": false
-      },
-      "perception": {
-        "val": "",
-        "proficiency": false
-      },
-      "performance": {
-        "val": "",
-        "proficiency": false
-      },
-      "persuasion": {
-        "val": "",
-        "proficiency": false
-      },
-      "religion": {
-        "val": "",
-        "proficiency": false
-      },
-      "sleightofhand": {
-        "val": "",
-        "proficiency": false
-      },
-      "stealth": {
-        "val": "",
-        "proficiency": false
-      },
-      "survival": {
-        "val": "",
-        "proficiency": false
-      }
     }
+    
   ]
 }

@@ -267,7 +267,6 @@ div.charsheet main > section section.attributes div.attr-applications div.list-s
 	margin-left: 5px;
 }
 div.charsheet main > section section.attributes div.attr-applications div.list-section ul li label {
-	text-transdiv: none;
 	font-size: 8px;
 	text-align: left;
 	order: 3;

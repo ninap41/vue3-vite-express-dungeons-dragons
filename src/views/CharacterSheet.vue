@@ -1,9 +1,20 @@
 <template>
-  <div v-if="character" class="charsheet">
-    <div class="flex-row flex-start">
+  <div v-if="character">
+    <div class="flex-row flex-start character-sheet">
       <button @click="saveCharacter()">Save Character</button>
     </div>
     <br />
+	<div class="flex-row flex-1 space-even">
+		<div> Inspiration</div>
+		<div>Armor Class (AC): {{ character.armorclass }}</div>
+		<div>Ability Save (DC): {{ character.abilitysaveDC}}</div>
+		<div>Proficiency Bonus:{{ character.proficiencybonus}} </div>
+		<div>Passive Wisdom: {{ character.passivewisdom}}</div>
+		<div>Passive Perception: {{ character.passiveintelligence}}</div>
+
+
+	</div>
+	<hr>
     <div class="flex-row flex-1 space-even">
       <div v-for="stat of stats">
         <div class="flex-col stat-block stat-block-center stat-title">
@@ -67,44 +78,47 @@
     </div>
 
     <div class="flex flex-row space-even">
-      <div class="stat-block flex-row" style="flex: 2">
-        <p>Spells</p>
-      </div>
-      <div class="stat-block flex-row" style="flex: 2">
-        <p>Items</p>
-      </div>
-      <div class="stat-block flex-row" style="flex: 1">
-        <p>Money</p>
-        <div class="money">
-          <ul>
-            <li>
-              <label for="cp">cp</label
-              ><input v-model="character.money.copper" name="cp" />
-            </li>
-            <li>
-              <label for="sp">sp</label
-              ><input v-model="character.money.silver" name="sp" />
-            </li>
-            <li>
-              <label for="ep">ep</label
-              ><input v-model="character.money.electrum" name="ep" />
-            </li>
-            <li>
-              <label for="gp">gp</label
-              ><input v-model="character.money.gold" name="gp" />
-            </li>
-            <li>
-              <label for="pp">pp</label
-              ><input
-                :v-model="character.money.platinum"
-                :value="character.money.platinum"
-                name="pp"
-              />
-            </li>
-          </ul>
+      <div class="stat-block flex-col text-green" style="flex: 2">
+        <p>Spells </p> <br>
+		<div class="flex-row">
+			<div>- Name - </div>
+			<div>- Level -</div>
+			<div>-  Description -</div>
+		</div>
+
+        <div v-for="(spell, index) of character.spells">
+          <div class="flex-row">
+			<div style="margin-right:4px">{{ index + 1}}</div>
+            <div> <input type="text" class="spell-input" v-model="spell.name" /></div>
+            <div><input type="text" class="spell-input"v-model="spell.level" /></div>
+            <div><input type="text"class="spell-input"  v-model="spell.description" /></div>
+          </div>
         </div>
+		<button @click="addNewSpell()"class="add tooltip">+ <span class="tooltiptext"> Add New Spell</span></button>
+
       </div>
+      <div class="stat-block flex-col text-green" style="flex: 2">
+		<p>Items </p> <br>
+		<div class="flex-row">
+			<div>- Name - </div>
+			<div>- Description -</div>
+			<div>-  Qty -</div>
+		</div>
+
+        <div v-for="(item, index) of character.items">
+          <div class="flex-row">
+			<div style="margin-right:4px">{{ index + 1}}</div>
+            <div> <input type="text" class="spell-input" v-model="item.name" /></div>
+            <div><input type="text" class="spell-input"v-model="item.description" /></div>
+            <div><input type="text"class="spell-input"  v-model="item.qty" /></div>
+          </div>
+        </div>
+		<button @click="addNewItem()"class="add tooltip">+ <span class="tooltiptext"> Add New Spell</span></button>
+
+      </div>
+      
       <div class="stat-block">
+        <span class="text-green">Death Saving Throws</span>
         <div class="deathsuccesses">
           <label>Successes</label>
           <div class="bubbles">
@@ -146,14 +160,44 @@
           </div>
         </div>
       </div>
-
-      <!-- <div v-for="member of members">
-				<div class="flex flex-col">
-					<div>{{ member.name }}</div>
-					<div><button> + </button></div>
-				</div>
-			</div> -->
     </div>
+	<SessionNotes />
+
+	<div class="stat-block flex-row text-green" style="flex: 1;margin: .5rem; justify-content: space-around;">
+        <p>Money</p><br>
+	
+        <div class="money" style="margin: .5rem;">
+          <ul>
+            <li>
+              <label for="cp">cp</label
+              ><input v-model="character.money.copper" name="cp" />
+            </li>
+            <li>
+              <label for="sp">sp</label
+              ><input v-model="character.money.silver" name="sp" />
+            </li>
+            <li>
+              <label for="ep">ep</label
+              ><input v-model="character.money.electrum" name="ep" />
+            </li>
+            <li>
+              <label for="gp">gp</label
+              ><input v-model="character.money.gold" name="gp" />
+            </li>
+            <li>
+              <label for="pp">pp</label
+              ><input
+                :v-model="character.money.platinum"
+                :value="character.money.platinum"
+                name="pp"
+              />
+            </li>
+          </ul>
+        </div>
+		<div style="flex: 2;margin: .5rem;">hell</div>
+		<div style="flex: 3;margin: .5rem;">nah</div>
+
+      </div>
   </div>
   <div v-else class="choose-character">
     Character not loaded... Er. Contact Me
@@ -163,18 +207,16 @@
 <script lang="ts" setup>
 import { onBeforeMount, onMounted, ref, Ref } from "vue";
 import { useData } from "../composition/useData";
-
 import { useLocalStorage } from "../composition/useLocalStorage";
-
 import {
   Character,
   session_keys,
-  members,
   skills,
   stats,
 } from "../types/types";
 import { useToast } from "vue-toast-notification";
 import router from "../router";
+import SessionNotes from "./SessionNotes.vue";
 
 /* REFS */
 var characters: Ref<Array<Character>> =
@@ -195,6 +237,14 @@ const getCharacterData = async (): Promise<Array<Character>> => {
   return await getAll("characters");
 };
 
+const addNewSpell = () =>{
+alert("new spell should open modal")
+}
+
+
+const addNewItem = () =>{
+alert("new item should open modal")
+}
 const saveCharacter = async (): Promise<void> => {
   updateOne("characters", character.value, character.value.name);
   setStorage(session_keys.characterName, character.value.name);
@@ -257,7 +307,7 @@ input {
 .stat-block {
   background-color: black;
   padding: 0.5rem;
-  border-radius: 12%;
+  border-radius: 12px;
 }
 
 .stat-block-center {
@@ -359,11 +409,48 @@ input {
 .money ul > li input {
   border: 1px solid black;
   border-radius: 10px;
-  width: 25px;
+  width: 70px;
   height: 25px;
-
+  margin-left: 4px;
   padding: 4px;
   font-size: 12px;
   text-align: center;
+}
+
+ul {
+	margin: 0;
+	padding: 0 .5 .5 .5rem;
+  list-style: none;
+}
+
+.text-green {
+  color: greenyellow;
+}
+
+.stat-block p {
+  margin: 0 auto;
+}
+
+.spell-input {
+	border: 1px dotted yellowgreen;
+}
+
+.add {
+	border-radius: 50%;
+	border: 1px solid yellowgreen;
+	font-size: 10px;
+	color: yellowgreen;
+	background-color: none;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center !important;
+	cursor: pointer;
+	align-items: center !important;
+	align-self: end;
+}
+
+.money ul > li input {
+	font-size: 20px
 }
 </style>

@@ -48,6 +48,13 @@ export class Character {
 			level: "",
 		}
 	]
+	items :any = [
+		{
+			name: "",
+			description: "",
+			qty: "",
+		}
+	]
 	failures: { [key: number]: boolean } = { 0: false, 1: false, 2: false }
 	personality: string = ""
 	ideals: string = ""
