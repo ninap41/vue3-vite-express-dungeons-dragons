@@ -1,6 +1,6 @@
 <template>
   <div v-if="character">
-    <div class="flex-row flex-start character-sheet">
+    <div class="flex-row flex-start save-character">
       <button @click="saveCharacter()">Save Character</button>
     </div>
     <br />
@@ -435,7 +435,7 @@ ul {
 	border: 1px dotted yellowgreen;
 }
 
-.add {
+.add, .minus {
 	border-radius: 50%;
 	border: 1px solid yellowgreen;
 	font-size: 10px;

@@ -2,12 +2,14 @@
 	<main>
 		<div class="session-buttons">
 			<button @click="saveDraft_()">
-				<b>Save Draft</b>
+				<b class="tooltip">Save Draft<span class="tooltiptext">This will save your note as a draft in browser</span></b> 
 			</button>
 			<button @click="saveNote()">
-				<b class="tooltip">Archive Session Note <span class=""></span></b>
-				
+				<b class="tooltip">Archive <span class="tooltiptext">This will refresh the wysiwig and archive your session note to the archive page.</span></b>
 			</button>
+			<div class="countdown-container">
+			<p class="tooltip countdown-tooltip"><div>Draft Save Countdown: {{ saveCountdown }}</div> <div class="tooltiptext">Saves a draft once every thirty seconds</div></p>
+		</div>
 			<br><br>
 		</div>
 		<div v-if="editor">
@@ -107,7 +109,7 @@ import { session_keys } from "../types/types"
 const $toast = useToast();
 const {   retrieveDraftFromLocalStorage, setStorage, clearStorage, removeItem, sessionGuard } = useLocalStorage()
 const { createOne} = useData()
-
+const saveCountdown = ref(30)
 var editor: any;
 onBeforeMount(() => {
 	editor = ref(
@@ -134,11 +136,23 @@ async function saveNote() {
 	removeItem(session_keys.draft)
 	router.push("session-archive")
 }
+
 //@ts-ignore
 onMounted(async () => {
 	await sessionGuard()
-	setInterval(() =>{}, 3000)
+	$toast.info("New Session Started!")
 })
+
+setInterval(() => {
+	saveCountdown.value -= 1;
+	if(saveCountdown.value === 0) {
+		setStorage(session_keys.draft, editor.value.getHTML())
+		$toast.warning("Updated Session Draft")
+		saveCountdown.value = 30
+	}
+}, 1000)
+
+
 
 
 </script>
@@ -163,12 +177,26 @@ button {
 
 }
 
+.session-buttons {
+	display: flex; flex-direction: row;
+	justify-content: flex-start;
+}
 .session-buttons button {
 	border-radius: 10px;
-	background-color: "green";
+	border: none;
+	margin: 1rem; 
 	color: rgb(255, 245, 153);
-	border: hsla(160, 100%, 80%, 1);
-
-	background-color: rgb(76, 79, 47);
+	box-shadow: none;
 }
-</style>../composition/useData
+
+.countdown-tooltip {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: end;
+}
+
+.countdown-container {
+	align-self: center;
+}
+</style>
