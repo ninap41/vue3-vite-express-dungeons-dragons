@@ -44,10 +44,11 @@
         }
       ],
       "spells": [
+      
         {
-          "name": "",
-          "description": "",
-          "level": ""
+          "name": "Presdigitation",
+          "level": "0",
+          "description": "Can't pronouce"
         }
       ],
       "failures": {

@@ -7,6 +7,8 @@ import axios from "axios";
 import router from "./router";
 import { useLocalStorage } from "./composition/useLocalStorage";
 import { session_keys } from "./types/types";
+import 'primeicons/primeicons.css'
+
 const { clear, getStorage, authenticated } = useLocalStorage();
 
 const endSession = async () => {
@@ -19,12 +21,10 @@ const endSession = async () => {
 var auth = computed(() => authenticated())
 
 </script>
-<!-- https://vue-final-modal.org/get-started/guide/setup -->
 <template>
   <div>
     <header>
       <nav v-if="auth">
-	{{ auth }}
         <RouterLink to="/character-sheet">Campaign view</RouterLink>
         <RouterLink to="/update">Make/Edit Character</RouterLink>
         <RouterLink to="/session-notes">Notes</RouterLink>
