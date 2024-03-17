@@ -4,31 +4,112 @@
       <button @click="saveCharacter()">Save Character</button>
     </div>
     <br />
-	<ul>Dev notes
-		<li>- Add modal for adding spells, attacks, and items</li>
-		<li>- Convert Character into store or computed property </li>
-		<li>- Add interactive map</li>
-		<li>- Convert toast into comp function</li>
-		<li>- clean up horrific css</li>
-		<li>- add party member creation and custimization. </li>
-		<li>- add route guard </li>
-		<li>- convert money to tooltip that shows a bag of dubloons </li>
-		<li>- add to create update page new spell and items, and such </li>
+    <ul>
+      Dev notes
+      <li>- Add modal for adding spells, attacks, and items</li>
+      <li>- Convert Character into store or computed property</li>
+      <li>- Add interactive map</li>
+      <li>- Convert toast into comp function</li>
+      <li>- clean up horrific css</li>
+      <li>- add party member creation and custimization.</li>
+      <li>- add route guard</li>
+      <li>- convert money to tooltip that shows a bag of dubloons</li>
+      <li>- add to create update page new spell and items, and such</li>
+      <li>
+        - when clicking party member, spells, items, or name, show a conditional
+        view in modal
+      </li>
+    </ul>
+    <div class="flex-row flex-1 space-even">
+      <div>Inspiration
+		
+		<input
+          class="ability-saves"
+          type="text"
+          v-model="character.inspiration"
+        />
+	  </div>
+      <div>
+        Armor Class (AC):
+        <input
+          class="ability-saves"
+          type="text"
+          v-model="character.armorclass"
+        />
+      </div>
+      <div>
+        Ability Save (DC):
+        <input
+          class="ability-saves"
+          type="text"
+          v-model="character.abilitysaveDC"
+        />
+      </div>
+      <div>
+        Proficiency Bonus:<input
+          class="ability-saves"
+          type="text"
+          v-model="character.proficiencybonus"
+        />
+      </div>
+      <div>
+        Passive Wisdom:
+        <input
+          class="ability-saves"
+          type="text"
+          v-model="character.passivewisdom"
+        />
+      </div>
+      <div>
+        Passive Perception:
+        <input
+          class="ability-saves"
+          type="text"
+          v-model="character.passiveintelligence"
+        />
+      </div>
+      <div class="tooltip">
+        <img src="../assets/img/money.png" width="100px" />
 
-
-
-	</ul>
-	<div class="flex-row flex-1 space-even">
-		<div> Inspiration</div>
-		<div>Armor Class (AC): <input class="ability-saves" type="text" v-model="character.armorclass" /></div>
-		<div>Ability Save (DC): <input class="ability-saves" type="text" v-model="character.abilitysaveDC" /></div>
-		<div>Proficiency Bonus:<input class="ability-saves" type="text" v-model="character.proficiencybonus" /></div>
-		<div>Passive Wisdom: <input class="ability-saves" type="text" v-model="character.passivewisdom" /></div>
-		<div>Passive Perception: <input class="ability-saves" type="text" v-model="character.passiveintelligence" /></div>
-
-
-	</div>
-	<hr>
+        <div
+          class="tooltiptext stat-block flex-row text-green"
+          style="flex: 1; margin: 0.5rem; justify-content: space-around"
+        >
+          <div class="money" style="margin: 0.5rem">
+            <ul>
+              <li>
+                <label for="cp">copper</label
+                ><input v-model="character.money.copper" name="cp" style="color: chocolate" />
+              </li>
+              <li>
+                <label for="sp">silver</label
+                ><input v-model="character.money.silver" style="color: silver" name="sp" />
+              </li>
+			  <li>
+                <label for="gp">gold</label
+                ><input v-model="character.money.gold" style="color: gold" name="gp" />
+              </li>
+			  <hr>
+              <li>
+                <label for="ep">electrum</label
+                ><input v-model="character.money.electrum" style="color: green" name="ep" />
+              </li>
+             
+              <li>
+                <label for="pp"  >platinum </label
+                ><input
+				style="color: white"
+                  :v-model="character.money.platinum"
+                  :value="character.money.platinum"
+                  name="pp"
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
     <div class="flex-row flex-1 space-even">
       <div v-for="stat of stats">
         <div class="flex-col stat-block stat-block-center stat-title">
@@ -57,9 +138,7 @@
                     :checked="character[skill as keyof Character].proficiency"
                     type="checkbox"
                   />{{
-                    character[skill as keyof Character].proficiency
-                      ? "(P)"
-                      : ""
+                    character[skill as keyof Character].proficiency ? "(P)" : ""
                   }}</span
                 ><br /><br />
               </span>
@@ -93,44 +172,68 @@
 
     <div class="flex flex-row space-even">
       <div class="stat-block flex-col text-green" style="flex: 2">
-        <p class="stat-block-title">Spells </p> <br>
-		<div class="flex-row">
-			<div>- Name - </div>
-			<div>- Level -</div>
-			<div>-  Description -</div>
-		</div>
+        <p class="stat-block-title">Spells</p>
+        <br />
+        <div class="flex-row">
+          <div>- Name -</div>
+          <div>- Level -</div>
+          <div>- Description -</div>
+        </div>
 
         <div v-for="(spell, index) of character.spells">
           <div class="flex-row">
-			<div style="margin-right:4px">{{ index + 1}}</div>
-            <div> <input type="text" class="spell-input" v-model="spell.name" /></div>
-            <div><input type="text" class="spell-input"v-model="spell.level" /></div>
-            <div><input type="text"class="spell-input"  v-model="spell.description" /></div>
+            <div style="margin-right: 4px">{{ index + 1 }}</div>
+            <div>
+              <input type="text" class="spell-input" v-model="spell.name" />
+            </div>
+            <div>
+              <input type="text" class="spell-input" v-model="spell.level" />
+            </div>
+            <div>
+              <input
+                type="text"
+                class="spell-input"
+                v-model="spell.description"
+              />
+            </div>
           </div>
         </div>
-		<button @click="addNewSpell()"class="add tooltip">+ <span class="tooltiptext"> Add New Spell</span></button>
-
+        <button @click="addNewSpell()" class="add tooltip">
+          + <span class="tooltiptext"> Add New Spell</span>
+        </button>
       </div>
       <div class="stat-block flex-col text-green" style="flex: 2">
-		<p class="stat-block-title">Items & Equipment </p> <br>
-		<div class="flex-row">
-			<div>- Name - </div>
-			<div>- Description -</div>
-			<div>-  Qty -</div>
-		</div>
+        <p class="stat-block-title">Items & Equipment</p>
+        <br />
+        <div class="flex-row">
+          <div>- Name -</div>
+          <div>- Description -</div>
+          <div>- Qty -</div>
+        </div>
 
         <div v-for="(item, index) of character.items">
           <div class="flex-row">
-			<div style="margin-right:4px">{{ index + 1}}</div>
-            <div> <input type="text" class="spell-input" v-model="item.name" /></div>
-            <div><input type="text" class="spell-input"v-model="item.description" /></div>
-            <div><input type="text"class="spell-input"  v-model="item.qty" /></div>
+            <div style="margin-right: 4px">{{ index + 1 }}</div>
+            <div>
+              <input type="text" class="spell-input" v-model="item.name" />
+            </div>
+            <div>
+              <input
+                type="text"
+                class="spell-input"
+                v-model="item.description"
+              />
+            </div>
+            <div>
+              <input type="text" class="spell-input" v-model="item.qty" />
+            </div>
           </div>
         </div>
-		<button @click="addNewItem()"class="add tooltip">+ <span class="tooltiptext"> Add New Spell</span></button>
-
+        <button @click="addNewItem()" class="add tooltip">
+          + <span class="tooltiptext"> Add New Spell</span>
+        </button>
       </div>
-      
+
       <div class="stat-block">
         <span class="text-green">Death Saving Throws</span>
         <div class="deathsuccesses">
@@ -175,46 +278,15 @@
         </div>
       </div>
     </div>
-	<SessionNotes />
+    <SessionNotes />
 
-	<div class="stat-block flex-row text-green" style="flex: 1;margin: .5rem; justify-content: space-around;">
-        <p>Money</p><br>
-	
-        <div class="money" style="margin: .5rem;">
-          <ul>
-            <li>
-              <label for="cp">cp</label
-              ><input v-model="character.money.copper" name="cp" />
-            </li>
-            <li>
-              <label for="sp">sp</label
-              ><input v-model="character.money.silver" name="sp" />
-            </li>
-            <li>
-              <label for="ep">ep</label
-              ><input v-model="character.money.electrum" name="ep" />
-            </li>
-            <li>
-              <label for="gp">gp</label
-              ><input v-model="character.money.gold" name="gp" />
-            </li>
-            <li>
-              <label for="pp">pp</label
-              ><input
-                :v-model="character.money.platinum"
-                :value="character.money.platinum"
-                name="pp"
-              />
-            </li>
-          </ul>
-        </div>
-		<div style="flex: 2;margin: .5rem;">hell</div>
-		<div style="flex: 3;margin: .5rem;">nah</div>
-
-      </div>
-  </div>
-  <div v-else class="choose-character">
-    Character not loaded... Er. Contact Me
+    <div
+      class="stat-block flex-row text-green"
+      style="flex: 1; margin: 0.5rem; justify-content: space-around"
+    >
+      <div style="flex: 2; margin: 0.5rem">hell</div>
+      <div style="flex: 3; margin: 0.5rem">nah</div>
+    </div>
   </div>
 </template>
 
@@ -222,12 +294,7 @@
 import { onBeforeMount, onMounted, ref, Ref } from "vue";
 import { useData } from "../composition/useData";
 import { useLocalStorage } from "../composition/useLocalStorage";
-import {
-  Character,
-  session_keys,
-  skills,
-  stats,
-} from "../types/types";
+import { Character, session_keys, skills, stats } from "../types/types";
 import { useToast } from "vue-toast-notification";
 import router from "../router";
 import SessionNotes from "./SessionNotes.vue";
@@ -251,14 +318,13 @@ const getCharacterData = async (): Promise<Array<Character>> => {
   return await getAll("characters");
 };
 
-const addNewSpell = () =>{
-alert("new spell should open modal")
-}
+const addNewSpell = () => {
+  alert("new spell should open modal");
+};
 
-
-const addNewItem = () =>{
-alert("new item should open modal")
-}
+const addNewItem = () => {
+  alert("new item should open modal");
+};
 const saveCharacter = async (): Promise<void> => {
   updateOne("characters", character.value, character.value.name);
   setStorage(session_keys.characterName, character.value.name);
@@ -354,7 +420,7 @@ input {
 
 #character-select,
 #character-input,
-#character-name-input,  {
+#character-name-input {
   min-width: 300px;
   border-radius: 12px;
   background-color: rgb(52, 118, 54);
@@ -432,8 +498,8 @@ input {
 }
 
 ul {
-	margin: 0;
-	padding: 0 .5 .5 .5rem;
+  margin: 0;
+  padding: 0 0.5 0.5 0.5rem;
   list-style: none;
 }
 
@@ -446,43 +512,51 @@ ul {
 }
 
 .spell-input {
-	border: 1px dotted yellowgreen;
+  border: 1px dotted yellowgreen;
 }
 
-.add, .minus {
-	width: 20px;
-	height: 20px;
-	font-size: 10px;
+.add,
+.minus {
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
 }
 
 .ability-saves {
-	width: 60px;
-	height: 60px;
-	text-decoration: dotted;
-	font-size: 24px;
-
+  width: 60px;
+  height: 60px;
+  text-decoration: dotted;
+  font-size: 24px;
 }
-.ability-saves,.add, .minus {
-	border-radius: 50%;
-	border: 1px solid yellowgreen;
-	color: yellowgreen;
-	background-color: none;
-	display: flex;
-	justify-content: center !important;
-	cursor: pointer;
-	align-items: center !important;
-	align-self: end;
-	text-align: center;
+.ability-saves,
+.add,
+.minus {
+  border-radius: 50%;
+  border: 1px solid yellowgreen;
+  color: yellowgreen;
+  background-color: none;
+  display: flex;
+  justify-content: center !important;
+  cursor: pointer;
+  align-items: center !important;
+  align-self: end;
+  text-align: center;
 }
 
+.money {
+	margin:0;
+	padding: 0;
+	text-align: left;
+}
 .money ul > li input {
-	font-size: 20px
+  font-size: 20px;
+
 }
 
 .stat-block-title {
-	font-size: 18px;
+  font-size: 18px;
 }
 .skill-name {
-	font-size:18px !important;
+  font-size: 18px !important;
 }
 </style>
