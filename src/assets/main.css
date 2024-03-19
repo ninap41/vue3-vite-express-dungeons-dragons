@@ -21,7 +21,7 @@ a,
 }
 
 @media (min-width: 1024px) {
-  body {padding:4rem;
+  body {
     display: flex;
     place-items: center;
   }
@@ -32,7 +32,6 @@ a,
   font-size: 80px;
 }
 .glow-medium{
-  
   font-size: 40px;
 }
 

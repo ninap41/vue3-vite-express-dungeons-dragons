@@ -6,29 +6,30 @@
     <br />
     <ul>
       Dev notes
-      <li>- Add modal for adding spells, attacks, and items</li>
       <li>- Convert Character into store or computed property</li>
+      <li>- Click on character to show bonds ideals proficiency, languages</li>
+
       <li>- Add interactive map</li>
       <li>- Convert toast into comp function</li>
       <li>- clean up horrific css</li>
       <li>- add party member creation and custimization.</li>
-      <li>- add route guard</li>
-      <li>- convert money to tooltip that shows a bag of dubloons</li>
-      <li>- add to create update page new spell and items, and such</li>
       <li>
         - when clicking party member, spells, items, or name, show a conditional
         view in modal
       </li>
     </ul>
+    <br /><br />
     <div class="flex-row flex-1 space-even">
       <div>
         Inspiration
-
-        <input
-          class="ability-saves"
-          type="text"
-          v-model="character.inspiration"
-        />
+        <div class="inspiration-container">
+          <img class="pi-spin" src="../assets/img/dnddie.png" width="100px" />
+          <input
+            class=" inspiration-input"
+            type="text"
+            v-model="character.inspiration"
+          />
+        </div>
       </div>
       <div>
         Armor Class (AC):
@@ -177,9 +178,9 @@
         <div class="flex-col stat-block stat-block-center stat-title-container">
           <div class="tooltip">
             <div class="stat-title">
-            {{
-              stat.replace(stat.charAt(0), stat.charAt(0).toLocaleUpperCase())
-            }}
+              {{
+                stat.replace(stat.charAt(0), stat.charAt(0).toLocaleUpperCase())
+              }}
             </div>
             <div class="tooltiptext skill-text">
               <span v-for="skill of skills[stat]" class="skills">
@@ -235,19 +236,25 @@
     </div>
 
     <div class="flex flex-row space-even">
-      <div class="stat-block stat-block-spells flex-col text-green" style="flex: 2">
-        <p class="stat-block-title glow"><i class="pi pi-bolt"></i>&nbsp;Spells   <i class="pi pi-star"></i>&nbsp;
-</p>
+      <div
+        class="stat-block stat-block-spells flex-col text-green"
+        style="flex: 2"
+      >
+        <p class="stat-block-title glow">
+          <i class="pi pi-bolt"></i>&nbsp;Spells
+          <i class="pi pi-star"></i>&nbsp;
+        </p>
         <div v-for="(spell, index) of character.spells">
           <div class="flex-row">
-            <div style="flex: 1;  flex-basis: min-content;">
-              <div style="margin-right: 4px;" v-if="index ===0">-Name-</div>
+            <div style="flex: 1; flex-basis: min-content">
+              <div style="margin-right: 4px" v-if="index === 0">- Name -</div>
 
               ({{ index + 1 }}) {{ spell.name || "None" }}
             </div>
-            <div style="flex: 1;  flex-basis: min-content;">
-
-              <div style="flex: 1;  flex-basis: min-content;" v-if="index ===0">-Lvl-</div>
+            <div style="flex: 1; flex-basis: min-content">
+              <div style="flex: 1; flex-basis: min-content" v-if="index === 0">
+                - Lvl -
+              </div>
 
               {{ spell.level || "None" }}
             </div>
@@ -264,22 +271,35 @@
           </div>
         </div>
       </div>
-      <div class="stat-block stat-block-items flex-col text-green" style="flex: 1; justify-content: space-around;">
+      <div
+        class="stat-block stat-block-items flex-col text-green"
+        style="flex: 1; justify-content: space-around"
+      >
         <p class="stat-block-title glow">Items & Equipment</p>
         <br />
-    
+
         <div v-for="(item, index) of character.items">
           <div class="flex-row">
-            <div style="flex: 1;  flex-basis: min-content;">
-              <div v-if="index ===0">-Name-</div>
-               {{ item.name || "None" }}
+            <div style="flex: 1; flex-basis: min-content">
+              <div v-if="index === 0">-Name-</div>
+              {{ item.name || "None" }}
             </div>
             <div style="flex: 1">
-              <div style="margin-right: 4px; flex: 1;     flex-basis: min-content;" v-if="index ===0">-Qty-</div>
+              <div
+                style="margin-right: 4px; flex: 1; flex-basis: min-content"
+                v-if="index === 0"
+              >
+                -Qty-
+              </div>
               {{ item.qty || "None" }}
             </div>
             <div style="flex: 1">
-              <div style="margin-right: 4px; flex: 1;    flex-basis: min-content; " v-if="index ===0">-Value-</div>
+              <div
+                style="margin-right: 4px; flex: 1; flex-basis: min-content"
+                v-if="index === 0"
+              >
+                -Value-
+              </div>
               {{ item.value || "?" }}
             </div>
             <div style="flex: 1"><Icon icon="mdi-light:binocular-solid" /></div>
@@ -296,10 +316,7 @@
           </div>
         </div>
       </div>
-<!-- 
-      <div class="stat-block">
-      
-      </div> -->
+      <
     </div>
     <SessionNotes />
     <div
@@ -310,7 +327,6 @@
       <div style="flex: 3; margin: 0.5rem">nah</div>
     </div>
   </div>
-
 
   <!-- ADD Item-->
 
@@ -331,21 +347,21 @@
         </div>
 
         <div class="flex-row">
-            <div>
-              <input type="text" class="spell-input" v-model="item.name" />
-            </div>
-       
-            <div>
-              <input type="text" class="spell-input" v-model="item.qty" />
-            </div>
+          <div>
+            <input type="text" class="spell-input" v-model="item.name" />
           </div>
+
+          <div>
+            <input type="text" class="spell-input" v-model="item.qty" />
+          </div>
+        </div>
       </div>
     </template>
     <template #footer>
       <button @click="addNewItem()">Add New Item</button></template
     >
   </Modal_>
-    <!-- ADD SPELL MODAL-->
+  <!-- ADD SPELL MODAL-->
 
   <Modal_
     :isOpen="isOpen('createSpell')"
@@ -384,7 +400,6 @@
       <button @click="addNewSpell()">Add New Spell</button></template
     >
   </Modal_>
-  
 </template>
 
 <script lang="ts" setup>
@@ -411,13 +426,21 @@ const spell = ref({
   description: "",
 });
 
-
 const item = ref({
   name: "",
   qty: "",
   description: "",
 });
-const { isOpen, open, close, submitHandler } = useModals(["createSpell","editSpell", "viewSpell", "deleteSpellConfirmation", "createItem", "deleteItem", "editItem", "viewItem"]);
+const { isOpen, open, close, submitHandler } = useModals([
+  "createSpell",
+  "editSpell",
+  "viewSpell",
+  "deleteSpellConfirmation",
+  "createItem",
+  "deleteItem",
+  "editItem",
+  "viewItem",
+]);
 const { getAll, updateOne, createOne, deleteOne, getOne, isEmpty } = useData();
 const { getStorage, clearStorage, clear, setStorage } = useLocalStorage();
 const $toast = useToast();
@@ -428,7 +451,6 @@ const $toast = useToast();
 const getCharacterData = async (): Promise<Array<Character>> => {
   return await getAll("characters");
 };
-
 
 const saveCharacter = async (): Promise<void> => {
   updateOne("characters", character.value, character.value.name);
@@ -499,7 +521,6 @@ input {
 
 /*  */
 
-
 .stat-title-container {
   position: relative;
   display: flex;
@@ -511,21 +532,19 @@ input {
 .stat-title {
   position: absolute;
   font-size: 16px;
-  left:-10px;
+  left: -10px;
   top: -24px;
   text-align: center;
-
 }
 .stat-block-title {
   position: absolute;
   font-size: 24px !important;
-  left:24px;
+  left: 24px;
   top: -24px;
   margin: -81px 0px 0px 0px;
   background-color: rgb(25, 88, 65);
-  padding: 0rem .5rem;
+  padding: 0rem 1rem;
   border-radius: 1rem;
-  
 }
 .stat-block {
   background-color: black;
@@ -545,7 +564,6 @@ input {
 .stat-block-left {
   text-align: left;
 }
-
 
 .modifier {
   width: 20px;
@@ -660,7 +678,8 @@ ul {
 }
 
 .add,
-.minus, .edit{
+.minus,
+.edit {
   width: 20px;
   height: 20px;
   font-size: 10px;
@@ -674,7 +693,8 @@ ul {
 }
 .ability-saves,
 .add,
-.minus, .edit{
+.minus,
+.edit {
   border-radius: 50%;
   border: 1px solid yellowgreen;
   color: yellowgreen;
@@ -699,8 +719,34 @@ ul {
 .skill-name {
   font-size: 18px !important;
 }
+.inspiration-container {
+  position: relative;
+}
 
-.death-successes, .saving-throws, .death-failures {
+.inspiration {
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right: 0;
+  z-index: 999;
+
+}
+.inspiration-input {
+  position: absolute;
+
+  font-size: 30px;
+  z-index: 1200;
+  background-color: none;
+  background: none;
+  left: 25px;
+    right: 0;
+    width: 100px;
+    height: 100px;
+}
+.death-successes,
+.saving-throws,
+.death-failures {
   text-align: center;
 }
 </style>
