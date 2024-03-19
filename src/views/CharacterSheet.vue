@@ -69,7 +69,52 @@
           v-model="character.passiveintelligence"
         />
       </div>
+      <div class="stat-block">
+        <div class="text-green saving-throws">Saving Throws</div>
+        <div class="death-successes">
+          <label>Successes</label>
+          <div class="bubbles">
+            <input
+              name="deathsuccess1"
+              v-model="character.successes[0]"
+              type="checkbox"
+            />
+            <input
+              name="deathsuccess2"
+              v-model="character.successes[1]"
+              type="checkbox"
+            />
+            <input
+              name="deathsuccess3"
+              v-model="character.successes[2]"
+              type="checkbox"
+            />
+          </div>
+        </div>
+        <div class="death-failures">
+          <label>Failures</label>
+          <div class="bubbles">
+            <input
+              name="deathfail1"
+              v-model="character.failures[0]"
+              type="checkbox"
+            />
+            <input
+              name="deathfail2"
+              v-model="character.failures[1]"
+              type="checkbox"
+            />
+            <input
+              name="deathfail3"
+              v-model="character.failures[2]"
+              type="checkbox"
+            />
+          </div>
+        </div>
+      </div>
       <div class="tooltip">
+        <!-- <i class="pi pi-money-bill " style="font-size: 2.5rem"></i> -->
+
         <img src="../assets/img/money.png" width="100px" />
 
         <div
@@ -129,11 +174,13 @@
     <hr />
     <div class="flex-row flex-1 space-even">
       <div v-for="stat of stats">
-        <div class="flex-col stat-block stat-block-center stat-title">
+        <div class="flex-col stat-block stat-block-center stat-title-container">
           <div class="tooltip">
+            <div class="stat-title">
             {{
               stat.replace(stat.charAt(0), stat.charAt(0).toLocaleUpperCase())
             }}
+            </div>
             <div class="tooltiptext skill-text">
               <span v-for="skill of skills[stat]" class="skills">
                 <span class="skill-name">{{
@@ -188,22 +235,22 @@
     </div>
 
     <div class="flex flex-row space-even">
-      <div class="stat-block flex-col text-green" style="flex: 2">
-        <p class="stat-block-title">Spells</p>
-
+      <div class="stat-block stat-block-spells flex-col text-green" style="flex: 2">
+        <p class="stat-block-title glow"><i class="pi pi-bolt"></i>&nbsp;Spells   <i class="pi pi-star"></i>&nbsp;
+</p>
         <div v-for="(spell, index) of character.spells">
           <div class="flex-row">
-            <div style="flex: 5">
-              <div style="margin-right: 4px" v-if="index ===0">-Name-</div>
+            <div style="flex: 1;  flex-basis: min-content;">
+              <div style="margin-right: 4px;" v-if="index ===0">-Name-</div>
 
               ({{ index + 1 }}) {{ spell.name || "None" }}
             </div>
-            <div style="flex: 1">
-              <div style="margin-right: 4px; flex: 2;" v-if="index ===0">-Lvl-</div>
+            <div style="flex: 1;  flex-basis: min-content;">
+
+              <div style="flex: 1;  flex-basis: min-content;" v-if="index ===0">-Lvl-</div>
 
               {{ spell.level || "None" }}
             </div>
-            <div style="flex: 1"><Icon icon="mdi-light:binocular-solid" /></div>
 
             <button @click="open('createSpell')" class="add">
               <i class="pi pi-plus"></i>&nbsp;
@@ -211,98 +258,48 @@
             <button @click="open('createSpell')" class="minus">
               <i class="pi pi-minus"></i> &nbsp;
             </button>
-            <button @click="open('createSpell')" class="edit">
+            <button @click="open('editSpell')" class="edit">
               <i class="pi pi-file-edit"></i>&nbsp;
             </button>
           </div>
         </div>
       </div>
-      <div class="stat-block flex-col text-green" style="flex: 2">
-        <p class="stat-block-title">Items & Equipment</p>
+      <div class="stat-block stat-block-items flex-col text-green" style="flex: 1; justify-content: space-around;">
+        <p class="stat-block-title glow">Items & Equipment</p>
         <br />
-        <!-- <div class="flex-row">
-          <div>- Name -</div>
-          <div>- Description -</div>
-          <div>- Qty -</div>
-        </div> -->
-
+    
         <div v-for="(item, index) of character.items">
           <div class="flex-row">
-            <div style="margin-right: 4px" v-if="index ===0">- Name -</div>
+            <div style="flex: 1;  flex-basis: min-content;">
+              <div v-if="index ===0">-Name-</div>
+               {{ item.name || "None" }}
+            </div>
+            <div style="flex: 1">
+              <div style="margin-right: 4px; flex: 1;     flex-basis: min-content;" v-if="index ===0">-Qty-</div>
+              {{ item.qty || "None" }}
+            </div>
+            <div style="flex: 1">
+              <div style="margin-right: 4px; flex: 1;    flex-basis: min-content; " v-if="index ===0">-Value-</div>
+              {{ item.value || "?" }}
+            </div>
+            <div style="flex: 1"><Icon icon="mdi-light:binocular-solid" /></div>
 
-            <div style="margin-right: 4px">{{ index + 1 }}</div>
-            <div>
-              <div style="margin-right: 4px" v-if="index ===0">-QTY-</div>
-              <input type="text" class="spell-input" v-model="item.name" />
-            </div>
-            <div>
-              <div style="margin-right: 4px" v-if="index ===0">-Description -</div>
-
-              <input
-                type="text"
-                class="spell-input"
-                v-model="item.description"
-              />
-            </div>
-            <div>
-              <input type="text" class="spell-input" v-model="item.qty" />
-            </div>
-          </div>
-        </div>
-        <button @click="open('createItem')" class="add">
+            <button @click="open('createItem')" class="add">
               <i class="pi pi-plus"></i>&nbsp;
             </button>
-            <button @click="open('createItem')" class="minus">
+            <button @click="open('deleteItem')" class="minus">
               <i class="pi pi-minus"></i> &nbsp;
             </button>
-            <button @click="open('createItem')" class="edit">
+            <button @click="open('editItem')" class="edit">
               <i class="pi pi-file-edit"></i>&nbsp;
             </button>
+          </div>
+        </div>
       </div>
-
+<!-- 
       <div class="stat-block">
-        <span class="text-green">Death Saving Throws</span>
-        <div class="deathsuccesses">
-          <label>Successes</label>
-          <div class="bubbles">
-            <input
-              name="deathsuccess1"
-              v-model="character.successes[0]"
-              type="checkbox"
-            />
-            <input
-              name="deathsuccess2"
-              v-model="character.successes[1]"
-              type="checkbox"
-            />
-            <input
-              name="deathsuccess3"
-              v-model="character.successes[2]"
-              type="checkbox"
-            />
-          </div>
-        </div>
-        <div class="deathfails">
-          <label>Failures</label>
-          <div class="bubbles">
-            <input
-              name="deathfail1"
-              v-model="character.failures[0]"
-              type="checkbox"
-            />
-            <input
-              name="deathfail2"
-              v-model="character.failures[1]"
-              type="checkbox"
-            />
-            <input
-              name="deathfail3"
-              v-model="character.failures[2]"
-              type="checkbox"
-            />
-          </div>
-        </div>
-      </div>
+      
+      </div> -->
     </div>
     <SessionNotes />
     <div
@@ -502,12 +499,45 @@ input {
 
 /*  */
 
+
+.stat-title-container {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  font-size: 18px;
+  color: greenyellow;
+}
+
+.stat-title {
+  position: absolute;
+  font-size: 16px;
+  left:-10px;
+  top: -24px;
+  text-align: center;
+
+}
+.stat-block-title {
+  position: absolute;
+  font-size: 24px !important;
+  left:24px;
+  top: -24px;
+  margin: -81px 0px 0px 0px;
+  background-color: rgb(25, 88, 65);
+  padding: 0rem .5rem;
+  border-radius: 1rem;
+  
+}
 .stat-block {
   background-color: black;
   padding: 0.5rem;
+  margin: 12px;
   border-radius: 12px;
+  position: relative;
 }
 
+.stat-block-spells {
+  padding-top: 25px;
+}
 .stat-block-center {
   text-align: center;
 }
@@ -516,10 +546,6 @@ input {
   text-align: left;
 }
 
-.stat-title {
-  font-size: 18px;
-  color: greenyellow;
-}
 
 .modifier {
   width: 20px;
@@ -670,11 +696,12 @@ ul {
   font-size: 20px;
 }
 
-.stat-block-title {
-  font-size: 18px;
-}
 .skill-name {
   font-size: 18px !important;
+}
+
+.death-successes, .saving-throws, .death-failures {
+  text-align: center;
 }
 </style>
 ../components/Modal_.vue../composition/useModals
