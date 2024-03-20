@@ -22,10 +22,10 @@
     <div class="flex-row flex-1 space-even">
       <div>
         Inspiration
-        <div class="inspiration-container">
+        <div class="inspiration-stat-container">
           <img class="pi-spin" src="../assets/img/dnddie.png" width="100px" />
           <input
-            class=" inspiration-input"
+            class="inspiration-stat-container-input"
             type="text"
             v-model="character.inspiration"
           />
@@ -316,7 +316,7 @@
           </div>
         </div>
       </div>
-      <
+      
     </div>
     <SessionNotes />
     <div
@@ -486,31 +486,35 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
+<style lang="scss">
 @import "@/assets/wysiwig.css";
 @import "@/assets/tooltip.css";
 @import "@/assets/dropdown.css";
 
 /* universal */
 
-.flex-row {
+.flex {
   display: flex;
-  flex-direction: row;
+
+  &-row {
+    flex-direction: row;
+  }
+  &-col {
+    flex-direction: column;
+  }
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
 }
 
 .space-even {
-  justify-content: space-evenly;
+	justify-content: space-evenly;
 }
 
-.flex-col {
-  display: flex;
-  flex-direction: column;
-}
 
-.flex-start {
-  justify-content: start;
-}
-.flex-start button {
+.flex .flex-start button {
   margin: 0 12px;
 }
 input {
@@ -521,22 +525,34 @@ input {
 
 /*  */
 
-.stat-title-container {
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  font-size: 18px;
-  color: greenyellow;
-}
-
 .stat-title {
   position: absolute;
-  font-size: 16px;
+  color: greenyellow;
   left: -10px;
   top: -24px;
   text-align: center;
+  &-container {
+    position: relative;
+    display: flex;
+  }
 }
-.stat-block-title {
+
+
+.stat-block {
+  background-color: black;
+  padding: 0.5rem;
+  margin: 12px;
+  border-radius: 12px;
+  position: relative;
+  text-align: left;
+
+  &-spells {
+    padding-top: 25px;
+  }
+  & p {
+    margin: 0 auto;
+  }
+  &-title {
   position: absolute;
   font-size: 24px !important;
   left: 24px;
@@ -546,23 +562,6 @@ input {
   padding: 0rem 1rem;
   border-radius: 1rem;
 }
-.stat-block {
-  background-color: black;
-  padding: 0.5rem;
-  margin: 12px;
-  border-radius: 12px;
-  position: relative;
-}
-
-.stat-block-spells {
-  padding-top: 25px;
-}
-.stat-block-center {
-  text-align: center;
-}
-
-.stat-block-left {
-  text-align: left;
 }
 
 .modifier {
@@ -576,9 +575,7 @@ input {
   font-size: 40px;
 }
 
-.skills {
-  width: 100%;
-}
+
 
 #character-select,
 #character-input,
@@ -587,7 +584,6 @@ input {
   border-radius: 12px;
   background-color: rgb(52, 118, 54);
   height: 30px;
-
   margin: 23px auto;
   color: white;
   font-weight: bold;
@@ -595,24 +591,17 @@ input {
   text-align: center;
 }
 
-#character-name-input {
-  display: block;
-}
-
 .the-or {
   min-width: 200px;
 }
 
 .choose-character-child,
-.new-character-button {
+.new-character-button,
+.choose-character-button {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-.choose-character-button,
-.new-character-button {
   border-radius: 12px;
   background-color: rgb(47, 79, 79);
   color: yellowgreen;
@@ -626,55 +615,33 @@ input {
   margin: 0 auto;
 }
 
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.skill-text {
-  font-size: 11px !important;
-  width: 200px !important;
-  text-align: left !important;
-}
 .skills {
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: flex-start;
   margin: 0;
+  width: 100%;
+
+  & input {
+    width: 20px;
+  }
+  &-text {
+    font-size: 11px !important;
+    width: 200px !important;
+    text-align: left !important;
+  }
 }
 
-.skills input {
-  width: 20px;
+.skill-name, .stat-title{
+  font-size: 18px !important;
 }
 
-.money ul > li input {
-  border: 1px solid black;
-  border-radius: 10px;
-  width: 70px;
-  height: 25px;
-  margin-left: 4px;
-  padding: 4px;
-  font-size: 12px;
-  text-align: center;
-}
 
 ul {
   margin: 0;
   padding: 0 0.5 0.5 0.5rem;
   list-style: none;
-}
-
-.text-green {
-  color: greenyellow;
-}
-
-.stat-block p {
-  margin: 0 auto;
-}
-
-.spell-input {
-  border: 1px dotted yellowgreen;
 }
 
 .add,
@@ -704,50 +671,68 @@ ul {
   cursor: pointer;
   align-items: center !important;
   align-self: end;
-  text-align: center;
 }
 
 .money {
   margin: 0;
   padding: 0;
   text-align: left;
-}
-.money ul > li input {
-  font-size: 20px;
+  & ul > li input {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 70px;
+    height: 25px;
+    margin-left: 4px;
+    padding: 4px;
+    font-size: 12px;
+    text-align: center;
+    font-size: 20px;
+  }
 }
 
-.skill-name {
-  font-size: 18px !important;
-}
-.inspiration-container {
-  position: relative;
-}
 
-.inspiration {
+.inspiration-stat {
   position: absolute;
-  top:0;
-  bottom:0;
-  left:0;
+  top: 0;
+  bottom: 0;
+  left: 0;
   right: 0;
   z-index: 999;
-
-}
-.inspiration-input {
-  position: absolute;
-
-  font-size: 30px;
-  z-index: 1200;
-  background-color: none;
-  background: none;
-  left: 25px;
+  &-container {
+    position: relative;
+    &-input {
+    position: absolute;
+    font-size: 30px;
+    z-index: 1200;
+    background: none;
+    left: 25px;
     right: 0;
     width: 100px;
     height: 100px;
+  }
+  }
+ 
+  
 }
+
 .death-successes,
 .saving-throws,
-.death-failures {
+.death-failures,
+.ability-saves {
   text-align: center;
 }
+
+
+
+input {
+	color: white;
+	border: none;
+	background-color: black;
+}
+
+.choose-character {
+	max-width: 80%;
+	margin: 0 auto;
+}
+
 </style>
-../components/Modal_.vue../composition/useModals
