@@ -39,22 +39,24 @@ export class Character {
 			name: "",
 			bonus: "",
 			damage: "",
-		}
+			description: "",
+		},
 	]
 	spells: any = [
 		{
 			name: "",
 			description: "",
 			level: "",
-		}
+		},
 	]
-	items :any = [
+	items: any = [
 		{
 			name: "",
 			description: "",
 			qty: "",
-		}
+		},
 	]
+	partyMembers: any = []
 	failures: { [key: number]: boolean } = { 0: false, 1: false, 2: false }
 	personality: string = ""
 	ideals: string = ""
@@ -116,7 +118,15 @@ export enum session_keys {
 }
 
 export const stats = ["intelligence", "strength", "constitution", "wisdom", "dexterity", "charisma"]
-export const members: any = [{ name: "bubbles", description: "they have an ex who is a lobster", databaseRef: null }, { name: "tibbub", description: "they are stretchy and an ameoba dude", databaseRef: null }, { name: "The Wrestler", description: "They  have a secret identity that only comes forth in battle (soundtrack provided)", databaseRef: null }]
+export const members: any = [
+	{ name: "bubbles", description: "they have an ex who is a lobster", databaseRef: null },
+	{ name: "tibbub", description: "they are stretchy and an ameoba dude", databaseRef: null },
+	{
+		name: "The Wrestler",
+		description: "They  have a secret identity that only comes forth in battle (soundtrack provided)",
+		databaseRef: null,
+	},
+]
 
 export const skills: any = {
 	intelligence: ["arcana", "history", "investigation", "nature", "religion"],

@@ -30,17 +30,14 @@
         {
           "name": "Crossbow",
           "bonus": "0",
-          "damage": "Piercing"
+          "damage": "Piercing",
+          "description": ""
         },
         {
           "name": "UnarmedStrike",
           "bonus": "+5",
-          "damage": "3 bludgeoning"
-        },
-        {
-          "name": "",
-          "bonus": "",
-          "damage": ""
+          "damage": "3 bludgeoning",
+          "description": ""
         }
       ],
       "spells": [
@@ -77,6 +74,28 @@
         "gold": "230",
         "platinum": "0"
       },
+      "partyMembers": [
+        {
+          "name": "Bubbles",
+          "description": "?"
+        },
+        {
+          "name": "hubub",
+          "description": "?"
+        },
+        {
+          "name": "Bam",
+          "description": "?"
+        },
+        {
+          "name": "Wrestler",
+          "description": "?"
+        },
+        {
+          "name": "Ven",
+          "description": "?"
+        }
+      ],
       "intelligence": {
         "score": "17",
         "modifier": "+3",
@@ -185,6 +204,197 @@
       },
       "survival": {
         "val": "+3",
+        "proficiency": false
+      }
+    },
+    {
+      "id": 1711666195157,
+      "avatar": "",
+      "name": "Killsta",
+      "classlevel": "Artificer (5)",
+      "background": "?",
+      "race": "Tiefling",
+      "alignment": "Chaotic Good",
+      "inspiration": "0",
+      "playername": "",
+      "xp": "",
+      "armorclass": "",
+      "initiative": "",
+      "speed": "",
+      "hitpoints": "25",
+      "currenthitpoints": "22",
+      "proficiencybonus": "",
+      "abilitysaveDC": "",
+      "temporaryhitpoints": "",
+      "totalhitdice": "",
+      "hitdice": "",
+      "successes": {
+        "0": false,
+        "1": false,
+        "2": false
+      },
+      "attacks": [
+        {
+          "name": "Light Crossbow",
+          "bonus": "Force (5ft on creature hit)",
+          "damage": "1d6",
+          "description": "Range (120ft)"
+        },
+        {
+          "name": "Light Crossbow",
+          "bonus": "Force (5ft on creature hit)",
+          "damage": "1d6",
+          "description": "Range (120ft)"
+        }
+      ],
+      "spells": [
+        {
+          "name": "Firebolt",
+          "level": "0",
+          "description": "\nCasting Time: 1 action\nRange: 120 feet\nTarget: A creature or object within range\nComponents: V S\nDuration: Instantaneous\nClasses: Sorcerer, Wizard\nYou hurl a mote of fire at a creature or object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 fire damage. A flammable object hit by this spell ignites if it isn’t being worn or carried. This spell’s damage increases by 1d10 when you reach 5th level (2d10), 11th level (3d10), and 17th level (4d10)."
+        },
+        {
+          "name": "Feather Fall",
+          "level": "1",
+          "description": "Casting Time: 1 reaction, which you take when you or a creature within 60 feet of you falls,\nRange: 60 feet,\nTarget: Up to five falling creatures within range,\nComponents: V M (A small feather or piece of down),\nDuration: 1 minute,\nClasses: Bard, Sorcerer, Wizard,\nChoose up to five falling creatures within range. A falling creature’s rate of descent slows to 60 feet per round until the spell ends. If the creature lands before the spell ends, it takes no falling damage and can land on its feet, and the spell ends for that creature."
+        }
+      ],
+      "items": [
+        {
+          "name": "",
+          "description": "",
+          "qty": ""
+        }
+      ],
+      "partyMembers": [],
+      "failures": {
+        "0": false,
+        "1": false,
+        "2": false
+      },
+      "personality": "",
+      "ideals": "",
+      "flaws": "",
+      "bonds": "",
+      "featuresandtraits": "",
+      "equipment": "",
+      "attacksandspellingcasting": "",
+      "otherprofienienciesandlanguages": "",
+      "money": {
+        "copper": "0",
+        "silver": "0",
+        "electrum": "0",
+        "gold": "0",
+        "platinum": "0"
+      },
+      "intelligence": {
+        "score": "16",
+        "modifier": "+3",
+        "proficiency": "",
+        "savingthrow": false
+      },
+      "strength": {
+        "score": "11",
+        "modifier": "+0",
+        "proficiency": "",
+        "savingthrow": false
+      },
+      "constitution": {
+        "score": "7",
+        "modifier": "-2",
+        "proficiency": "",
+        "savingthrow": false
+      },
+      "wisdom": {
+        "score": "11",
+        "modifier": "+0",
+        "proficiency": "",
+        "savingthrow": false
+      },
+      "dexterity": {
+        "score": "13",
+        "modifier": "+1",
+        "proficiency": "",
+        "savingthrow": false
+      },
+      "charisma": {
+        "score": "14",
+        "modifier": "+2",
+        "proficiency": "",
+        "savingthrow": false
+      },
+      "passivewisdom": "",
+      "passiveintelligence": "",
+      "acrobatics": {
+        "val": "",
+        "proficiency": false
+      },
+      "animalhandling": {
+        "val": "",
+        "proficiency": false
+      },
+      "arcana": {
+        "val": "+6",
+        "proficiency": false
+      },
+      "athletics": {
+        "val": "",
+        "proficiency": false
+      },
+      "deception": {
+        "val": "",
+        "proficiency": false
+      },
+      "history": {
+        "val": "+6",
+        "proficiency": false
+      },
+      "insight": {
+        "val": "",
+        "proficiency": false
+      },
+      "intimidation": {
+        "val": "",
+        "proficiency": false
+      },
+      "investigation": {
+        "val": "",
+        "proficiency": false
+      },
+      "medicine": {
+        "val": "",
+        "proficiency": false
+      },
+      "nature": {
+        "val": "",
+        "proficiency": false
+      },
+      "perception": {
+        "val": "",
+        "proficiency": false
+      },
+      "performance": {
+        "val": "",
+        "proficiency": false
+      },
+      "persuasion": {
+        "val": "",
+        "proficiency": false
+      },
+      "religion": {
+        "val": "",
+        "proficiency": false
+      },
+      "sleightofhand": {
+        "val": "",
+        "proficiency": false
+      },
+      "stealth": {
+        "val": "",
+        "proficiency": false
+      },
+      "survival": {
+        "val": "",
         "proficiency": false
       }
     }
