@@ -4,24 +4,11 @@
       <button @click="saveCharacter()">Save Character</button>
     </div>
     <br />
-    <ul>
-      Dev notes
-      <li>- Convert Character into store or computed property</li>
-      <li>- Click on character to show bonds ideals proficiency, languages</li>
 
-      <li>- Add interactive map</li>
-      <li>- Convert toast into comp function</li>
-      <li>- clean up horrific css</li>
-      <li>- add party member creation and custimization.</li>
-      <li>
-        - when clicking party member, spells, items, or name, show a conditional
-        view in modal
-      </li>
-    </ul>
     <br /><br />
     <div class="flex-row flex-1 space-even">
       <div>
-        Inspiration
+        inspiration
         <div class="inspiration-stat-container">
           <img class="pi-spin" src="../assets/img/dnddie.png" width="100px" />
           <input
@@ -31,39 +18,39 @@
           />
         </div>
       </div>
-      <div>
-        Armor Class (AC):
+      <div class="passive-skills">
+        Armor <br>Class (AC)
         <input
           class="ability-saves"
           type="text"
           v-model="character.armorclass"
         />
       </div>
-      <div>
-        Ability Save (DC):
+      <div class="passive-skills">
+        Ability <br>Save  (DC)
         <input
           class="ability-saves"
           type="text"
           v-model="character.abilitysaveDC"
         />
       </div>
-      <div>
-        Proficiency Bonus:<input
+      <div class="passive-skills">
+        Proficiency <br>Bonus<input
           class="ability-saves"
           type="text"
           v-model="character.proficiencybonus"
         />
       </div>
-      <div>
-        Passive Wisdom:
+      <div class="passive-skills">
+        Passive<br> Wisdom
         <input
           class="ability-saves"
           type="text"
           v-model="character.passivewisdom"
         />
       </div>
-      <div>
-        Passive Perception:
+      <div class="passive-skills">
+        Passive <br>Perception
         <input
           class="ability-saves"
           type="text"
@@ -113,12 +100,14 @@
           </div>
         </div>
       </div>
-      <div class="tooltip">
+      <div >
         <!-- <i class="pi pi-money-bill " style="font-size: 2.5rem"></i> -->
 
-        <img src="../assets/img/money.png" width="100px" />
+        <img src="../assets/img/money.png" width="100px" @click="toggleMoney = !toggleMoney" />
 
         <div
+        v-if="toggleMoney"
+        
           class="tooltiptext stat-block flex-row text-green"
           style="flex: 1; margin: 0.5rem; justify-content: space-around"
         >
@@ -170,12 +159,17 @@
             </ul>
           </div>
         </div>
+
+        <div>
+          Hit Dice: {{ character.hitdice }}<br>
+          Total Hit Dice: {{ character.totalhitdice }}
+        </div>
       </div>
     </div>
     <hr />
     <div class="flex-row flex-1 space-even">
       <div v-for="stat of stats">
-        <div class="flex-col stat-block stat-block-center stat-title-container">
+        <div class="flex-col stat-block-main stat-block-center stat-title-container">
           <div class="tooltip">
             <div class="stat-title">
               {{
@@ -238,35 +232,35 @@
     <div class="flex flex-row space-even">
       <div
         class="stat-block stat-block-spells flex-col text-green"
-        style="flex: 2"
+        style="flex: 1"
       >
         <p class="stat-block-title glow">
           <i class="pi pi-bolt"></i>&nbsp;Spells
           <i class="pi pi-star"></i>&nbsp;
         </p>
+        <button @click="open('createSpell')" class="add">
+              <i class="pi pi-plus"></i>&nbsp;
+            </button>
         <div v-for="(spell, index) of character.spells">
           <div class="flex-row">
             <div style="flex: 1; flex-basis: min-content">
-              <div style="margin-right: 4px" v-if="index === 0">- Name -</div>
+              <div  v-if="index === 0">- Name -</div>
 
               ({{ index + 1 }}) {{ spell.name || "None" }}
             </div>
             <div style="flex: 1; flex-basis: min-content">
-              <div style="flex: 1; flex-basis: min-content" v-if="index === 0">
+              <div  v-if="index === 0">
                 - Lvl -
               </div>
-
               {{ spell.level || "None" }}
             </div>
 
-            <button @click="open('createSpell')" class="add">
-              <i class="pi pi-plus"></i>&nbsp;
-            </button>
-            <button @click="open('createSpell')" class="minus">
+     
+            <button @click="deleteSpell(index)" class="minus">
               <i class="pi pi-minus"></i> &nbsp;
             </button>
-            <button @click="open('editSpell')" class="edit">
-              <i class="pi pi-file-edit"></i>&nbsp;
+            <button @click="spellView = spell, open('viewSpell')" class="edit">
+              VIEW
             </button>
           </div>
         </div>
@@ -277,41 +271,32 @@
       >
         <p class="stat-block-title glow">Items & Equipment</p>
         <br />
-
+        <button @click="open('createItem')" class="add">
+              <i class="pi pi-plus"></i>&nbsp;
+            </button>
         <div v-for="(item, index) of character.items">
           <div class="flex-row">
-            <div style="flex: 1; flex-basis: min-content">
+            <div style="flex: 2; flex-basis: min-content">
               <div v-if="index === 0">-Name-</div>
               {{ item.name || "None" }}
             </div>
             <div style="flex: 1">
               <div
-                style="margin-right: 4px; flex: 1; flex-basis: min-content"
                 v-if="index === 0"
               >
                 -Qty-
               </div>
               {{ item.qty || "None" }}
             </div>
-            <div style="flex: 1">
-              <div
-                style="margin-right: 4px; flex: 1; flex-basis: min-content"
-                v-if="index === 0"
-              >
-                -Value-
-              </div>
-              {{ item.value || "?" }}
-            </div>
+           
             <div style="flex: 1"><Icon icon="mdi-light:binocular-solid" /></div>
 
-            <button @click="open('createItem')" class="add">
-              <i class="pi pi-plus"></i>&nbsp;
-            </button>
-            <button @click="open('deleteItem')" class="minus">
+       
+            <button @click="deleteItem( index)" class="minus">
               <i class="pi pi-minus"></i> &nbsp;
             </button>
-            <button @click="open('editItem')" class="edit">
-              <i class="pi pi-file-edit"></i>&nbsp;
+            <button @click="itemView = item, open('viewItem')" class="edit">
+              VIEW
             </button>
           </div>
         </div>
@@ -323,8 +308,8 @@
       class="stat-block flex-row text-green"
       style="flex: 1; margin: 0.5rem; justify-content: space-around"
     >
-      <div style="flex: 2; margin: 0.5rem">hell</div>
-      <div style="flex: 3; margin: 0.5rem">nah</div>
+      <!-- <div style="flex: 2; margin: 0.5rem">hell</div>
+      <div style="flex: 3; margin: 0.5rem">nah</div> -->
     </div>
   </div>
 
@@ -333,26 +318,24 @@
   <Modal_
     :isOpen="isOpen('createItem')"
     @modal-close="close('createItem')"
-    @submit="submitHandler"
-    name="first-modal"
   >
-    <template #header><h3>(Add item Modal)</h3></template>
+    <template #header><h3>Add Item</h3></template>
     <template #content>
       <div class="stat-block flex-col text-green" style="flex: 2">
-        <p class="stat-block-title">Create New Spell</p>
         <br />
-        <div class="flex-row">
-          <div>- Name -</div>
-          <div>- Qty-</div>
-        </div>
-
-        <div class="flex-row">
+        <div class="flex-col">
           <div>
+            <div>- Name -</div>
             <input type="text" class="spell-input" v-model="item.name" />
           </div>
 
           <div>
+            <div>- Qty-</div>
             <input type="text" class="spell-input" v-model="item.qty" />
+          </div>
+          <div>
+            <div>- Description-</div>
+            <textarea type="text" class="spell-input" v-model="item.description" />
           </div>
         </div>
       </div>
@@ -366,28 +349,22 @@
   <Modal_
     :isOpen="isOpen('createSpell')"
     @modal-close="close('createSpell')"
-    @submit="submitHandler()"
   >
-    <template #header><h3>(Add Spell Modal)</h3></template>
+    <template #header> <h3>Create New Spell</h3></template>
     <template #content>
       <div class="stat-block flex-col text-green" style="flex: 2">
-        <p class="stat-block-title">Create New Spell</p>
-        <br />
-        <div class="flex-row">
-          <div>- Name -</div>
-          <div>- Level / Cantrip-</div>
-          <div>- Description -</div>
-        </div>
-
-        <div class="flex-row">
+        <div class="flex-col">
           <div>
+            <div>- Name -</div>
             <input type="text" class="spell-input" v-model="spell.name" />
           </div>
           <div>
+            <div>- Level / Cantrip-</div>
             <input type="text" class="spell-input" v-model="spell.level" />
           </div>
           <div>
-            <input
+            <div>- Description -</div>
+            <textarea
               type="text"
               class="spell-input"
               v-model="spell.description"
@@ -398,6 +375,60 @@
     </template>
     <template #footer>
       <button @click="addNewSpell()">Add New Spell</button></template
+    >
+  </Modal_>
+  <!-- VIEW MODALs-->
+
+  <Modal_
+    :isOpen="isOpen('viewSpell')"
+    @modal-close="close('viewSpell')"
+  >
+    <template #header> <h3>Spell</h3></template>
+    <template #content>
+      <div class="stat-block flex-col text-green" style="flex: 2">
+        <div class="flex-col">
+          <div>
+            <div> Name: {{ spellView.name}}</div><br>
+
+            
+          </div>
+          <div>
+            <div> Level / Cantrip:  {{ spellView.level}}</div><br>
+          </div>
+          <div>
+            <div>- Description -</div>
+            {{ spellView.description}}
+          </div>
+        </div>
+      </div>
+    </template>
+   
+  </Modal_>
+
+  <Modal_
+    :isOpen="isOpen('viewItem')"
+    @modal-close="close('viewItem')"
+  >
+    <template #header><h3>Item</h3></template>
+    <template #content>
+      <div class="stat-block flex-col text-green" style="flex: 2">
+        <div class="flex-col">
+          <div>
+            <div>- Name -</div>
+            {{ itemView.name}}
+          </div><br>
+          <div>
+            <div>- Qty-</div>
+            {{ itemView.qty}}
+          </div><br>
+          <div>
+            <div>- Description -</div>
+            {{ itemView.description}}
+          </div><br>
+        </div>
+      </div>
+
+</template
     >
   </Modal_>
 </template>
@@ -414,11 +445,12 @@ import router from "../router";
 import SessionNotes from "./SessionNotes.vue";
 
 /* REFS */
-var characters: Ref<Array<Character>> =
+var toggleMoney = ref(false);
+var characters =
   ref(); /* all characters from DB -  ex: [ { "id" : "1234", name: "VEN"}, { "id" : "1234", "name": "Frodo"}, ...] */
-var character: Ref<Character> | undefined =
+var character =
   ref(); /* For Session On Each Page - ex: { "id": "1234", "name": "VEN" ...} */
-var characterSessionLocalStorageKey: Ref<string> = ref();
+var characterSessionLocalStorageKey = ref();
 /* COMPOSITION  */
 const spell = ref({
   name: "",
@@ -426,12 +458,16 @@ const spell = ref({
   description: "",
 });
 
+
+const spellView = ref();
+const itemView = ref();
+
 const item = ref({
   name: "",
   qty: "",
   description: "",
 });
-const { isOpen, open, close, submitHandler } = useModals([
+const { isOpen, open, close } = useModals([
   "createSpell",
   "editSpell",
   "viewSpell",
@@ -453,19 +489,37 @@ const getCharacterData = async (): Promise<Array<Character>> => {
 };
 
 const saveCharacter = async (): Promise<void> => {
-  updateOne("characters", character.value, character.value.name);
-  setStorage(session_keys.characterName, character.value.name);
+  updateOne("characters", character?.value, character?.value.name);
+  setStorage(session_keys.characterName, character!.value.name);
 };
 
 const addNewSpell = async () => {
-  character.value.spells.push(spell.value);
+  character?.value.spells.push(spell.value);
   await saveCharacter();
 };
 
 const addNewItem = async () => {
-  character.value.items.push(spell.value);
+  character?.value.items.push(item.value);
   await saveCharacter();
+  close('createItem')
 };
+
+const  deleteSpell = async ( idx: any) =>{
+  character?.value.spells.splice(idx, 1);
+  await saveCharacter();
+  close('createSpell')
+
+
+}
+const  deleteItem = async (idx: any) => {
+  if(item.qty > 1) {
+    item.qty -=1
+  } else {
+    character?.value.items.splice(idx, 1);
+  }
+  await saveCharacter();
+
+}
 async function init(): Promise<void> {
   characters.value = await getCharacterData();
   characterSessionLocalStorageKey.value = await getStorage(
@@ -523,10 +577,25 @@ input {
   background-color: black;
 }
 
+.spell-input {
+  color: black;
+  border-radius: 4px;
+  width: 100%;
+  background-color: greenyellow;
+}
+
+textarea {
+  min-height: 400px
+}
 /*  */
 
+.passive-skills {
+  color: greenyellow;
+  text-align: center;
+
+}
+
 .stat-title {
-  position: absolute;
   color: greenyellow;
   left: -10px;
   top: -24px;
@@ -537,6 +606,10 @@ input {
   }
 }
 
+.stat-block-main {
+  text-align: center;
+
+}
 
 .stat-block {
   background-color: black;
@@ -645,9 +718,15 @@ ul {
 }
 
 .add,
-.minus,
-.edit {
+.minus
+{
   width: 20px;
+  height: 20px;
+  font-size: 10px;
+}
+
+.edit {
+  width: 40px;
   height: 20px;
   font-size: 10px;
 }
@@ -662,7 +741,7 @@ ul {
 .add,
 .minus,
 .edit {
-  border-radius: 50%;
+
   border: 1px solid yellowgreen;
   color: yellowgreen;
   background-color: none;

@@ -14,20 +14,18 @@ export  function useModals(modalIds: Array<String>) {
   };
 
   const open = (id: string) => {
-    
     dictionary[`${id}`].value = true;
   };
+
   const close = (id: string) => {
     dictionary[`${id}`].value= false;
   };
 
-  const submitHandler = () => {
-    //here you do whatever
-  };
+  
+
   return {
     isOpen,
     open,
     close,
-    submitHandler,
   };
 }
