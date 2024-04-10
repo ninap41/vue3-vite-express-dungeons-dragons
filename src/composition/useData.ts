@@ -4,7 +4,10 @@ import router from "../router"
 import { useToast } from "vue-toast-notification"
 import { CRUD as _CRUD, session_keys, CRUD, Character } from "../types/types"
 import "vue-toast-notification/dist/theme-sugar.css"
+import { useLocalStorage } from "./useLocalStorage"
+
 const $toast = useToast()
+const { setStorage } = useLocalStorage()
 
 /* Includes localStorage setup and api references */
 export function useData() {
@@ -62,7 +65,14 @@ export function useData() {
 		return !ref_.value || ref_.value === ""
 	}
 
+	const saveCharacter = async (character:  Character): Promise<void> => {
+		updateOne("characters", character, character.name)
+		setStorage(session_keys.characterName, character.name)
+	}
 	
+	const getCharacterData = async (): Promise<Array<Character>> => {
+		return await getAll("characters")
+	}
 
 	return {
 		scaffoldTables,
@@ -72,5 +82,8 @@ export function useData() {
 		getAll,
 		getOne,
 		isEmpty,
+
+		saveCharacter,
+		getCharacterData,
 	}
 }

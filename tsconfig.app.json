@@ -5,7 +5,12 @@
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"],
+      "@views/*": ["views/*"],
+      "@components/*": ["components/*"],
+      "@composition/*": ["composition/*"],
+
     }
+    
   }
 }

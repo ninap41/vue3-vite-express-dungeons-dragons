@@ -10,13 +10,22 @@
   ],
   "compilerOptions": {
     "lib": ["es5", "es6", "dom"],
+    "experimentalDecorators": true,
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es6",
     "moduleResolution": "node",
+    "baseUrl": ".",  
+    "paths": {
+      "@/*": ["src/*"],
+      "@views/*": ["views/*"],
+      "@components/*": ["components/*"],
+      "@composition/*": ["composition/*"],
+
+      },
     "jsx": "react"
   },
-  "include": ["./src/**/*"]
+  "include": ["src/*","../src/*","**/src/**/*.vue", "src/**/*.vue", "src/views/*.vue", "src/components/*.vue"]
 }

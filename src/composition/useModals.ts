@@ -1,28 +1,52 @@
-import { ref } from "vue";
+import { ref, type Ref, computed } from "vue";
+
+interface ModalToggles {
+  id: String
+  open: Boolean
+}
 
 export  function useModals(modalIds: Array<String>) {
-  const dictionary: any = {};
-  const initDictionary: any = () => {
+  modalIds = [
+  "createSpell",
+  "createItem",
+	"createWeapon",
+
+	"editSpell",
+  "editItem",
+  "editWeapon",
+
+	"viewSpell",
+  "viewItem",
+  "viewWeapon",
+
+	"deleteConfirmation", 
+]
+
+  const arrayModal: Ref<Array<ModalToggles>> = ref(new Array())
+
+
+
+  const initStore: () => void = () => {
     for (var i = 0; i <= modalIds.length; i++) {
-      dictionary[`${modalIds[i]}`] = ref(false)
+      arrayModal.value.push({id: `${modalIds[i]}`, open:  false}) 
     }
   };
 
-  initDictionary()
   const isOpen = (id: string) => {
-    return dictionary[`${id}`].value
+    return arrayModal.value.find((modal: ModalToggles ) =>  modal.id === id)?.open
   };
 
   const open = (id: string) => {
-    dictionary[`${id}`].value = true;
+   arrayModal.value.find((modal: ModalToggles ) =>  modal.id === id )!.open  = true
+    return true
   };
 
   const close = (id: string) => {
-    dictionary[`${id}`].value= false;
+    return arrayModal.value .find((modal: ModalToggles ) =>  modal.id === id )!.open = false;
   };
 
-  
 
+  initStore()
   return {
     isOpen,
     open,

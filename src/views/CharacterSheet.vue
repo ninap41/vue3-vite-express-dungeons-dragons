@@ -1,11 +1,9 @@
 <template>
 	<div v-if="character">
-		<div class="flex-row flex-start save-character">
-			<button @click="saveCharacter()">Save Character</button>
+		<div class="flex-row flex-start save-character-button">
+			<button @click="saveCharacter(character)">Save Character</button>
 		</div>
-		<br />
 
-		<br /><br />
 		<div class="flex-row flex-1 space-even">
 			<div>
 				inspiration
@@ -91,34 +89,7 @@
 		</div>
 		<hr />
 		<div class="flex-row flex-1 space-even">
-			<div v-for="stat of stats">
-				<div class="flex-col stat-block-main stat-block-center stat-title-container">
-					<div class="tooltip">
-						<div class="stat-title">
-							{{ stat.replace(stat.charAt(0), stat.charAt(0).toLocaleUpperCase()) }}
-						</div>
-						<div class="tooltiptext skill-text">
-							<span v-for="skill of skills[stat]" class="skills">
-								<span class="skill-name">{{ skill.replace(skill.charAt(0), skill.charAt(0).toLocaleUpperCase()) }}</span>
-								<span><input name="val" v-model="character[skill as keyof Character].val" type="text" /></span>
-								<span
-									><input
-										name="prof"
-										v-model="character[skill as keyof Character].proficiency"
-										:checked="character[skill as keyof Character].proficiency"
-										type="checkbox"
-									/>{{ character[skill as keyof Character].proficiency ? "(P)" : "" }}</span
-								><br /><br />
-							</span>
-						</div>
-					</div>
-					<div>
-						<span><input class="score" v-model="character[stat as keyof Character].score" /></span>
-
-						<span> <input class="modifier" v-model="character[stat as keyof Character].modifier" /></span>
-					</div>
-				</div>
-			</div>
+	<StatSection :character="character"></StatSection>
 
 			<div>
 				<div class="stat-block stat-block-left">
@@ -138,342 +109,51 @@
 			</div>
 		</div>
 
-		<div class="flex flex-row space-even">
-			<div class="stat-block stat-block-spells flex-col text-green" style="flex: 1">
-				<p class="stat-block-title glow"><i class="pi pi-bolt"></i>&nbsp;Spells <i class="pi pi-star"></i>&nbsp;</p>
-				<button @click="open('createSpell')" class="add"><i class="pi pi-plus"></i>&nbsp;</button>
-				<div v-for="(spell, index) of character.spells">
-					<div class="flex-row">
-						<div style="flex: 1; flex-basis: min-content">
-							<div v-if="index === 0">- Name -</div>
-
-							({{ index + 1 }}) {{ spell.name || "None" }}
-						</div>
-						<div style="flex: 1; flex-basis: min-content">
-							<div v-if="index === 0">- Lvl -</div>
-							{{ spell.level || "None" }}
-						</div>
-
-						<button @click="deleteSpell(index)" class="minus"><i class="pi pi-minus"></i> &nbsp;</button>
-						<button @click=";(spellView = spell), open('viewSpell')" class="edit">VIEW</button>
-					</div>
-				</div>
-			</div>
-			<div class="stat-block stat-block-items flex-col text-green" style="flex: 1; justify-content: space-around">
-				<p class="stat-block-title glow">Items & Equipment</p>
-				<br />
-				<button @click="open('createItem')" class="add"><i class="pi pi-plus"></i>&nbsp;</button>
-				<div v-for="(item, index) of character.items">
-					<div class="flex-row">
-						<div style="flex: 2; flex-basis: min-content">
-							<div v-if="index === 0">-Name-</div>
-							{{ item.name || "None" }}
-						</div>
-						<div style="flex: 1">
-							<div v-if="index === 0">-Qty-</div>
-							{{ item.qty || "None" }}
-						</div>
-
-						<div style="flex: 1"><Icon icon="mdi-light:binocular-solid" /></div>
-
-						<button @click="deleteItem(index)" class="minus"><i class="pi pi-minus"></i> &nbsp;</button>
-						<button @click=";(itemView = item), open('viewItem')" class="edit">VIEW</button>
-					</div>
-				</div>
-			</div>
+		<div class="flex flex-row">
+			<SpellSection :character="character"></SpellSection>
+			<ItemSection :character ="character"></ItemSection>
 		</div>
-		<SessionNotes /><br /><br />
-		<div class="stat-block flex-row text-green" style="margin: 0.5rem; justify-content: space-around">
-			<div style="flex: 1; margin: 1rem">
-				<p class="stat-block-title glow">Attacks & Weapons</p>
-				<br />
-				<button @click="open('createWeapon')" class="add"><i class="pi pi-plus"></i>&nbsp;</button>
-				<div v-for="(attacks, index) of character.attacks">
-					<div class="flex-row">
-						<div style="flex: 1">
-							<div v-if="index === 0">-Name-</div>
-							{{ attacks.name || "None" }}
-						</div>
-						<div style="flex: 1">
-							<div v-if="index === 0">-Bonus-</div>
-							{{ attacks.bonus || "None" }}
-						</div>
-						<div style="flex: 1; flex-basis: min-content">
-							<div v-if="index === 0">-Damage-</div>
-							{{ attacks.damage || "None" }}
-						</div>
-
-						<button @click="deleteWeapon(index)" class="minus"><i class="pi pi-minus"></i> &nbsp;</button>
-						<button @click=";(weaponView = weapon), open('viewWeapon')" class="edit">VIEW</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		<SessionNotes />
+		<br>
+		<WeaponSection :character="character"></WeaponSection>
 	</div>
-
-	<!-- ADD Item-->
-
-	<Modal_ :isOpen="isOpen('createItem')" @modal-close="close('createItem')">
-		<template #header><h3>Add Item</h3></template>
-		<template #content>
-			<div class="stat-block flex-col text-green" style="flex: 2">
-				<br />
-				<div class="flex-col">
-					<div>
-						<div>- Name -</div>
-						<input type="text" class="spell-input" v-model="item_.name" />
-					</div>
-
-					<div>
-						<div>- Qty-</div>
-						<input type="text" class="spell-input" v-model="item_.qty" />
-					</div>
-					<div>
-						<div>- Description-</div>
-						<textarea type="text" class="spell-input" v-model="item_.description" />
-					</div>
-				</div>
-			</div>
-		</template>
-		<template #footer> <button @click="addNewItem()">Add New Item</button></template>
-	</Modal_>
-	<!-- ADD SPELL MODAL-->
-
-	<Modal_ :isOpen="isOpen('createSpell')" @modal-close="close('createSpell')">
-		<template #header> <h3>Create New Spell</h3></template>
-		<template #content>
-			<div class="stat-block flex-col text-green" style="flex: 2">
-				<div class="flex-col">
-					<div>
-						<div>- Name -</div>
-						<input type="text" class="spell-input" v-model="spell_.name" />
-					</div>
-					<div>
-						<div>- Level / Cantrip-</div>
-						<input type="text" class="spell-input" v-model="spell_.level" />
-					</div>
-					<div>
-						<div>- Description -</div>
-						<textarea type="text" class="spell-input" v-model="spell_.description" />
-					</div>
-				</div>
-			</div>
-		</template>
-		<template #footer> <button @click="addNewSpell()">Add New Spell</button></template>
-	</Modal_>
-
-	<Modal_ :isOpen="isOpen('createWeapon')" @modal-close="close('createWeapon')">
-		<template #header><h3>Create Attack/Weapon</h3></template>
-		<template #content>
-			<div class="stat-block flex-col text-green" style="flex: 2">
-				<div class="flex-col">
-					<div class="flex-col">
-						<div>
-							<div>- Name -</div>
-							<input type="text" class="spell-input" v-model="weapon_.name" />
-						</div>
-						<div>
-							<div>- Bonus-</div>
-							<input type="text" class="spell-input" v-model="weapon_.bonus" />
-						</div>
-						<div>
-							<div>- Damage -</div>
-							<input type="text" class="spell-input" v-model="weapon_.damage" />
-						</div>
-						<div>
-							<div>- Description -</div>
-							<textarea type="text" class="spell-input" v-model="weapon_.description" />
-						</div>
-					</div>
-				</div>
-			</div>
-		</template>
-		<template #footer> <button @click="addNewWeapon()">Add New Attack Or Weapon</button></template>
-	</Modal_>
-	<!-- VIEW MODALs-->
-	<Modal_ :isOpen="isOpen('viewWeapon')" @modal-close="close('viewWeapon')">
-		<template #header><h3>Create Attack/Weapon</h3></template>
-		<template #content>
-			<div class="stat-block flex-col text-green" style="flex: 2">
-				<div class="flex-col">
-					<div>
-						<div>- Name -</div>
-						{{ weaponView.name }}
-					</div>
-					<br />
-					<div>
-						<div>- Bonus-</div>
-						{{ weaponView.bonus }}
-					</div>
-
-					<br />
-					<div>
-						<div>- Damage-</div>
-						{{ weaponView.damage }}
-					</div>
-					<br />
-
-					<div>
-						<div>- Description -</div>
-						{{ weaponView.description }}
-					</div>
-					<br />
-				</div>
-			</div>
-		</template>
-	</Modal_>
-	<Modal_ :isOpen="isOpen('viewSpell')" @modal-close="close('viewSpell')">
-		<template #header> <h3>Spell</h3></template>
-		<template #content>
-			<div class="stat-block flex-col text-green" style="flex: 2">
-				<div class="flex-col">
-					<div>
-						<div>Name: {{ spellView.name }}</div>
-						<br />
-					</div>
-					<div>
-						<div>Level / Cantrip: {{ spellView.level }}</div>
-						<br />
-					</div>
-					<div>
-						<div>- Description -</div>
-						{{ spellView.description }}
-					</div>
-				</div>
-			</div>
-		</template>
-	</Modal_>
-
-	<Modal_ :isOpen="isOpen('viewItem')" @modal-close="close('viewItem')">
-		<template #header><h3>Item</h3></template>
-		<template #content>
-			<div class="stat-block flex-col text-green" style="flex: 2">
-				<div class="flex-col">
-					<div>
-						<div>- Name -</div>
-						{{ itemView.name }}
-					</div>
-					<br />
-					<div>
-						<div>- Qty-</div>
-						{{ itemView.qty }}
-					</div>
-					<br />
-					<div>
-						<div>- Description -</div>
-						{{ itemView.description }}
-					</div>
-					<br />
-				</div>
-			</div>
-		</template>
-	</Modal_>
 </template>
 
 <script lang="ts" setup>
-import { onBeforeMount, onMounted, ref, Ref } from "vue"
-import { useData } from "../composition/useData"
-import { useModals } from "../composition/useModals"
-import Modal_ from "../components/Modal_.vue"
-import { useLocalStorage } from "../composition/useLocalStorage"
-import { Character, session_keys, skills, stats } from "../types/types"
+import { onMounted, ref} from "vue"
+import ItemSection  from "@/components/ItemSection.vue"
+import SpellSection from "@/components/SpellSection.vue" // @ts-ignore
+import WeaponSection from "@/components/WeaponSection.vue"  // @ts-ignore
+import StatSection from "@/components/StatSection.vue"
+import { useData } from "@/composition/useData"
+import { useModals } from "@/composition/useModals"
+import Modal_ from "@/components/Modal_.vue"
+import { useLocalStorage } from "@/composition/useLocalStorage"
+import { Character, session_keys, skills, stats } from "@/types/types"
 import { useToast } from "vue-toast-notification"
-import router from "../router"
-import SessionNotes from "./SessionNotes.vue"
+import router from "@/router"
+import SessionNotes from "@/views/SessionNotes.vue"
 
 /* REFS */
 var toggleMoney = ref(false)
-var characters =
-	ref() /* all characters from DB -  ex: [ { "id" : "1234", name: "VEN"}, { "id" : "1234", "name": "Frodo"}, ...] */
+/* all characters from DB -  ex: [ { "id" : "1234", name: "VEN"}, { "id" : "1234", "name": "Frodo"}, ...] */
+var characters = ref() 
 var character = ref() /* For Session On Each Page - ex: { "id": "1234", "name": "VEN" ...} */
 var characterSessionLocalStorageKey = ref()
 /* COMPOSITION  */
-const spell_ = ref({
-	name: "",
-	level: "",
-	description: "",
-})
 
-const item_ = ref({
-	name: "",
-	qty: "",
-	description: "",
-})
 
-const weapon_ = ref({
-	name: "",
-	bonus: "",
-	damage: "",
-	description: "",
-})
 
-const spellView = ref()
-const weaponView = ref()
-const itemView = ref()
-
-const { isOpen, open, close } = useModals([
-	"createSpell",
-	"editSpell",
-	"viewSpell",
-	"deleteSpellConfirmation",
-	"createItem",
-	"deleteItem",
-	"editItem",
-	"viewItem",
-	"createWeapon",
-	"viewWeapon",
-])
-const { getAll, updateOne, createOne, deleteOne, getOne, isEmpty } = useData()
+const { isOpen, open, close } = useModals([])
+const { getAll, updateOne, createOne, deleteOne, getOne, isEmpty, saveCharacter, getCharacterData } = useData()
 const { getStorage, clearStorage, clear, setStorage } = useLocalStorage()
 const $toast = useToast()
 
-/* DICTIONARY <KEYS> for CHARACTER class - for clean template rendering / loops */
 
-/* FUNCTIONS */
-const getCharacterData = async (): Promise<Array<Character>> => {
-	return await getAll("characters")
-}
 
-const saveCharacter = async (): Promise<void> => {
-	updateOne("characters", character?.value, character?.value.name)
-	setStorage(session_keys.characterName, character!.value.name)
-}
-
-const addNewSpell = async () => {
-	character?.value.spells.push(spell_.value)
-	await saveCharacter()
-}
-
-const addNewWeapon = async () => {
-	character?.value.attacks.push(weapon_.value)
-	await saveCharacter()
-	close("createWeapon")
-}
-
-const addNewItem = async () => {
-	character?.value.items.push(item_.value)
-	await saveCharacter()
-	close("createItem")
-}
-
-const deleteSpell = async (idx: any) => {
-	character?.value.spells.splice(idx, 1)
-	await saveCharacter()
-	close("createSpell")
-}
-const deleteItem = async (idx: any) => {
-	character?.value.items.splice(idx, 1)
-
-	await saveCharacter()
-}
-
-const deleteWeapon = async (idx: any) => {
-	character?.value.attacks.splice(idx, 1)
-	await saveCharacter()
-}
 async function init(): Promise<void> {
 	characters.value = await getCharacterData()
-	characterSessionLocalStorageKey.value = await getStorage(session_keys.characterName, null)
+	characterSessionLocalStorageKey.value = await getStorage(session_keys.characterName)
 	if (characterSessionLocalStorageKey.value) {
 		const charIndex = characters.value.findIndex((c: Character) => c.name === characterSessionLocalStorageKey.value)
 		if (charIndex === -1) router.push("/")
@@ -513,16 +193,14 @@ onMounted(async () => {
 	justify-content: space-evenly;
 }
 
-.flex .flex-start button {
-	margin: 0 12px;
-}
+
 input {
 	color: white;
 	border: none;
 	background-color: black;
 }
 
-.spell-input {
+.stat-block-input {
 	color: black;
 	border-radius: 4px;
 	width: 100%;
@@ -562,9 +240,12 @@ textarea {
 	position: relative;
 	text-align: left;
 
-	&-spells {
+	&-spells, &-items, &-weapons {
 		padding-top: 25px;
+		margin-top:25px;
+		width: 100%;
 	}
+
 	& p {
 		margin: 0 auto;
 	}
@@ -574,6 +255,15 @@ textarea {
 		left: 24px;
 		top: -24px;
 		margin: -81px 0px 0px 0px;
+		background-color: rgb(25, 88, 65);
+		padding: 0rem 1rem;
+		border-radius: 1rem;
+	}
+	&-create {
+		position: absolute;
+		font-size: 20px !important;
+		right: 0px;
+		top: 0px;
 		background-color: rgb(25, 88, 65);
 		padding: 0rem 1rem;
 		border-radius: 1rem;

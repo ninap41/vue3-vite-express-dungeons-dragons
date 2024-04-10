@@ -42,9 +42,14 @@
       ],
       "spells": [
         {
-          "name": "Presdigitation",
-          "level": "0",
-          "description": "Can't pronouce"
+          "name": "asd",
+          "level": "asd",
+          "description": "asd"
+        },
+        {
+          "name": "s",
+          "level": "s",
+          "description": "s"
         }
       ],
       "failures": {
