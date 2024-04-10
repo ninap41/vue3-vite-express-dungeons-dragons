@@ -55,6 +55,7 @@ export function useLocalStorage() {
 	}
 
 	const authenticated = () =>  window.localStorage.getItem( session_keys.characterName)
+	
 	return {
 		retrieveDraftFromLocalStorage,
         getStorage,
