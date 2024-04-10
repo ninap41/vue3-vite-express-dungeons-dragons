@@ -119,7 +119,7 @@
 				<b class="tooltip">Archive <span class="tooltiptext">This will refresh the wysiwig and archive your session note to the archive page.</span></b>
 			</button>
 		<div class="countdown-container">
-			<p class="tooltip countdown-tooltip"><div>Draft Save Countdown: {{ saveCountdown }}</div> <div class="tooltiptext">Saves a draft once every thirty seconds</div></p>
+			<!-- <p class="tooltip countdown-tooltip"><div>Draft Save Countdown: {{ saveCountdown }}</div> <div class="tooltiptext">Saves a draft once every thirty seconds</div></p> -->
 		</div>
     </div>
 </div>
@@ -192,14 +192,14 @@ async function saveNote() {
 //@ts-ignore
 onMounted(async () => {
   await sessionGuard();
-  setInterval(() => {
-    saveCountdown.value -= 1;
-    if (saveCountdown.value === 0) {
-      setStorage(session_keys.draft, editor.value.getHTML());
-      $toast.warning(`${saveCountdown.value} Updated Session Draft`);
-      saveCountdown.value = 30;
-    }
-  }, 1000);
+  // setInterval(() => {
+  //   saveCountdown.value -= 1;
+  //   if (saveCountdown.value === 0) {
+  //     setStorage(session_keys.draft, editor.value.getHTML());
+  //     $toast.warning(`${saveCountdown.value} Updated Session Draft`);
+  //     saveCountdown.value = 30;
+  //   }
+  // }, 1000);
 });
 </script>
 <style>

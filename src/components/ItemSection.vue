@@ -10,11 +10,11 @@
     <div v-for="(item, index) of character.items">
       <div class="flex-row">
         <div style="flex: 2; flex-basis: min-content">
-          <div v-if="index === 0">-Name-</div>
+          <div v-if="index === 0" class="stat-block-subtitle">-Name-</div>
           {{ item.name || "None" }}
         </div>
         <div style="flex: 1">
-          <div v-if="index === 0">-Qty-</div>
+          <div v-if="index === 0" class="stat-block-subtitle">-Qty- </div>
           {{ item.qty || "None" }}
         </div>
 
@@ -37,16 +37,16 @@
       <div class="stat-block flex-col text-green" style="flex: 2">
         <div class="flex-col">
           <div>
-            <div>- Name -</div>
+            <div class="stat-block-subtitle">- Name -</div>
             {{ itemView.name }}
           </div>
           <br />
           <div>
-            <div>- Qty-</div>
+            <div class="stat-block-subtitle">- Qty-</div>
             {{ itemView.qty }}
           </div>
           <br />
-          <div>
+          <div class="stat-block-subtitle">
             <div>- Description -</div>
             {{ itemView.description }}
           </div>

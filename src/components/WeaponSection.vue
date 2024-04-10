@@ -4,7 +4,7 @@
     class="stat-block  stat-block-weapons flex-row text-green"
     style="margin: 0.5rem; justify-content: space-around"
   >
-    <div style="flex: 1; margin: 1rem">
+    <div style="flex: 2; margin: 1rem">
       <p class="stat-block-title glow">Attacks & Weapons</p>
       <button @click="open('createWeapon')" class="stat-block-create glow">
         +</button
@@ -12,15 +12,15 @@
       <div v-for="(attack, index) of character.attacks">
         <div class="flex-row">
           <div style="flex: 1">
-            <div v-if="index === 0">-Name-</div>
+            <div v-if="index === 0" class="stat-block-subtitle" style="flex: 1;" >-Name-</div>
             {{ attack.name || "None" }}
           </div>
           <div style="flex: 1">
-            <div v-if="index === 0">-Bonus-</div>
+            <div v-if="index === 0" class="stat-block-subtitle" style="flex: 2; flex-basis: min-content">-Bonus-</div>
             {{ attack.bonus || "None" }}
           </div>
           <div style="flex: 1; flex-basis: min-content">
-            <div v-if="index === 0">-Damage-</div>
+            <div v-if="index === 0" class="stat-block-subtitle">-Damage-</div>
             {{ attack.damage || "None" }}
           </div>
 
@@ -45,19 +45,19 @@
         <div class="flex-col">
           <div class="flex-col">
             <div>
-              <div>- Name -</div>
+              <div class="stat-block-subtitle">- Name -</div>
               <input type="text" class="stat-block-input" v-model="weapon_.name" />
             </div>
             <div>
-              <div>- Bonus-</div>
+              <div class="stat-block-subtitle">- Bonus-</div>
               <input type="text" class="stat-block-input" v-model="weapon_.bonus" />
             </div>
             <div>
-              <div>- Damage -</div>
+              <div class="stat-block-subtitle">- Damage -</div>
               <input type="text" class="stat-block-input" v-model="weapon_.damage" />
             </div>
             <div>
-              <div>- Description -</div>
+              <div class="stat-block-subtitle">- Description -</div>
               <textarea
                 type="text"
                 class="stat-block-input"

@@ -12,12 +12,12 @@
     <div v-for="(spell, index) of character.spells">
       <div class="flex-row">
         <div style="flex: 1; flex-basis: min-content">
-          <div v-if="index === 0">- Name -</div>
+          <div v-if="index === 0" class="stat-block-subtitle">- Name -<br></div>
 
           ({{ index + 1 }}) {{ spell.name || "None" }}
         </div>
         <div style="flex: 1; flex-basis: min-content">
-          <div v-if="index === 0">- Lvl -</div>
+          <div v-if="index === 0" class="stat-block-subtitle">- Lvl -<br></div>
           {{ spell.level || "None" }}
         </div>
 
@@ -37,18 +37,18 @@
       <div class="stat-block flex-col text-green" style="flex: 2">
         <div class="flex-col">
           <div>
-            <div>- Name -</div>
-            <input type="text" class="spell-input" v-model="spell_.name" />
+            <div class="stat-block-subtitle">- Name -</div>
+            <input type="text" class="stat-block-input" v-model="spell_.name" />
           </div>
           <div>
-            <div>- Level / Cantrip-</div>
-            <input type="text" class="spell-input" v-model="spell_.level" />
+            <div class="stat-block-subtitle">- Level / Cantrip-</div>
+            <input type="text" class="stat-block-input" v-model="spell_.level" />
           </div>
-          <div>
-            <div>- Description -</div>
+          <div class="stat-block-subtitle">
+            <div class="stat-block-subtitle">- Description -</div>
             <textarea
               type="text"
-              class="spell-input"
+              class="stat-block-input"
               v-model="spell_.description"
             ></textarea>
           </div>

@@ -30,10 +30,12 @@
 		<div class="flex flex-row">
 			<SpellSection :character="character"></SpellSection>
 			<ItemSection :character ="character"></ItemSection>
+			<WeaponSection :character="character"></WeaponSection>
+
 		</div>
+
 		<SessionNotes />
 		<br>
-		<WeaponSection :character="character"></WeaponSection>
 	</div>
 </template>
 
@@ -169,6 +171,9 @@ textarea {
 		background-color: rgb(25, 88, 65);
 		padding: 0rem 1rem;
 		border-radius: 1rem;
+	}
+	&-subtitle {
+		color: rgb(15, 226, 148) !important;
 	}
 	&-create {
 		position: absolute;
