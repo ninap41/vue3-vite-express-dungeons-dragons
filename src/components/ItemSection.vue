@@ -5,7 +5,6 @@
        +
     </button>
     <br />
-
     <!-- @vue-ignore -->
     <div v-for="(item, index) of character.items">
       <div class="flex-row">
@@ -32,21 +31,29 @@
   <!-- VIEW ITEM-->
   <!-- @vue-ignore -->
   <Modal_ :isOpen="isOpen('viewItem')" @modal-close="close('viewItem')">
-    <template #header><h3>Item</h3></template>
-    <template #content>
+    <template #header>
+      <div class="spell-name glow">
+        {{ itemView.name }}
+      </div>
+      <div class="spell-level">
+     &nbsp;<span class="spell-level-value">{{
+          itemView.qty !== String(1) ?    "Quantity" +itemView.qty : "Unique"
+        }}</span>
+      </div>
+    </template>    <template #content>
       <div class="stat-block flex-col text-green" style="flex: 2">
         <div class="flex-col">
           <div>
-            <div class="stat-block-subtitle">- Name -</div>
+            <div class="stat-block stat-block-subtitle">- Name -</div>
             {{ itemView.name }}
           </div>
           <br />
           <div>
-            <div class="stat-block-subtitle">- Qty-</div>
+            <div class="stat-block stat-block-subtitle">- Qty-</div>
             {{ itemView.qty }}
           </div>
           <br />
-          <div class="stat-block-subtitle">
+          <div class=" stat-block stat-block-subtitle">
             <div>- Description -</div>
             {{ itemView.description }}
           </div>
@@ -92,7 +99,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, onMounted , computed} from "vue";
 
 import { useData } from "../composition/useData";
 import { useModals } from "../composition/useModals";
@@ -103,6 +110,7 @@ const props = defineProps({
   //@ts-ignore
   character: Character,
 });
+
 
 const { saveCharacter } = useData();
 const { isOpen, close, open } = useModals([]);

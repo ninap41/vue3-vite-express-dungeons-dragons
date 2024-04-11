@@ -2,7 +2,7 @@ import { ref, type Ref, computed } from "vue";
 
 interface ModalToggles {
   id: String
-  open: Boolean
+  open: boolean
 }
 
 export  function useModals(modalIds: Array<String>) {

@@ -1,4 +1,5 @@
 @import './base.css';
+@import '../scss/styles.scss';
 
 #app {
   width: 100%;

@@ -42,14 +42,19 @@
       ],
       "spells": [
         {
-          "name": "asd",
-          "level": "asd",
-          "description": "asd"
+          "name": "Sacred Flame",
+          "level": "0",
+          "description": "a flame that does stuff"
         },
         {
-          "name": "s",
-          "level": "s",
-          "description": "s"
+          "name": "A name of some thing",
+          "level": "0",
+          "description": "jknsakjhdsajkhdsajkh\nsjkjkjhkdsahjkhjkds"
+        },
+        {
+          "name": "Another new spell",
+          "level": "2",
+          "description": "Heck I love spells"
         }
       ],
       "failures": {
