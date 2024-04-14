@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeMount, onMounted, ref, Ref } from "vue"
+import { onBeforeMount, onMounted, ref, type Ref } from "vue"
 import { useData } from "../composition/useData"
 
 import { useLocalStorage } from "../composition/useLocalStorage"
@@ -40,9 +40,9 @@ const { getAll, updateOne, createOne, deleteOne, getOne, isEmpty } = useData()
 const { getStorage, setStorage, retrieveDraftFromLocalStorage, clearStorage} = useLocalStorage()
 const $toast = useToast()
 /* REFS */
-var characters: Ref<Array<Character>> = ref() /* all characters from DB -  ex: [ { "id" : "1234", name: "VEN"}, { "id" : "1234", "name": "Frodo"}, ...] */
-var character: Ref<Character> | undefined = ref()
-var characterSessionLocalStorageKey: Ref<string> = ref()
+var characters: Ref<Array<Character>> = ref([]) /* all characters from DB -  ex: [ { "id" : "1234", name: "VEN"}, { "id" : "1234", "name": "Frodo"}, ...] */
+var character: Ref<Character> | Ref<{}> = ref({})
+var characterSessionLocalStorageKey: Ref<string> = ref('')
 var characterName: Ref<string> = ref("")  /*  Existing Character Selectfield Ref - Ex: "VEN" " */
 var newCharacterName = ref("") /*  New Character Input Ref - Ex: "VEN2"  */
 

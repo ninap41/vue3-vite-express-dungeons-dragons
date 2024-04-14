@@ -8,7 +8,6 @@
     </p>
     <button @click="open('createSpell')" class="stat-block-create glow">
       +
-
     </button>
     <div v-for="(spell, index) of character.spells">
       <div class="flex-row">
@@ -18,7 +17,9 @@
           </div>
           {{ spell.level }}
 
-          <span class="stat-block-cell"> ({{ index + 1 }}) {{ spell.name || "None" }}</span>
+          <span class="stat-block-cell">
+        {{ spell.name || "None" }}</span
+          >
         </div>
         <div style="flex: 1; flex-basis: min-content">
           <div v-if="index === 0" class="stat-block-subtitle">
@@ -41,19 +42,52 @@
     <template #header> <h3>Create New Spell</h3></template>
     <template #content>
       <div class="stat-block flex-col text-green">
-        <div class="flex-col">
-          <div class="stat-block-subtitle">- Name -</div>
-          <input type="text" class="stat-block-input" v-model="spell_.name" />
-          <div class="stat-block-subtitle">- Level / Cantrip -</div>
-          <input type="text" class="stat-block-input" v-model="spell_.level" />
-          <div class="stat-block-subtitle">
-            <div class="stat-block-subtitle">- Description -</div>
-            <textarea
-              type="text"
-              class="stat-block-input"
-              v-model="spell_.description"
-            ></textarea>
+        <div class="dropdown">
+          <input
+            type="text"
+            @focus="showDropdown = true"
+            v-model="searchVal"
+            placeholder="  Search For Spell.."
+            class="stat-block-input-search"
+          />
+          <div v-if="showDropdown && selectOptions.length > 0" class="dropdown-content">
+            <span v-for="spell of selectOptions">
+              <div class="spell-item" @click="loadSpell(spell)">{{ spell }}</div>
+            </span>
           </div>
+        </div>
+        <hr>
+        <div class="flex-col">
+
+
+
+          <div class="stat-block-subtitle">- Name -</div>
+<input type="text" class="stat-block-input" v-model="spell_.name" />
+
+<div class="stat-block-subtitle">- Range -</div>
+<input type="text" class="stat-block-input" v-model="spell_.range" />
+
+<div class="stat-block-subtitle">- Components -</div>
+<input type="text" class="stat-block-input" v-model="spell_.components" />
+
+<div class="stat-block-subtitle">- Higher Level -</div>
+<input type="text" class="stat-block-input" v-model="spell_.higher_level" />
+<div class="stat-block-subtitle">- Material -</div>
+<input type="text" class="stat-block-input" v-model="spell_.material" />
+<div class="stat-block-subtitle">- Ritual -</div>
+<input type="checkbox" class="stat-block-input" v-model="spell_.ritual" />
+<div class="stat-block-subtitle">- Duration -</div>
+<input type="text" class="stat-block-input" v-model="spell_.duration" />
+<div class="stat-block-subtitle">- Concentration -</div>
+<input type="checkbox" class="stat-block-input" v-model="spell_.concentration" />
+<div class="stat-block-subtitle">- Casting Time -</div>
+<input type="text" class="stat-block-input" v-model="spell_.casting_time" />
+<div class="stat-block-subtitle">- Level -</div>
+<input type="text" class="stat-block-input" v-model="spell_.level" />
+<div class="stat-block-subtitle">- School -</div>
+<input type="text" class="stat-block-input" v-model="spell_.school" />
+<div class="stat-block-subtitle">- Description -</div>
+<textarea class="stat-block-input" v-model="spell_.desc"></textarea>
         </div>
       </div>
     </template>
@@ -93,58 +127,82 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref, type Ref, computed, onMounted } from "vue";
-
+import {
+  defineProps,
+  defineEmits,
+  ref,
+  type Ref,
+  computed,
+  onMounted,
+} from "vue";
 import { useData } from "../composition/useData";
 import { useModals } from "../composition/useModals";
 import { Character } from "@/types/types";
 import Modal_ from "@/components/Modal_.vue";
-
+import "@/assets/VueSearchSelect.css";//@ts-ignore
+import  {spellList } from './spells'
 const props = defineProps({
   /* @ts-ignore */ character: Character,
 });
 
-const { saveCharacter } = useData();
+const { saveCharacter, getSpell } = useData();
 const { isOpen, close, open } = useModals([]);
 
+
 const spellView = ref();
-const spellLevels = () => {
-  if(props.character  ) { //@ts-ignore
-    // let spells = props.character.value.spells
-    // let min = Math.min(...spells.map((spell: any) => spell.lvl))
-    // console.log(spells)
-    // console.log([spells)
-    let max;
+const searchVal = ref();
+const showDropdown = ref(true);
+const spell_ = ref({
+  higher_level: '',
+name: '',
+desc: '',
+range: '',
+components: '',
+material: '',
+ritual: '',
+duration: '',
+concentration: '',
+casting_time: '',
+level: '',
+school: '',
+
+});
+
+const selectOptions = computed(() => {
+  return spellList.filter((str: string) =>  str.includes(searchVal.value))
+});
+
+
+
+const loadSpell = async (spellName: string) => {
+  showDropdown.value = false;
+    const spell = await getSpell(spellName)
+    spell_.value = { ...spell, school: spell.school.name,  desc: spell.desc.join(), components: spell.components.join(), higher_level: spell.higher_level.map((str: string)=> str + '<br><br>').join()}
+    console.log(spell_.value)
+
   }
 
-}
-
-onMounted(() => {
-  spellLevels()
-
-})
-
-const spell_ = ref({
-  name: "",
-  level: "",
-  description: "",
-});
 const deleteSpell = async (idx: any) => {
   if (props.character) {
     // @ts-ignore
     props.character.spells.splice(idx, 1); /* @ts-ignore */
     await saveCharacter(props.character);
-    close("createSpell");
   }
 };
+
 const addNewSpell = async () => {
   if (props.character) {
     // @ts-ignore
+    console.log(props.character.spells)
     props.character.spells.push(spell_.value); /* @ts-ignore */
     await saveCharacter(props.character);
-    close("newSpell")
+    close("createSpell");
   }
 };
+
+onMounted(async () => {
+
+});
 </script>
 
 <style lang="scss">
@@ -170,4 +228,8 @@ const addNewSpell = async () => {
 .stat-block-cell {
   font-size: 10px;
 }
+.spell-item {
+  cursor: pointer;
+}
 </style>
+./spells

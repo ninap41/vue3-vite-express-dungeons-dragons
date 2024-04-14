@@ -11,7 +11,6 @@ export  function useModals(modalIds: Array<String>) {
   "createItem",
 	"createWeapon",
 
-	"editSpell",
   "editItem",
   "editWeapon",
 

@@ -42,19 +42,98 @@
       ],
       "spells": [
         {
-          "name": "Sacred Flame",
-          "level": "0",
-          "description": "a flame that does stuff"
+          "higher_level": "",
+          "index": "acid-splash",
+          "name": "Acid Splash",
+          "desc": "You hurl a bubble of acid. Choose one creature within range, or choose two creatures within range that are within 5 feet of each other. A target must succeed on a dexterity saving throw or take 1d6 acid damage.,This spell's damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+          "range": "60 feet",
+          "components": "V,S",
+          "ritual": false,
+          "duration": "Instantaneous",
+          "concentration": false,
+          "casting_time": "1 action",
+          "level": 0,
+          "damage": {
+            "damage_type": {
+              "index": "acid",
+              "name": "Acid",
+              "url": "/api/damage-types/acid"
+            },
+            "damage_at_character_level": {
+              "1": "1d6",
+              "5": "2d6",
+              "11": "3d6",
+              "17": "4d6"
+            }
+          },
+          "dc": {
+            "dc_type": {
+              "index": "dex",
+              "name": "DEX",
+              "url": "/api/ability-scores/dex"
+            },
+            "dc_success": "none"
+          },
+          "school": "Conjuration",
+          "classes": [
+            {
+              "index": "sorcerer",
+              "name": "Sorcerer",
+              "url": "/api/classes/sorcerer"
+            },
+            {
+              "index": "wizard",
+              "name": "Wizard",
+              "url": "/api/classes/wizard"
+            }
+          ],
+          "subclasses": [
+            {
+              "index": "lore",
+              "name": "Lore",
+              "url": "/api/subclasses/lore"
+            }
+          ],
+          "url": "/api/spells/acid-splash"
         },
         {
-          "name": "A name of some thing",
-          "level": "0",
-          "description": "jknsakjhdsajkhdsajkh\nsjkjkjhkdsahjkhjkds"
-        },
-        {
-          "name": "Another new spell",
-          "level": "2",
-          "description": "Heck I love spells"
+          "higher_level": "",
+          "index": "alarm",
+          "name": "Alarm",
+          "desc": "You set an alarm against unwanted intrusion. Choose a door, a window, or an area within range that is no larger than a 20-foot cube. Until the spell ends, an alarm alerts you whenever a Tiny or larger creature touches or enters the warded area. When you cast the spell, you can designate creatures that won't set off the alarm. You also choose whether the alarm is mental or audible.,A mental alarm alerts you with a ping in your mind if you are within 1 mile of the warded area. This ping awakens you if you are sleeping.,An audible alarm produces the sound of a hand bell for 10 seconds within 60 feet.",
+          "range": "30 feet",
+          "components": "V,S,M",
+          "material": "A tiny bell and a piece of fine silver wire.",
+          "ritual": true,
+          "duration": "8 hours",
+          "concentration": false,
+          "casting_time": "1 minute",
+          "level": 1,
+          "area_of_effect": {
+            "type": "cube",
+            "size": 20
+          },
+          "school": "Abjuration",
+          "classes": [
+            {
+              "index": "ranger",
+              "name": "Ranger",
+              "url": "/api/classes/ranger"
+            },
+            {
+              "index": "wizard",
+              "name": "Wizard",
+              "url": "/api/classes/wizard"
+            }
+          ],
+          "subclasses": [
+            {
+              "index": "lore",
+              "name": "Lore",
+              "url": "/api/subclasses/lore"
+            }
+          ],
+          "url": "/api/spells/alarm"
         }
       ],
       "failures": {

@@ -27,5 +27,6 @@
       },
     "jsx": "react"
   },
-  "include": ["src/*","../src/*","**/src/**/*.vue", "src/**/*.vue", "src/views/*.vue", "src/components/*.vue"]
+  "include": ["src/*","../src/*","**/src/**/*.vue", "src/**/*.vue", "src/views/*.vue", "src/components/*.vue",
+],
 }

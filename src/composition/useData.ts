@@ -5,13 +5,14 @@ import { useToast } from "vue-toast-notification"
 import { CRUD as _CRUD, session_keys, CRUD, Character } from "../types/types"
 import "vue-toast-notification/dist/theme-sugar.css"
 import { useLocalStorage } from "./useLocalStorage"
-
 const $toast = useToast()
 const { setStorage } = useLocalStorage()
 
 /* Includes localStorage setup and api references */
 export function useData() {
 	const api = "http://localhost:3000/api/"
+	const dnd_api = "https://www.dnd5eapi.co/api/"
+
 	const scaffold = ref(false)
 	const tables_ = ["characters", "entries"]
 
@@ -74,6 +75,29 @@ export function useData() {
 		return await getAll("characters")
 	}
 
+	const getSpellKeys = async (val?: any): Promise<any> => {
+		const res = await axios.get(`${dnd_api}/spells/${val ? val : ''}`)
+		if (res.data) {
+			const data = res.data.results.map((spell: any) => spell.index.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.substring(1)).join(' '))
+			if(val) {
+				// data.filter()
+			}
+			return data
+		}
+		else $toast.error(`Could not retrieve spell data ${val ? 'for "' + val + '"': ''}`)
+		
+	}
+	const getSpell = async (val: any): Promise<any> => {
+		let formatSpell = (spellName_: string) => spellName_.split(' ').map((word: string) => word.charAt(0).toLowerCase() + word.substring(1)).join('-')
+const spellFormatted = formatSpell(val)
+		const res = await axios.get(`${dnd_api}/spells/${ spellFormatted}`)
+		if (res.data) {
+			const data = res.data			
+			return data
+		}
+		else $toast.error(`Could not retrieve spell data ${val ? 'for "' + val + '"': ''}`)
+		
+	}
 	return {
 		scaffoldTables,
 		deleteOne,
@@ -82,7 +106,8 @@ export function useData() {
 		getAll,
 		getOne,
 		isEmpty,
-
+		getSpellKeys,
+		getSpell,
 		saveCharacter,
 		getCharacterData,
 	}
